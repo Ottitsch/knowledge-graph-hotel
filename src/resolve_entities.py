@@ -93,9 +93,10 @@ def load_datagv() -> pd.DataFrame:
     df["operator_name"] = ""
     df["host_id"] = ""
     df["host_listings_count"] = None
+    df["picture_url"] = ""
     return df[["source", "name", "address", "district", "lat", "lon",
                "property_type", "operator_name", "host_id", "host_listings_count",
-               "website", "phone", "email", "raw_id"]]
+               "website", "picture_url", "phone", "email", "raw_id"]]
 
 
 def load_osm() -> pd.DataFrame:
@@ -122,6 +123,7 @@ def load_osm() -> pd.DataFrame:
             "host_id": "",
             "host_listings_count": None,
             "website": el.get("website", ""),
+            "picture_url": "",
             "phone": el.get("phone", ""),
             "email": el.get("email", ""),
             "raw_id": f"osm:{el.get('osm_type','')}/{el.get('osm_id','')}",
@@ -156,6 +158,7 @@ def load_wikidata() -> pd.DataFrame:
             "host_id": el.get("hotel_uri", ""),
             "host_listings_count": None,
             "website": el.get("website", ""),
+            "picture_url": "",
             "phone": "",
             "email": "",
             "raw_id": el.get("hotel_uri", ""),
@@ -172,6 +175,7 @@ def load_airbnb() -> pd.DataFrame:
     # Column names vary by snapshot; handle both naming conventions
     col_map = {
         "listing_url": "website",
+        "picture_url": "picture_url",
         "name": "name",
         "host_id": "host_id",
         "host_name": "operator_name",
@@ -192,7 +196,7 @@ def load_airbnb() -> pd.DataFrame:
 
     keep = ["source", "name", "address", "district", "lat", "lon",
             "property_type", "operator_name", "host_id", "host_listings_count",
-            "website", "phone", "email", "raw_id"]
+            "website", "picture_url", "phone", "email", "raw_id"]
     for col in keep:
         if col not in df.columns:
             df[col] = ""
@@ -218,7 +222,7 @@ def deduplicate(df: pd.DataFrame) -> pd.DataFrame:
         base = group.loc[scores.idxmax()].copy()
         base["sources"] = ",".join(group["source"].unique())
         # Fill missing fields from other rows
-        for col in ["address", "lat", "lon", "operator_name", "website", "phone"]:
+        for col in ["address", "lat", "lon", "operator_name", "website", "picture_url", "phone"]:
             if not base[col] or pd.isna(base[col]):
                 for _, row in group.iterrows():
                     if row[col] and not pd.isna(row[col]):

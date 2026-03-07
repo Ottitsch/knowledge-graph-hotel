@@ -4,6 +4,13 @@ import 'leaflet/dist/leaflet.css'
 
 const MARKER_COLOR = '#2dd4bf'
 
+function buildPopup(pt) {
+  const name = pt.name ?? 'Property'
+  const img = pt.picture_url ? `<img src="${pt.picture_url}" alt="" style="width:100%;height:120px;object-fit:cover;border-radius:6px;margin-bottom:6px;display:block;">` : ''
+  const link = pt.website ? `<a href="${pt.website}" target="_blank" rel="noopener noreferrer" style="color:#2dd4bf;font-size:11px;">View listing ↗</a>` : ''
+  return `<div style="font-family:Inter,sans-serif;min-width:160px;">${img}<b style="font-size:13px;">${name}</b><br><span style="font-size:11px;color:#64748b;">${pt.type}</span>${link ? '<br>' + link : ''}</div>`
+}
+
 export default function OperatorMap({ operatorName, operatorType = 'operator' }) {
   const containerRef = useRef()
   const mapRef = useRef()
@@ -56,7 +63,7 @@ export default function OperatorMap({ operatorName, operatorType = 'operator' })
 
         data.forEach((pt) => {
           const marker = L.marker([pt.lat, pt.lon], { icon })
-          marker.bindPopup(`<b>${pt.name ?? 'Property'}</b><br><small>${pt.type}</small>`)
+          marker.bindPopup(buildPopup(pt), { maxWidth: 260 })
           group.addLayer(marker)
           latlngs.push([pt.lat, pt.lon])
         })

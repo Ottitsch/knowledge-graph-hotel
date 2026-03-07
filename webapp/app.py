@@ -99,7 +99,8 @@ def map_points():
         MATCH (p:Property)
         WHERE p.lat IS NOT NULL AND p.lon IS NOT NULL
         RETURN p.name AS name, p.lat AS lat, p.lon AS lon,
-               coalesce(p.property_type, 'unknown') AS type
+               coalesce(p.property_type, 'unknown') AS type,
+               p.website AS website, p.picture_url AS picture_url
     """)
     return jsonify(records)
 
@@ -123,12 +124,14 @@ def property_network():
                other.name AS name,
                other.lat AS lat,
                other.lon AS lon,
-               coalesce(other.property_type, 'unknown') AS type
+               coalesce(other.property_type, 'unknown') AS type,
+               other.website AS website,
+               other.picture_url AS picture_url
     """, name=name, lat=lat, lon=lon)
     if not records:
         return jsonify({"operator": None, "properties": []})
     operator = records[0]["operator"]
-    properties = [{"name": r["name"], "lat": r["lat"], "lon": r["lon"], "type": r["type"]} for r in records]
+    properties = [{"name": r["name"], "lat": r["lat"], "lon": r["lon"], "type": r["type"], "website": r.get("website") or "", "picture_url": r.get("picture_url") or ""} for r in records]
     return jsonify({"operator": operator, "properties": properties})
 
 
@@ -187,7 +190,8 @@ def chain_map():
         MATCH (p:Property)-[:OPERATED_BY]->(o:Operator)-[:SUBSIDIARY_OF]->(c:HotelChain {name: $name})
         WHERE p.lat IS NOT NULL AND p.lon IS NOT NULL
         RETURN p.name AS name, p.lat AS lat, p.lon AS lon,
-               coalesce(p.property_type, 'unknown') AS type
+               coalesce(p.property_type, 'unknown') AS type,
+               p.website AS website, p.picture_url AS picture_url
     """, name=name)
     return jsonify(records)
 
@@ -201,7 +205,8 @@ def operator_map():
         MATCH (p:Property)-[:OPERATED_BY]->(o:Operator {name: $name})
         WHERE p.lat IS NOT NULL AND p.lon IS NOT NULL
         RETURN p.name AS name, p.lat AS lat, p.lon AS lon,
-               coalesce(p.property_type, 'unknown') AS type
+               coalesce(p.property_type, 'unknown') AS type,
+               p.website AS website, p.picture_url AS picture_url
     """, name=name)
     return jsonify(records)
 

@@ -102,6 +102,13 @@ function makeIcon(color, size = 8) {
   })
 }
 
+function buildPopup(pt) {
+  const name = pt.name ?? 'Property'
+  const img = pt.picture_url ? `<img src="${pt.picture_url}" alt="" style="width:100%;height:120px;object-fit:cover;border-radius:6px;margin-bottom:6px;display:block;">` : ''
+  const link = pt.website ? `<a href="${pt.website}" target="_blank" rel="noopener noreferrer" style="color:#2dd4bf;font-size:11px;">View listing ↗</a>` : ''
+  return `<div style="font-family:Inter,sans-serif;min-width:160px;">${img}<b style="font-size:13px;">${name}</b><br><span style="font-size:11px;color:#64748b;">${pt.type}</span>${link ? '<br>' + link : ''}</div>`
+}
+
 export default function PropertyMap() {
   const { data, isLoading, error } = useApi('/api/map-points')
   const containerRef = useRef()
@@ -172,7 +179,7 @@ export default function PropertyMap() {
         color: 'rgba(255,255,255,0.55)',
         weight: 1.5,
       })
-      marker.bindPopup(`<b>${pt.name ?? 'Property'}</b><br><small>${pt.type}</small>`)
+      marker.bindPopup(buildPopup(pt), { maxWidth: 260 })
       marker.on('click', () => handlePropertyClick(pt))
       clusters.addLayer(marker)
     })
@@ -217,7 +224,7 @@ export default function PropertyMap() {
           const isSelf = Math.abs(p.lat - pt.lat) < 0.0001 && Math.abs(p.lon - pt.lon) < 0.0001
           const icon = isSelf ? makeIcon('#1e293b', 18) : makeIcon('#2dd4bf', 14)
           L.marker([p.lat, p.lon], { icon })
-            .bindPopup(`<b>${p.name ?? 'Property'}</b><br><small>${p.type}</small>`)
+            .bindPopup(buildPopup(p), { maxWidth: 260 })
             .addTo(group)
         })
 

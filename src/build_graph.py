@@ -136,6 +136,7 @@ def _ingest_properties(session, df: pd.DataFrame):
             p.lat = $lat,
             p.lon = $lon,
             p.website = $website,
+            p.picture_url = $picture_url,
             p.sources = $sources
         """
         session.run(query,
@@ -146,6 +147,7 @@ def _ingest_properties(session, df: pd.DataFrame):
                     lat=float(row["lat"]) if pd.notna(row.get("lat")) else None,
                     lon=float(row["lon"]) if pd.notna(row.get("lon")) else None,
                     website=str(row.get("website", "")),
+                    picture_url=str(row.get("picture_url", "")),
                     sources=str(row.get("sources", row.get("source", ""))))
 
         # Link to district
