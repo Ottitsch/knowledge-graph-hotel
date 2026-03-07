@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-blur: 16px;
+  --teal: #2dd4bf;
+  --accent: #a78bfa;
+  --text: #f8fafc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text);
+}
+
+body {
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e) fixed;
+  min-height: 100vh;
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+}
+
+/* Recharts text override */
+.recharts-text {
+  fill: rgba(248, 250, 252, 0.7) !important;
+}
+.recharts-cartesian-axis-tick-value {
+  fill: rgba(248, 250, 252, 0.6) !important;
+  font-size: 11px;
+}
+.recharts-legend-item-text {
+  color: rgba(248, 250, 252, 0.8) !important;
+}
+
+/* Leaflet dark override */
+.leaflet-container {
+  background: #1a1a2e;
+  border-radius: 12px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
