@@ -1,3 +1,6 @@
 fix knowledge graph and data
 -> create proposal
 when you hover a node it should display some info about that node
+edit title page, smth else than:
+Vienna Hotel Knowledge Graph
+Airbnb listings · Neo4j · 2026
