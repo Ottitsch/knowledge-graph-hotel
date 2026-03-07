@@ -1,2 +1,3 @@
 fix knowledge graph and data
 -> create proposal
+when you hover a node it should display some info about that node
