@@ -90,14 +90,22 @@ def _run(session, query, **params):
     session.run(query, **params)
 
 
+def _operator_id(op_name: str, host_id: str) -> str:
+    """Unique operator identifier: prefer Airbnb host_id, fall back to slugified name."""
+    if host_id and host_id not in ("", "nan", "None"):
+        return f"airbnb:{host_id}"
+    return f"name:{slugify(op_name)}"
+
+
 def _create_constraints(session):
     constraints = [
         "CREATE CONSTRAINT IF NOT EXISTS FOR (p:Property) REQUIRE p.id IS UNIQUE",
-        "CREATE CONSTRAINT IF NOT EXISTS FOR (o:Operator) REQUIRE o.name IS UNIQUE",
+        "CREATE CONSTRAINT IF NOT EXISTS FOR (o:Operator) REQUIRE o.id IS UNIQUE",
         "CREATE CONSTRAINT IF NOT EXISTS FOR (c:HotelChain) REQUIRE c.name IS UNIQUE",
         "CREATE CONSTRAINT IF NOT EXISTS FOR (d:District) REQUIRE d.name IS UNIQUE",
         "CREATE CONSTRAINT IF NOT EXISTS FOR (pl:Platform) REQUIRE pl.name IS UNIQUE",
         "CREATE CONSTRAINT IF NOT EXISTS FOR (oc:OwnerCompany) REQUIRE oc.name IS UNIQUE",
+        "CREATE INDEX IF NOT EXISTS FOR (o:Operator) ON (o.name)",
     ]
     for c in constraints:
         try:
@@ -175,15 +183,17 @@ def _ingest_operators(session, df: pd.DataFrame):
             continue
         prop_id = slugify(f"{row.get('name','')}_{row.get('raw_id','')}")
         host_id = str(row.get("host_id", ""))
+        op_id = _operator_id(op_name, host_id)
         listings = int(row["host_listings_count"]) if pd.notna(row.get("host_listings_count")) else None
         session.run("""
-        MERGE (o:Operator {name: $name})
-        SET o.host_id = $host_id,
+        MERGE (o:Operator {id: $op_id})
+        SET o.name = $name,
+            o.host_id = $host_id,
             o.listings_count = $listings
         WITH o
         MATCH (p:Property {id: $pid})
         MERGE (p)-[:OPERATED_BY]->(o)
-        """, name=op_name, host_id=host_id, listings=listings, pid=prop_id)
+        """, op_id=op_id, name=op_name, host_id=host_id, listings=listings, pid=prop_id)
 
 
 def _ingest_chains(session, df: pd.DataFrame, wikidata: list):
@@ -308,7 +318,8 @@ def build_rdf(df: pd.DataFrame, wikidata: list) -> Graph:
         # Operator
         op_name = str(row.get("operator_name", "")).strip()
         if op_name:
-            op_uri = VHK[f"operator/{slugify(op_name)}"]
+            op_id = _operator_id(op_name, str(row.get("host_id", "")))
+            op_uri = VHK[f"operator/{slugify(op_id)}"]
             if op_uri not in operators_seen:
                 g.add((op_uri, RDF.type, VHK.Operator))
                 g.add((op_uri, RDFS.label, Literal(op_name)))
@@ -333,7 +344,8 @@ def build_rdf(df: pd.DataFrame, wikidata: list) -> Graph:
             owner_uri = VHK[f"owner/{slugify(owner)}"]
             g.add((owner_uri, RDF.type, VHK.OwnerCompany))
             g.add((owner_uri, RDFS.label, Literal(owner)))
-            op_uri = VHK[f"operator/{slugify(op_name)}"]
+            op_id = _operator_id(op_name, "")
+            op_uri = VHK[f"operator/{slugify(op_id)}"]
             if op_uri not in operators_seen:
                 g.add((op_uri, RDF.type, VHK.Operator))
                 g.add((op_uri, RDFS.label, Literal(op_name)))
