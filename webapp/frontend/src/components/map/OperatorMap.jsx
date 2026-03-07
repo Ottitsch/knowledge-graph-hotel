@@ -1,9 +1,6 @@
 import { useEffect, useRef } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import 'leaflet.markercluster/dist/MarkerCluster.css'
-import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
-import 'leaflet.markercluster'
 
 const MARKER_COLOR = '#2dd4bf'
 
@@ -12,11 +9,11 @@ export default function OperatorMap({ operatorName }) {
   const mapRef = useRef()
   const layerRef = useRef()
 
-  // Init map once
+  // Init map once the container div is in the DOM (always rendered)
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
     mapRef.current = L.map(containerRef.current).setView([48.2082, 16.3738], 13)
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
       maxZoom: 19,
     }).addTo(mapRef.current)
@@ -27,38 +24,47 @@ export default function OperatorMap({ operatorName }) {
     }
   }, [])
 
-  // Load + render points whenever operatorName changes
+  // Load markers whenever operatorName changes
   useEffect(() => {
-    if (!operatorName || !mapRef.current) return
+    if (!mapRef.current) return
 
     if (layerRef.current) {
       mapRef.current.removeLayer(layerRef.current)
       layerRef.current = null
     }
 
+    if (!operatorName) return
+
+    // Invalidate size in case the container was hidden before
+    setTimeout(() => mapRef.current?.invalidateSize(), 50)
+
     fetch(`/api/operator-map?name=${encodeURIComponent(operatorName)}`)
       .then((r) => r.json())
       .then((data) => {
         if (!mapRef.current) return
 
-        const clusters = L.markerClusterGroup({ maxClusterRadius: 40 })
         const icon = L.divIcon({
-          html: `<div style="width:10px;height:10px;border-radius:50%;background:${MARKER_COLOR};border:2px solid rgba(255,255,255,0.6);"></div>`,
+          html: `<div style="width:10px;height:10px;border-radius:50%;background:${MARKER_COLOR};border:2px solid rgba(255,255,255,0.6);box-shadow:0 0 6px ${MARKER_COLOR}88;"></div>`,
           className: '',
           iconSize: [10, 10],
+          iconAnchor: [5, 5],
         })
+
+        const group = L.layerGroup()
+        const latlngs = []
 
         data.forEach((pt) => {
           const marker = L.marker([pt.lat, pt.lon], { icon })
           marker.bindPopup(`<b>${pt.name ?? 'Property'}</b><br><small>${pt.type}</small>`)
-          clusters.addLayer(marker)
+          group.addLayer(marker)
+          latlngs.push([pt.lat, pt.lon])
         })
 
-        mapRef.current.addLayer(clusters)
-        layerRef.current = clusters
+        mapRef.current.addLayer(group)
+        layerRef.current = group
 
-        if (data.length > 0) {
-          const bounds = clusters.getBounds()
+        if (latlngs.length > 0) {
+          const bounds = L.latLngBounds(latlngs)
           if (bounds.isValid()) mapRef.current.fitBounds(bounds, { padding: [32, 32] })
         }
       })
@@ -75,13 +81,20 @@ export default function OperatorMap({ operatorName }) {
           Click an operator node in the Force Graph to see their listings here
         </div>
       ) : (
-        <>
-          <p className="text-xs text-white/50">
-            Listings by <span className="text-teal-400 font-medium" style={{ color: '#2dd4bf' }}>{operatorName}</span>
-          </p>
-          <div ref={containerRef} style={{ height: 420, borderRadius: 12, overflow: 'hidden' }} />
-        </>
+        <p className="text-xs text-white/50">
+          Listings by <span className="font-medium" style={{ color: '#2dd4bf' }}>{operatorName}</span>
+        </p>
       )}
+      {/* Always in DOM so Leaflet can init; hidden when no operator selected */}
+      <div
+        ref={containerRef}
+        style={{
+          height: 420,
+          borderRadius: 12,
+          overflow: 'hidden',
+          display: operatorName ? 'block' : 'none',
+        }}
+      />
     </div>
   )
 }

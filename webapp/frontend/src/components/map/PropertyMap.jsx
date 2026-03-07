@@ -14,6 +14,45 @@ const TYPE_COLORS = {
   unknown: '#94a3b8',
 }
 
+const TILE_STYLES = [
+  {
+    id: 'light',
+    label: 'Light',
+    url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+    attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+  },
+  {
+    id: 'voyager',
+    label: 'Voyager',
+    url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+  },
+  {
+    id: 'osm',
+    label: 'OpenStreetMap',
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '&copy; OpenStreetMap contributors',
+  },
+  {
+    id: 'topo',
+    label: 'Topo',
+    url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+    attribution: '&copy; OpenStreetMap contributors, SRTM | Map style: &copy; OpenTopoMap',
+  },
+  {
+    id: 'satellite',
+    label: 'Satellite',
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Tiles &copy; Esri',
+  },
+  {
+    id: 'dark',
+    label: 'Dark',
+    url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+    attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+  },
+]
+
 function colorFor(type) {
   return TYPE_COLORS[type] ?? TYPE_COLORS.unknown
 }
@@ -31,17 +70,20 @@ export default function PropertyMap() {
   const { data, isLoading, error } = useApi('/api/map-points')
   const containerRef = useRef()
   const mapRef = useRef()
+  const tileLayerRef = useRef()
   const allLayerRef = useRef()
-  const focusLayerRef = useRef()   // L.LayerGroup for markers + lines together
+  const focusLayerRef = useRef()
   const [focusInfo, setFocusInfo] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [tileStyle, setTileStyle] = useState('voyager')
 
   // Init map once
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
     mapRef.current = L.map(containerRef.current).setView([48.2082, 16.3738], 13)
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+    const style = TILE_STYLES.find((s) => s.id === 'voyager')
+    tileLayerRef.current = L.tileLayer(style.url, {
+      attribution: style.attribution,
       maxZoom: 19,
     }).addTo(mapRef.current)
 
@@ -50,6 +92,20 @@ export default function PropertyMap() {
       mapRef.current = null
     }
   }, [])
+
+  // Swap tile layer when style changes
+  useEffect(() => {
+    if (!mapRef.current) return
+    const style = TILE_STYLES.find((s) => s.id === tileStyle)
+    if (!style) return
+    if (tileLayerRef.current) mapRef.current.removeLayer(tileLayerRef.current)
+    tileLayerRef.current = L.tileLayer(style.url, {
+      attribution: style.attribution,
+      maxZoom: 19,
+    }).addTo(mapRef.current)
+    // Bring tile layer to back so markers stay on top
+    tileLayerRef.current.bringToBack()
+  }, [tileStyle])
 
   // Render all clustered markers once data arrives
   useEffect(() => {
@@ -79,7 +135,6 @@ export default function PropertyMap() {
         if (!mapRef.current) return
         const map = mapRef.current
 
-        // Tear down previous focus layer
         if (focusLayerRef.current) { map.removeLayer(focusLayerRef.current); focusLayerRef.current = null }
 
         if (!result.operator) {
@@ -88,13 +143,11 @@ export default function PropertyMap() {
           return
         }
 
-        // Hide clustered view
         if (allLayerRef.current) map.removeLayer(allLayerRef.current)
 
         const origin = [pt.lat, pt.lon]
         const group = L.layerGroup()
 
-        // Lines first (drawn below markers)
         result.properties.forEach((p) => {
           const isSelf = Math.abs(p.lat - pt.lat) < 0.0001 && Math.abs(p.lon - pt.lon) < 0.0001
           if (!isSelf) {
@@ -107,10 +160,9 @@ export default function PropertyMap() {
           }
         })
 
-        // Markers on top
         result.properties.forEach((p) => {
           const isSelf = Math.abs(p.lat - pt.lat) < 0.0001 && Math.abs(p.lon - pt.lon) < 0.0001
-          const icon = isSelf ? makeIcon('#ffffff', 13) : makeIcon('#2dd4bf', 10)
+          const icon = isSelf ? makeIcon('#1e293b', 13) : makeIcon('#2dd4bf', 10)
           const marker = L.marker([p.lat, p.lon], { icon })
           marker.bindPopup(`<b>${p.name ?? 'Property'}</b><br><small>${p.type}</small>`)
           group.addLayer(marker)
@@ -119,7 +171,6 @@ export default function PropertyMap() {
         group.addTo(map)
         focusLayerRef.current = group
 
-        // Fit bounds to markers only
         const latlngs = result.properties.map((p) => [p.lat, p.lon])
         const bounds = L.latLngBounds(latlngs)
         if (bounds.isValid()) map.fitBounds(bounds, { padding: [48, 48] })
@@ -140,26 +191,47 @@ export default function PropertyMap() {
 
   return (
     <div className="w-full flex flex-col gap-3">
-      <div className="flex items-center justify-between min-h-[28px]">
-        {focusInfo ? (
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-white/70">
-              Operated by{' '}
-              <span className="font-semibold" style={{ color: '#2dd4bf' }}>{focusInfo.operator}</span>
-              {' '}·{' '}
-              <span className="text-white/50">{focusInfo.count} listing{focusInfo.count !== 1 ? 's' : ''}</span>
-            </span>
+      {/* Top bar */}
+      <div className="flex items-center justify-between gap-3 flex-wrap">
+        <div className="min-h-[28px] flex items-center">
+          {focusInfo ? (
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-white/70">
+                Operated by{' '}
+                <span className="font-semibold" style={{ color: '#2dd4bf' }}>{focusInfo.operator}</span>
+                {' '}·{' '}
+                <span className="text-white/50">{focusInfo.count} listing{focusInfo.count !== 1 ? 's' : ''}</span>
+              </span>
+              <button
+                onClick={clearFocus}
+                className="px-3 py-1 rounded-lg text-xs text-white/60 hover:text-white bg-white/10 hover:bg-white/15 transition-all"
+              >
+                ← Show all
+              </button>
+            </div>
+          ) : (
+            <span className="text-xs text-white/30">Click any listing to explore its operator network</span>
+          )}
+          {loading && <span className="text-xs text-white/40 ml-3">Loading…</span>}
+        </div>
+
+        {/* Tile style picker */}
+        <div className="flex gap-1 p-1 rounded-xl" style={{ background: 'rgba(255,255,255,0.06)' }}>
+          {TILE_STYLES.map((s) => (
             <button
-              onClick={clearFocus}
-              className="px-3 py-1 rounded-lg text-xs text-white/60 hover:text-white bg-white/10 hover:bg-white/15 transition-all"
+              key={s.id}
+              onClick={() => setTileStyle(s.id)}
+              className="px-3 py-1 rounded-lg text-xs font-medium transition-all duration-150"
+              style={
+                tileStyle === s.id
+                  ? { background: 'rgba(45,212,191,0.2)', color: '#2dd4bf', border: '1px solid rgba(45,212,191,0.35)' }
+                  : { color: 'rgba(248,250,252,0.45)', border: '1px solid transparent' }
+              }
             >
-              ← Show all
+              {s.label}
             </button>
-          </div>
-        ) : (
-          <span className="text-xs text-white/30">Click any listing to see who operates it and all their other properties</span>
-        )}
-        {loading && <span className="text-xs text-white/40">Loading…</span>}
+          ))}
+        </div>
       </div>
 
       {isLoading && <div className="text-white/40 text-sm">Loading map data…</div>}

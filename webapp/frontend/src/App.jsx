@@ -83,7 +83,7 @@ function AnalyticsTab() {
 function MapTab() {
   return (
     <motion.div {...fadeVariant}>
-      <Panel title="Vienna — all geolocated properties">
+      <Panel title="Vienna — all geolocated properties · click to explore operator network">
         <PropertyMap />
       </Panel>
     </motion.div>
