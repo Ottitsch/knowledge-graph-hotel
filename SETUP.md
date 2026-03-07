@@ -28,7 +28,8 @@ python src/run_pipeline.py
 - Cypher queries: `src/queries.cypher`
 - RDF output: `graph/vienna_hotels.ttl`
 
-## 6. Run the webapp (optional)
+## 6. Run the webapp
 ```bash
 python webapp/app.py
 ```
+Open http://localhost:5000 in your browser.
