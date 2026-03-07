@@ -1,4 +1,4 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, LabelList } from 'recharts'
 import { useApi } from '../../hooks/useApi'
 
 const TEAL = '#2dd4bf'
@@ -17,7 +17,7 @@ export default function TopOperators() {
           type="category"
           dataKey="operator"
           width={130}
-          tick={{ fill: 'rgba(248,250,252,0.7)', fontSize: 11 }}
+          tick={false}
           axisLine={false}
           tickLine={false}
         />
@@ -30,6 +30,11 @@ export default function TopOperators() {
           {data?.map((_, i) => (
             <Cell key={i} fill={`rgba(45,212,191,${0.9 - i * 0.03})`} />
           ))}
+          <LabelList
+            dataKey="operator"
+            position="left"
+            style={{ fill: 'rgba(248,250,252,0.7)', fontSize: 11, fontFamily: 'Inter,sans-serif', fontWeight: 500 }}
+          />
         </Bar>
       </BarChart>
     </ResponsiveContainer>

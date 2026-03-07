@@ -44,10 +44,10 @@ export default function OperatorMap({ operatorName }) {
         if (!mapRef.current) return
 
         const icon = L.divIcon({
-          html: `<div style="width:10px;height:10px;border-radius:50%;background:${MARKER_COLOR};border:2px solid rgba(255,255,255,0.6);box-shadow:0 0 6px ${MARKER_COLOR}88;"></div>`,
+          html: `<div style="width:14px;height:14px;border-radius:50%;background:${MARKER_COLOR};border:2px solid rgba(255,255,255,0.6);box-shadow:0 0 6px ${MARKER_COLOR}88;"></div>`,
           className: '',
-          iconSize: [10, 10],
-          iconAnchor: [5, 5],
+          iconSize: [14, 14],
+          iconAnchor: [7, 7],
         })
 
         const group = L.layerGroup()
