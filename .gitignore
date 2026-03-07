@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Env / secrets
+.env
+*.env.local
+
+# Data files (large, raw downloads)
+data/*.csv
+data/*.json
+data/*.parquet
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Node / frontend
+webapp/frontend/node_modules/
+webapp/frontend/dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
