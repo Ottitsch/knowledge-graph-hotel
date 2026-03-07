@@ -104,6 +104,34 @@ def map_points():
     return jsonify(records)
 
 
+@app.route("/api/property-network")
+def property_network():
+    name = request.args.get("name", "")
+    lat = request.args.get("lat", type=float)
+    lon = request.args.get("lon", type=float)
+    if not name:
+        return jsonify({"operator": None, "properties": []})
+    records = run_query("""
+        MATCH (p:Property)-[:OPERATED_BY]->(o:Operator)
+        WHERE p.name = $name
+          AND ($lat IS NULL OR abs(p.lat - $lat) < 0.0001)
+          AND ($lon IS NULL OR abs(p.lon - $lon) < 0.0001)
+        WITH o LIMIT 1
+        MATCH (other:Property)-[:OPERATED_BY]->(o)
+        WHERE other.lat IS NOT NULL AND other.lon IS NOT NULL
+        RETURN o.name AS operator,
+               other.name AS name,
+               other.lat AS lat,
+               other.lon AS lon,
+               coalesce(other.property_type, 'unknown') AS type
+    """, name=name, lat=lat, lon=lon)
+    if not records:
+        return jsonify({"operator": None, "properties": []})
+    operator = records[0]["operator"]
+    properties = [{"name": r["name"], "lat": r["lat"], "lon": r["lon"], "type": r["type"]} for r in records]
+    return jsonify({"operator": operator, "properties": properties})
+
+
 @app.route("/api/graph")
 def graph():
     records = run_query("""
