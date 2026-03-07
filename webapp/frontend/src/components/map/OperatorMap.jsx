@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css'
 
 const MARKER_COLOR = '#2dd4bf'
 
-export default function OperatorMap({ operatorName }) {
+export default function OperatorMap({ operatorName, operatorType = 'operator' }) {
   const containerRef = useRef()
   const mapRef = useRef()
   const layerRef = useRef()
@@ -38,7 +38,8 @@ export default function OperatorMap({ operatorName }) {
     // Invalidate size in case the container was hidden before
     setTimeout(() => mapRef.current?.invalidateSize(), 50)
 
-    fetch(`/api/operator-map?name=${encodeURIComponent(operatorName)}`)
+    const endpoint = operatorType === 'chain' ? '/api/chain-map' : '/api/operator-map'
+    fetch(`${endpoint}?name=${encodeURIComponent(operatorName)}`)
       .then((r) => r.json())
       .then((data) => {
         if (!mapRef.current) return
@@ -82,7 +83,7 @@ export default function OperatorMap({ operatorName }) {
         </div>
       ) : (
         <p className="text-xs text-white/50">
-          Listings by <span className="font-medium" style={{ color: '#2dd4bf' }}>{operatorName}</span>
+          {operatorType === 'chain' ? 'Chain' : 'Operator'}: <span className="font-medium" style={{ color: '#2dd4bf' }}>{operatorName}</span>
         </p>
       )}
       {/* Always in DOM so Leaflet can init; hidden when no operator selected */}

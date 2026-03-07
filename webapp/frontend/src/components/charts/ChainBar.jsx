@@ -1,7 +1,7 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 import { useApi } from '../../hooks/useApi'
 
-export default function ChainBar() {
+export default function ChainBar({ onSelect }) {
   const { data, isLoading, error } = useApi('/api/chains')
 
   if (isLoading) return <div className="text-white/40 text-sm">Loading…</div>
@@ -24,7 +24,7 @@ export default function ChainBar() {
           labelStyle={{ color: '#f8fafc', fontWeight: 600 }}
           itemStyle={{ color: '#a78bfa' }}
         />
-        <Bar dataKey="count" radius={[6, 6, 0, 0]}>
+        <Bar dataKey="count" radius={[6, 6, 0, 0]} style={{ cursor: 'pointer' }} onClick={(d) => onSelect?.(d.chain)}>
           {data?.map((_, i) => (
             <Cell key={i} fill={`rgba(167,139,250,${0.9 - i * 0.04})`} />
           ))}

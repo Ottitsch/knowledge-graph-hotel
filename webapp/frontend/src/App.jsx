@@ -37,35 +37,32 @@ function SizeObserver({ children }) {
   )
 }
 
-function GraphTab() {
-  const [selectedOperator, setSelectedOperator] = useState(null)
-
+function GraphTab({ selected, onForceGraphSelect }) {
   return (
     <motion.div {...fadeVariant} className="grid grid-cols-1 xl:grid-cols-2 gap-5">
       <Panel title="Force Graph — click an operator node to explore">
         <SizeObserver>
           {(w, h) => (
-            <ForceGraph width={w} height={h} onOperatorClick={setSelectedOperator} />
+            <ForceGraph width={w} height={h} onOperatorClick={(name) => onForceGraphSelect(name, 'operator')} />
           )}
         </SizeObserver>
       </Panel>
 
       <Panel title="Operator Listings Map — listings by selected operator">
-        <OperatorMap operatorName={selectedOperator} />
+        <OperatorMap operatorName={selected?.name} operatorType={selected?.type} />
       </Panel>
-
     </motion.div>
   )
 }
 
-function AnalyticsTab() {
+function AnalyticsTab({ onNavigate }) {
   return (
     <motion.div {...fadeVariant} className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
       <Panel title="Top 20 Operators by listings" className="xl:col-span-2">
-        <TopOperators />
+        <TopOperators onSelect={(name) => onNavigate(name, 'operator')} />
       </Panel>
       <Panel title="Hotel Chains by property count">
-        <ChainBar />
+        <ChainBar onSelect={(name) => onNavigate(name, 'chain')} />
       </Panel>
       <Panel title="Properties by District">
         <DistrictBar />
@@ -92,6 +89,12 @@ function MapTab() {
 
 export default function App() {
   const [tab, setTab] = useState('graph')
+  const [selected, setSelected] = useState(null) // { name, type: 'operator'|'chain' }
+
+  function navigateToGraph(name, type) {
+    setSelected({ name, type })
+    setTab('graph')
+  }
 
   return (
     <div className="min-h-screen p-4 md:p-8 flex flex-col gap-6">
@@ -110,8 +113,16 @@ export default function App() {
 
       <main className="flex-1">
         <AnimatePresence mode="wait">
-          {tab === 'graph' && <GraphTab key="graph" />}
-          {tab === 'analytics' && <AnalyticsTab key="analytics" />}
+          {tab === 'graph' && (
+            <GraphTab
+              key="graph"
+              selected={selected}
+              onForceGraphSelect={(name, type) => setSelected({ name, type })}
+            />
+          )}
+          {tab === 'analytics' && (
+            <AnalyticsTab key="analytics" onNavigate={navigateToGraph} />
+          )}
           {tab === 'map' && <MapTab key="map" />}
         </AnimatePresence>
       </main>

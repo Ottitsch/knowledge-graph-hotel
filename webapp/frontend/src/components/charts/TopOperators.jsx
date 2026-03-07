@@ -3,7 +3,7 @@ import { useApi } from '../../hooks/useApi'
 
 const TEAL = '#2dd4bf'
 
-export default function TopOperators() {
+export default function TopOperators({ onSelect }) {
   const { data, isLoading, error } = useApi('/api/top-operators')
 
   if (isLoading) return <div className="text-white/40 text-sm">Loading…</div>
@@ -26,7 +26,7 @@ export default function TopOperators() {
           labelStyle={{ color: '#f8fafc', fontWeight: 600 }}
           itemStyle={{ color: TEAL }}
         />
-        <Bar dataKey="count" radius={[0, 6, 6, 0]}>
+        <Bar dataKey="count" radius={[0, 6, 6, 0]} style={{ cursor: 'pointer' }} onClick={(d) => onSelect?.(d.operator)}>
           {data?.map((_, i) => (
             <Cell key={i} fill={`rgba(45,212,191,${0.9 - i * 0.03})`} />
           ))}

@@ -178,6 +178,20 @@ def graph():
     return jsonify({"nodes": list(nodes.values()), "links": links})
 
 
+@app.route("/api/chain-map")
+def chain_map():
+    name = request.args.get("name", "")
+    if not name:
+        return jsonify([])
+    records = run_query("""
+        MATCH (p:Property)-[:OPERATED_BY]->(o:Operator)-[:SUBSIDIARY_OF]->(c:HotelChain {name: $name})
+        WHERE p.lat IS NOT NULL AND p.lon IS NOT NULL
+        RETURN p.name AS name, p.lat AS lat, p.lon AS lon,
+               coalesce(p.property_type, 'unknown') AS type
+    """, name=name)
+    return jsonify(records)
+
+
 @app.route("/api/operator-map")
 def operator_map():
     name = request.args.get("name", "")
