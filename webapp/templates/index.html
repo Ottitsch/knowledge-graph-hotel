@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vienna Hotel Knowledge Graph — Dashboard</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a1f2e 0%, #16213e 100%);
+      border-bottom: 1px solid #2d3748;
+      padding: 20px 32px;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #f7fafc;
+      letter-spacing: -0.02em;
+    }
+
+    header p {
+      font-size: 0.85rem;
+      color: #718096;
+      margin-top: 4px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 24px 32px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .panel {
+      background: #1a1f2e;
+      border: 1px solid #2d3748;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .panel h2 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #a0aec0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+
+    .chart-wrap {
+      position: relative;
+      flex: 1;
+      min-height: 280px;
+    }
+
+    #map {
+      height: 460px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #4a5568;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; padding: 16px; }
+      .panel.full-width { grid-column: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Vienna Hotel Knowledge Graph</h1>
+  <p>Ownership, operators and distribution across Vienna's 23 districts</p>
+</header>
+
+<div class="grid">
+
+  <!-- Panel 1: Top 20 Operators -->
+  <div class="panel">
+    <h2>Top 20 Operators by Property Count</h2>
+    <div class="chart-wrap">
+      <canvas id="chartOperators"></canvas>
+    </div>
+  </div>
+
+  <!-- Panel 2: Hotel Chain Dominance -->
+  <div class="panel">
+    <h2>Hotel Chain Dominance</h2>
+    <div class="chart-wrap">
+      <canvas id="chartChains"></canvas>
+    </div>
+  </div>
+
+  <!-- Panel 3: Properties by District -->
+  <div class="panel">
+    <h2>Properties by District</h2>
+    <div class="chart-wrap">
+      <canvas id="chartDistricts"></canvas>
+    </div>
+  </div>
+
+  <!-- Panel 4: Corporate vs Individual by District -->
+  <div class="panel">
+    <h2>Corporate vs Individual Hosts by District</h2>
+    <div class="chart-wrap">
+      <canvas id="chartCorporate"></canvas>
+    </div>
+  </div>
+
+  <!-- Panel 5: Property Type Breakdown -->
+  <div class="panel">
+    <h2>Property Type Breakdown</h2>
+    <div class="chart-wrap" style="max-height:340px;">
+      <canvas id="chartTypes"></canvas>
+    </div>
+  </div>
+
+  <!-- Panel 6: Map -->
+  <div class="panel">
+    <h2>Map of All Properties</h2>
+    <div id="map"></div>
+  </div>
+
+</div>
+
+<script>
+const PALETTE = [
+  '#4f9cf9','#f97316','#22c55e','#a855f7','#f43f5e',
+  '#06b6d4','#eab308','#ec4899','#14b8a6','#8b5cf6',
+  '#fb923c','#34d399','#f472b6','#60a5fa','#a3e635',
+  '#fbbf24','#38bdf8','#c084fc','#fb7185','#4ade80',
+];
+
+const CHART_DEFAULTS = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false },
+    tooltip: { backgroundColor: '#1e2535', titleColor: '#e2e8f0', bodyColor: '#a0aec0' },
+  },
+  scales: {
+    x: { ticks: { color: '#718096', font: { size: 11 } }, grid: { color: '#2d3748' } },
+    y: { ticks: { color: '#718096', font: { size: 11 } }, grid: { color: '#2d3748' } },
+  },
+};
+
+async function fetchJSON(url) {
+  const r = await fetch(url);
+  return r.json();
+}
+
+// ── Panel 1: Top 20 Operators ─────────────────────────────────────
+async function renderOperators() {
+  const data = await fetchJSON('/api/top-operators');
+  const ctx = document.getElementById('chartOperators').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: data.map(d => d.operator),
+      datasets: [{
+        data: data.map(d => d.count),
+        backgroundColor: PALETTE,
+      }]
+    },
+    options: {
+      ...CHART_DEFAULTS,
+      indexAxis: 'y',
+      plugins: {
+        ...CHART_DEFAULTS.plugins,
+        legend: { display: false },
+      },
+      scales: {
+        x: CHART_DEFAULTS.scales.x,
+        y: { ...CHART_DEFAULTS.scales.y, ticks: { color: '#a0aec0', font: { size: 10 } } },
+      },
+    }
+  });
+}
+
+// ── Panel 2: Hotel Chains ─────────────────────────────────────────
+async function renderChains() {
+  const data = await fetchJSON('/api/chains');
+  const ctx = document.getElementById('chartChains').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: data.map(d => d.chain),
+      datasets: [{
+        data: data.map(d => d.count),
+        backgroundColor: PALETTE,
+      }]
+    },
+    options: {
+      ...CHART_DEFAULTS,
+      plugins: { ...CHART_DEFAULTS.plugins },
+    }
+  });
+}
+
+// ── Panel 3: Districts ────────────────────────────────────────────
+async function renderDistricts() {
+  const data = await fetchJSON('/api/districts');
+  const ctx = document.getElementById('chartDistricts').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: data.map(d => d.district),
+      datasets: [{
+        data: data.map(d => d.count),
+        backgroundColor: '#4f9cf9',
+      }]
+    },
+    options: { ...CHART_DEFAULTS }
+  });
+}
+
+// ── Panel 4: Corporate vs Individual ─────────────────────────────
+async function renderCorporate() {
+  const data = await fetchJSON('/api/corporate-vs-individual');
+  const ctx = document.getElementById('chartCorporate').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: data.map(d => d.district),
+      datasets: [
+        {
+          label: 'Corporate (>3 listings)',
+          data: data.map(d => d.corporate),
+          backgroundColor: '#f97316',
+          stack: 'stack',
+        },
+        {
+          label: 'Individual (≤3 listings)',
+          data: data.map(d => d.individual),
+          backgroundColor: '#22c55e',
+          stack: 'stack',
+        }
+      ]
+    },
+    options: {
+      ...CHART_DEFAULTS,
+      plugins: {
+        ...CHART_DEFAULTS.plugins,
+        legend: {
+          display: true,
+          labels: { color: '#a0aec0', font: { size: 11 } },
+        },
+      },
+    }
+  });
+}
+
+// ── Panel 5: Property Types ───────────────────────────────────────
+async function renderTypes() {
+  const data = await fetchJSON('/api/property-types');
+  const ctx = document.getElementById('chartTypes').getContext('2d');
+  new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: data.map(d => d.type),
+      datasets: [{
+        data: data.map(d => d.count),
+        backgroundColor: PALETTE,
+        borderColor: '#1a1f2e',
+        borderWidth: 2,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'right',
+          labels: { color: '#a0aec0', font: { size: 11 }, padding: 12 },
+        },
+        tooltip: { backgroundColor: '#1e2535', titleColor: '#e2e8f0', bodyColor: '#a0aec0' },
+      },
+    }
+  });
+}
+
+// ── Panel 6: Map ──────────────────────────────────────────────────
+async function renderMap() {
+  const map = L.map('map').setView([48.2082, 16.3738], 13);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+    maxZoom: 19,
+  }).addTo(map);
+
+  const data = await fetchJSON('/api/map-points');
+
+  const typeColors = {};
+  const types = [...new Set(data.map(d => d.type))];
+  types.forEach((t, i) => { typeColors[t] = PALETTE[i % PALETTE.length]; });
+
+  const clusters = L.markerClusterGroup({ maxClusterRadius: 40 });
+
+  data.forEach(pt => {
+    const color = typeColors[pt.type] || '#4f9cf9';
+    const icon = L.divIcon({
+      html: `<div style="width:8px;height:8px;border-radius:50%;background:${color};border:1px solid rgba(255,255,255,0.4);"></div>`,
+      className: '',
+      iconSize: [8, 8],
+    });
+    const marker = L.marker([pt.lat, pt.lon], { icon });
+    marker.bindPopup(`<b>${pt.name}</b><br><small>${pt.type}</small>`);
+    clusters.addLayer(marker);
+  });
+
+  map.addLayer(clusters);
+}
+
+// ── Boot ──────────────────────────────────────────────────────────
+Promise.all([
+  renderOperators(),
+  renderChains(),
+  renderDistricts(),
+  renderCorporate(),
+  renderTypes(),
+  renderMap(),
+]).catch(err => console.error('Dashboard error:', err));
+</script>
+
+</body>
+</html>
