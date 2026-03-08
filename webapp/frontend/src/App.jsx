@@ -8,6 +8,7 @@ import ChainBar from './components/charts/ChainBar'
 import DistrictBar from './components/charts/DistrictBar'
 import CorporateBar from './components/charts/CorporateBar'
 import TypePie from './components/charts/TypePie'
+import QualitySummary from './components/QualitySummary'
 import PropertyMap from './components/map/PropertyMap'
 import OperatorMap from './components/map/OperatorMap'
 
@@ -40,22 +41,30 @@ function SizeObserver({ children }) {
 function GraphTab({ selected, onForceGraphSelect }) {
   return (
     <motion.div {...fadeVariant} className="flex flex-col gap-5">
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
-        <Panel title="Operator Network — click a node to explore units operated">
+      <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+        <Panel title="Operator Projection - full operator layer, click a node to inspect units">
           <SizeObserver>
             {(w, h) => (
-              <ForceGraph width={w} height={h} onOperatorClick={(op) => onForceGraphSelect(op.name, 'operator', op.id)} />
+              <ForceGraph
+                width={w}
+                height={h}
+                onOperatorClick={(op) => onForceGraphSelect(op.name, 'operator', op.id)}
+              />
             )}
           </SizeObserver>
         </Panel>
 
         <Panel title="Units operated by selected operator">
-          <OperatorMap operatorName={selected?.name} operatorId={selected?.operatorId} operatorType={selected?.type} />
+          <OperatorMap
+            operatorName={selected?.name}
+            operatorId={selected?.operatorId}
+            operatorType={selected?.type}
+          />
         </Panel>
       </div>
 
       <motion.div
-        className="glass p-5 flex flex-col gap-3"
+        className="glass flex flex-col gap-3 p-5"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: 'easeOut' }}
@@ -63,7 +72,7 @@ function GraphTab({ selected, onForceGraphSelect }) {
         <h2 className="text-sm font-semibold uppercase tracking-widest text-white/50">
           About this data
         </h2>
-        <p className="text-xs text-white/40 leading-relaxed">
+        <p className="text-xs leading-relaxed text-white/40">
           The Airbnb operator data shown here is derived from an Inside Airbnb snapshot taken in September 2025.
           Because Airbnb hosts can rename their profiles, transfer listings between accounts, or delist units at any time,
           the operator names and listing counts displayed may no longer match what is currently shown on Airbnb.
@@ -72,6 +81,8 @@ function GraphTab({ selected, onForceGraphSelect }) {
           Operators are linked by their unique Airbnb host ID rather than by name,
           so units belonging to the same host are correctly grouped even when names appear inconsistent.
           Data from other sources (data.gv.at, OpenStreetMap, Wikidata) may similarly reflect the state at the time of collection.
+          The force graph is an operator-centric projection of the KG rather than a raw rendering of every accommodation-unit node at once,
+          so the full unit layer is explored by clicking an operator.
         </p>
       </motion.div>
     </motion.div>
@@ -80,7 +91,7 @@ function GraphTab({ selected, onForceGraphSelect }) {
 
 function AnalyticsTab({ onNavigate }) {
   return (
-    <motion.div {...fadeVariant} className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
+    <motion.div {...fadeVariant} className="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-3">
       <Panel title="Top 20 Operators by accommodation units" className="xl:col-span-2">
         <TopOperators onSelect={(op) => onNavigate(op.name, 'operator', op.id)} />
       </Panel>
@@ -96,8 +107,11 @@ function AnalyticsTab({ onNavigate }) {
       <Panel title="Accommodation types">
         <TypePie />
       </Panel>
+      <Panel title="Quality and validation signals">
+        <QualitySummary />
+      </Panel>
       <motion.div
-        className="glass p-5 flex flex-col gap-3 xl:col-span-2 max-h-52 overflow-y-auto"
+        className="glass max-h-52 overflow-y-auto p-5 flex flex-col gap-3 xl:col-span-2"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: 'easeOut' }}
@@ -105,7 +119,7 @@ function AnalyticsTab({ onNavigate }) {
         <h2 className="text-sm font-semibold uppercase tracking-widest text-white/50">
           About this data
         </h2>
-        <p className="text-xs text-white/40 leading-relaxed">
+        <p className="text-xs leading-relaxed text-white/40">
           The Airbnb operator data shown here is derived from an Inside Airbnb snapshot taken in September 2025.
           Because Airbnb hosts can rename their profiles, transfer listings between accounts, or delist units at any time,
           the operator names and listing counts displayed may no longer match what is currently shown on Airbnb.
@@ -114,6 +128,8 @@ function AnalyticsTab({ onNavigate }) {
           Operators are linked by their unique Airbnb host ID rather than by name,
           so units belonging to the same host are correctly grouped even when names appear inconsistent.
           Data from other sources (data.gv.at, OpenStreetMap, Wikidata) may similarly reflect the state at the time of collection.
+          Listing-to-establishment links are now only asserted when proximity is backed by textual evidence;
+          weaker nearby candidates are tracked in the data pipeline but intentionally excluded from the graph.
         </p>
       </motion.div>
     </motion.div>
@@ -123,7 +139,7 @@ function AnalyticsTab({ onNavigate }) {
 function MapTab() {
   return (
     <motion.div {...fadeVariant}>
-      <Panel title="Vienna — all geolocated accommodation units · click to explore operator network">
+      <Panel title="Vienna - all geolocated accommodation units - click to explore operator network">
         <PropertyMap />
       </Panel>
     </motion.div>
@@ -132,7 +148,7 @@ function MapTab() {
 
 export default function App() {
   const [tab, setTab] = useState('graph')
-  const [selected, setSelected] = useState(null) // { name, type: 'operator'|'chain' }
+  const [selected, setSelected] = useState(null)
 
   function navigateToGraph(name, type, operatorId) {
     setSelected({ name, type, operatorId })
@@ -140,15 +156,14 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen p-4 md:p-8 flex flex-col gap-6">
-      <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div className="min-h-screen flex flex-col gap-6 p-4 md:p-8">
+      <header className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white">
-            Vienna Accommodation Operator{' '}
-            <span style={{ color: '#2dd4bf' }}>Knowledge Graph</span>
+            Vienna Accommodation Operator <span style={{ color: '#2dd4bf' }}>Knowledge Graph</span>
           </h1>
-          <p className="text-sm text-white/40 mt-0.5">
-            Public accommodation data · operator analysis · Neo4j
+          <p className="mt-0.5 text-sm text-white/40">
+            Public accommodation data - operator analysis - Neo4j
           </p>
         </div>
         <Nav active={tab} onChange={setTab} />
@@ -170,8 +185,8 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      <footer className="text-center text-white/20 text-xs pb-2">
-        Knowledge Graph Dashboard · Vienna Accommodation Operator Analysis
+      <footer className="pb-2 text-center text-xs text-white/20">
+        Knowledge Graph Dashboard - Vienna Accommodation Operator Analysis
       </footer>
     </div>
   )

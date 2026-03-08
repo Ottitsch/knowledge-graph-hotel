@@ -156,6 +156,7 @@ def _ingest_units(session, df: pd.DataFrame):
         MERGE (u:AccommodationUnit {id: $id})
         SET u.name = $name,
             u.address = $address,
+            u.district = $district,
             u.unit_type = $unit_type,
             u.unit_type_normalized = $unit_type_normalized,
             u.granularity = $granularity,
@@ -165,13 +166,18 @@ def _ingest_units(session, df: pd.DataFrame):
             u.picture_url = $picture_url,
             u.source_names = $source_names,
             u.source_record_ids = $source_record_ids,
-            u.merge_confidence = $merge_confidence
+            u.merge_confidence = $merge_confidence,
+            u.operator_name_source = $operator_name_source,
+            u.operator_identity_confidence = $operator_identity_confidence,
+            u.linked_establishment_confidence = $linked_establishment_confidence,
+            u.linked_establishment_evidence = $linked_establishment_evidence
         """
         session.run(
             query,
             id=unit_id,
             name=name,
             address=str(row.get("address", "")),
+            district=str(row.get("district", "")),
             unit_type=str(row.get("unit_type", row.get("property_type", ""))),
             unit_type_normalized=str(row.get("unit_type_normalized", "other")),
             granularity=str(row.get("granularity", "")),
@@ -182,6 +188,10 @@ def _ingest_units(session, df: pd.DataFrame):
             source_names=str(row.get("source_names", row.get("source", ""))),
             source_record_ids=str(row.get("source_record_ids", row.get("raw_id", ""))),
             merge_confidence=str(row.get("merge_confidence", "")),
+            operator_name_source=str(row.get("operator_name_source", "")),
+            operator_identity_confidence=str(row.get("operator_identity_confidence", "")),
+            linked_establishment_confidence=str(row.get("linked_establishment_confidence", "")),
+            linked_establishment_evidence=str(row.get("linked_establishment_evidence", "")),
         )
 
         # Link to district
@@ -238,24 +248,26 @@ def _ingest_chains(session, df: pd.DataFrame, wikidata: list):
     for _, row in chain_df.iterrows():
         chain_name = str(row["hotel_chain"]).strip()
         op_name = str(row.get("operator_name", "")).strip()
+        op_id = _operator_id(op_name, row.get("host_id", ""), str(row.get("source_names", row.get("source", ""))))
         session.run("MERGE (c:HotelChain {name: $name})", name=chain_name)
-        if op_name:
+        if op_name and op_id:
             session.run("""
-            MATCH (o:Operator {name: $op}), (c:HotelChain {name: $chain})
+            MATCH (o:Operator {id: $op_id}), (c:HotelChain {name: $chain})
             MERGE (o)-[:AFFILIATED_WITH]->(c)
-            """, op=op_name, chain=chain_name)
+            """, op_id=op_id, chain=chain_name)
 
     # Wikidata parent org / brand enrichment
     for row in wikidata:
         parent = row.get("parent_org_name", "").strip()
         brand = row.get("brand_name", "").strip()
         op = row.get("operator_name", "").strip()
+        op_id = _operator_id(op, "", "wikidata")
         if parent and op:
             session.run("MERGE (c:HotelChain {name: $name})", name=parent)
             session.run("""
-            MATCH (o:Operator {name: $op}), (c:HotelChain {name: $chain})
+            MATCH (o:Operator {id: $op_id}), (c:HotelChain {name: $chain})
             MERGE (o)-[:AFFILIATED_WITH]->(c)
-            """, op=op, chain=parent)
+            """, op_id=op_id, chain=parent)
         if brand:
             session.run("MERGE (c:HotelChain {name: $name})", name=brand)
 
@@ -272,11 +284,15 @@ def _ingest_listing_links(session, df: pd.DataFrame):
     for _, row in linked.iterrows():
         listing_id = str(row.get("canonical_id", ""))
         estab_id = str(row["linked_establishment_id"]).strip()
+        confidence = str(row.get("linked_establishment_confidence", "")).strip()
+        evidence = str(row.get("linked_establishment_evidence", "")).strip()
         if listing_id and estab_id:
             session.run("""
             MATCH (l:AccommodationUnit {id: $lid}), (e:AccommodationUnit {id: $eid})
-            MERGE (l)-[:LISTING_OF]->(e)
-            """, lid=listing_id, eid=estab_id)
+            MERGE (l)-[r:LISTING_OF]->(e)
+            SET r.confidence = $confidence,
+                r.evidence = $evidence
+            """, lid=listing_id, eid=estab_id, confidence=confidence, evidence=evidence)
 
 
 # ──────────────────────────────────────────────────────────────
@@ -336,6 +352,22 @@ def build_rdf(df: pd.DataFrame, wikidata: list) -> Graph:
         merge_conf = str(row.get("merge_confidence", "")).strip()
         if merge_conf:
             g.add((unit_uri, VAOK.mergeConfidence, Literal(merge_conf)))
+
+        operator_name_source = str(row.get("operator_name_source", "")).strip()
+        if operator_name_source:
+            g.add((unit_uri, VAOK.operatorNameSource, Literal(operator_name_source)))
+
+        operator_identity_conf = str(row.get("operator_identity_confidence", "")).strip()
+        if operator_identity_conf:
+            g.add((unit_uri, VAOK.operatorIdentityConfidence, Literal(operator_identity_conf)))
+
+        listing_match_conf = str(row.get("linked_establishment_confidence", "")).strip()
+        if listing_match_conf:
+            g.add((unit_uri, VAOK.listingMatchConfidence, Literal(listing_match_conf)))
+
+        listing_match_evidence = str(row.get("linked_establishment_evidence", "")).strip()
+        if listing_match_evidence:
+            g.add((unit_uri, VAOK.listingMatchEvidence, Literal(listing_match_evidence)))
 
         # Sources
         source_names_str = str(row.get("source_names", row.get("source", "")))

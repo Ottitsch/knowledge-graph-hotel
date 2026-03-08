@@ -15,7 +15,6 @@
      xmlns:schema="http://schema.org/"
      xml:base="http://example.org/vienna-accommodation-operator-kg/">
 
-  <!-- Ontology declaration -->
   <owl:Ontology rdf:about="http://example.org/vienna-accommodation-operator-kg/ontology">
     <rdfs:label>Vienna Accommodation Operator Knowledge Graph Ontology</rdfs:label>
     <rdfs:comment>
@@ -24,12 +23,8 @@
       OpenStreetMap, Wikidata, and the official Vienna accommodation registry (data.gv.at)
       (establishment-level). Legal ownership is out of scope.
     </rdfs:comment>
-    <owl:versionInfo>2.0</owl:versionInfo>
+    <owl:versionInfo>3.0</owl:versionInfo>
   </owl:Ontology>
-
-  <!-- ============================================================
-       CLASSES
-       ============================================================ -->
 
   <owl:Class rdf:about="&vaok;AccommodationUnit">
     <rdfs:label>Accommodation Unit</rdfs:label>
@@ -45,8 +40,8 @@
     <rdfs:label>Operator</rdfs:label>
     <rdfs:comment>
       The individual or organization who manages and operates the accommodation.
-      For Airbnb this is the host; for hotels it is the named operator from OSM
-      or Wikidata. May or may not be the legal property owner.
+      For Airbnb this is the host; for hotels it is an observed operator label with
+      explicit provenance and confidence metadata.
     </rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://schema.org/Organization"/>
   </owl:Class>
@@ -54,15 +49,15 @@
   <owl:Class rdf:about="&vaok;HotelChain">
     <rdfs:label>Hotel Chain</rdfs:label>
     <rdfs:comment>
-      A hotel brand or group (e.g. Marriott, AccorHotels, Vienna House) that
-      operators may be affiliated with.
+      A hotel brand or group (for example Marriott, AccorHotels, or Vienna House)
+      that operators may be affiliated with.
     </rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://schema.org/Organization"/>
   </owl:Class>
 
   <owl:Class rdf:about="&vaok;District">
     <rdfs:label>District</rdfs:label>
-    <rdfs:comment>A Vienna administrative district (Bezirk), 1st through 23rd.</rdfs:comment>
+    <rdfs:comment>A Vienna administrative district, 1st through 23rd.</rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://schema.org/AdministrativeArea"/>
   </owl:Class>
 
@@ -74,13 +69,9 @@
     </rdfs:comment>
   </owl:Class>
 
-  <!-- ============================================================
-       OBJECT PROPERTIES
-       ============================================================ -->
-
   <owl:ObjectProperty rdf:about="&vaok;operatedBy">
     <rdfs:label>operated by</rdfs:label>
-    <rdfs:comment>An accommodation unit is operated/managed by an operator.</rdfs:comment>
+    <rdfs:comment>An accommodation unit is operated or managed by an operator.</rdfs:comment>
     <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
     <rdfs:range rdf:resource="&vaok;Operator"/>
     <owl:inverseOf rdf:resource="&vaok;operates"/>
@@ -103,8 +94,7 @@
     <rdfs:label>affiliated with</rdfs:label>
     <rdfs:comment>
       An operator is affiliated with a hotel chain or brand based on observable
-      public data (OSM tags, Wikidata parent organization). This does not imply
-      strict legal ownership.
+      public data. This does not imply legal ownership.
     </rdfs:comment>
     <rdfs:domain rdf:resource="&vaok;Operator"/>
     <rdfs:range rdf:resource="&vaok;HotelChain"/>
@@ -112,18 +102,32 @@
 
   <owl:ObjectProperty rdf:about="&vaok;observedIn">
     <rdfs:label>observed in</rdfs:label>
-    <rdfs:comment>An accommodation unit was observed/recorded in a public data source.</rdfs:comment>
+    <rdfs:comment>An accommodation unit was observed or recorded in a public data source.</rdfs:comment>
     <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
     <rdfs:range rdf:resource="&vaok;Source"/>
   </owl:ObjectProperty>
 
-  <!-- ============================================================
-       DATATYPE PROPERTIES
-       ============================================================ -->
+  <owl:ObjectProperty rdf:about="&vaok;listingOf">
+    <rdfs:label>listing of</rdfs:label>
+    <rdfs:comment>
+      A listing-level record is matched with strong or medium evidence to an
+      establishment-level accommodation unit. Weak proximity-only candidates are
+      intentionally not asserted with this relation.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
+    <rdfs:range rdf:resource="&vaok;AccommodationUnit"/>
+  </owl:ObjectProperty>
 
   <owl:DatatypeProperty rdf:about="&vaok;unitType">
     <rdfs:label>unit type</rdfs:label>
-    <rdfs:comment>Type of accommodation (hotel, hostel, apartment, guest_house, etc.).</rdfs:comment>
+    <rdfs:comment>Type of accommodation (hotel, hostel, apartment, guest_house, and so on).</rdfs:comment>
+    <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
+    <rdfs:range rdf:resource="&xsd;string"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&vaok;unitTypeNormalized">
+    <rdfs:label>normalized unit type</rdfs:label>
+    <rdfs:comment>Canonical accommodation category used for cross-source analysis.</rdfs:comment>
     <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
     <rdfs:range rdf:resource="&xsd;string"/>
   </owl:DatatypeProperty>
@@ -132,7 +136,8 @@
     <rdfs:label>granularity</rdfs:label>
     <rdfs:comment>
       Data granularity level: 'listing' for Airbnb-style individual listings,
-      'establishment' for physical accommodation locations from OSM/Wikidata/data.gv.at.
+      'establishment' for physical accommodation locations from OSM, Wikidata,
+      or data.gv.at.
     </rdfs:comment>
     <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
     <rdfs:range rdf:resource="&xsd;string"/>
@@ -141,8 +146,49 @@
   <owl:DatatypeProperty rdf:about="&vaok;mergeConfidence">
     <rdfs:label>merge confidence</rdfs:label>
     <rdfs:comment>
-      Confidence level of entity resolution merge: 'strong' (name+coordinates matched),
-      'medium' (name+address matched), 'single' (no merge — unique record).
+      Confidence level of entity resolution merge for establishment records:
+      'strong' for cross-source matches supported by name and coordinates or
+      website and coordinates, and 'single' for unmerged records.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
+    <rdfs:range rdf:resource="&xsd;string"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&vaok;operatorNameSource">
+    <rdfs:label>operator name source</rdfs:label>
+    <rdfs:comment>
+      Provenance for the operator label, such as an Airbnb host profile, an OSM
+      operator tag, a Wikidata operator statement, or a low-confidence venue-name fallback.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
+    <rdfs:range rdf:resource="&xsd;string"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&vaok;operatorIdentityConfidence">
+    <rdfs:label>operator identity confidence</rdfs:label>
+    <rdfs:comment>
+      Confidence in the unit-to-operator identification: 'high', 'medium', or 'low'.
+      Low typically means the venue name was reused as a fallback operator label.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
+    <rdfs:range rdf:resource="&xsd;string"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&vaok;listingMatchConfidence">
+    <rdfs:label>listing match confidence</rdfs:label>
+    <rdfs:comment>
+      Confidence for a listing-level to establishment-level match. Only evidence-backed
+      matches are asserted in the graph.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
+    <rdfs:range rdf:resource="&xsd;string"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&vaok;listingMatchEvidence">
+    <rdfs:label>listing match evidence</rdfs:label>
+    <rdfs:comment>
+      Human-readable evidence summary for a listing-to-establishment match, such as
+      distance thresholds and token overlap.
     </rdfs:comment>
     <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
     <rdfs:range rdf:resource="&xsd;string"/>

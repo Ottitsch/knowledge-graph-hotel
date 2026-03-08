@@ -1,56 +1,59 @@
-# Setup — Vienna Accommodation Operator KG Pipeline
+# Setup - Vienna Accommodation Operator KG
 
 ## 1. Install dependencies
+
 ```bash
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-## 2. Configure environment
-```bash
-cp .env.example .env
-# edit .env with your Neo4j credentials
-```
+## 2. Configure Neo4j
 
-## 3. Start Neo4j
-Start a local Neo4j instance (default: `bolt://localhost:7687`).
-The graph can be built without Neo4j using `--skip-neo4j` (produces RDF Turtle only).
+Set environment variables or use a local `.env` file:
 
-## 4. Run the pipeline
+- `NEO4J_URI`
+- `NEO4J_USER`
+- `NEO4J_PASSWORD`
+
+Neo4j is optional if you only want the RDF export, quality audit, and SHACL validation.
+
+## 3. Run the pipeline
+
 ```bash
 python src/run_pipeline.py
-# skip Neo4j: python src/run_pipeline.py --skip-neo4j
-# skip Airbnb download: python src/run_pipeline.py --skip-airbnb
+python src/run_pipeline.py --skip-neo4j
 ```
 
-Core pipeline steps:
-1. `collect_datagv.py` — official Vienna accommodation registry
-2. `collect_osm.py` — OpenStreetMap accommodation POIs
-3. `collect_wikidata.py` — Wikidata operator/chain enrichment
-4. `download_airbnb.py` — Inside Airbnb listings (listing-level)
-5. `resolve_entities.py` — entity resolution with granularity and provenance
-6. `build_graph.py` — Neo4j + RDF Turtle
+Core stages:
 
-Optional scripts (not in default pipeline):
-- `src/optional_collect_firmenbuch.py` — future work, no live API available
+1. `collect_datagv.py`
+2. `collect_osm.py`
+3. `collect_wikidata.py`
+4. `download_airbnb.py`
+5. `resolve_entities.py`
+6. `build_graph.py`
+7. `audit_quality.py`
+8. `validate_graph.py`
 
-## 5. Explore results
-- Neo4j Browser: http://localhost:7474
-- Cypher queries: `src/queries.cypher`
-- RDF output: `graph/vienna_accommodation_operator_kg.ttl`
+## 4. Review outputs
+
+- RDF graph: `graph/vienna_accommodation_operator_kg.ttl`
 - Ontology: `ontology/accommodation_operator.owl`
+- SHACL shapes: `ontology/accommodation_operator_shapes.ttl`
+- Quality report: `reports/data_quality_report.md`
+- SHACL report: `reports/shacl_validation_report.txt`
 
-## 6. Build the frontend
+## 5. Run the webapp
+
+```bash
+python webapp/app.py
+```
+
+Frontend build:
+
 ```bash
 cd webapp/frontend
 npm install
 npm run build
-cd ../..
 ```
-
-## 7. Run the webapp
-```bash
-python webapp/app.py
-```
-Open http://localhost:5000 in your browser.

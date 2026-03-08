@@ -1,0 +1,84 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix vaok: <http://example.org/vienna-accommodation-operator-kg/> .
+
+vaok:AccommodationUnitShape
+    a sh:NodeShape ;
+    sh:targetClass vaok:AccommodationUnit ;
+    sh:property [
+        sh:path schema:name ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path vaok:granularity ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:in ( "listing" "establishment" ) ;
+    ] ;
+    sh:property [
+        sh:path vaok:observedIn ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path vaok:unitTypeNormalized ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path vaok:mergeConfidence ;
+        sh:maxCount 1 ;
+        sh:in ( "strong" "single" ) ;
+    ] ;
+    sh:property [
+        sh:path vaok:operatorIdentityConfidence ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:in ( "high" "medium" "low" ) ;
+    ] .
+
+vaok:MatchedListingShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf vaok:listingOf ;
+    sh:property [
+        sh:path vaok:granularity ;
+        sh:hasValue "listing" ;
+    ] ;
+    sh:property [
+        sh:path vaok:listingMatchConfidence ;
+        sh:minCount 1 ;
+        sh:in ( "high" "medium" ) ;
+    ] ;
+    sh:property [
+        sh:path vaok:listingMatchEvidence ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+    ] .
+
+vaok:ListingTargetShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf vaok:listingOf ;
+    sh:property [
+        sh:path vaok:granularity ;
+        sh:hasValue "establishment" ;
+    ] .
+
+vaok:OperatorShape
+    a sh:NodeShape ;
+    sh:targetClass vaok:Operator ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+    ] .
+
+vaok:SourceShape
+    a sh:NodeShape ;
+    sh:targetClass vaok:Source ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+    ] .

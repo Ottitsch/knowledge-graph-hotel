@@ -165,6 +165,28 @@ UNIT_TYPE_MAP = {
 # Threshold: operators with more than this many listings are "professional"
 PROFESSIONAL_THRESHOLD = 3
 
+OPERATOR_SOURCE_CONFIDENCE = {
+    "airbnb_host": "high",
+    "airbnb_brand_prefix": "medium",
+    "osm_operator_tag": "high",
+    "osm_brand_tag": "medium",
+    "wikidata_operator": "high",
+    "wikidata_parent_org": "medium",
+    "wikidata_brand": "medium",
+    "wikidata_owner": "medium",
+    "venue_name_fallback": "low",
+}
+
+MATCH_TOKEN_STOPWORDS = {
+    "apartment", "apartments", "appartment", "appartements", "apt", "bedroom",
+    "boutique", "building", "business", "center", "central", "centre", "city",
+    "cozy", "cosy", "downtown", "entire", "exclusive", "flat", "guest",
+    "home", "hostel", "hotel", "house", "inn", "listing", "loft", "luxury",
+    "modern", "near", "park", "place", "private", "residence", "residences",
+    "room", "smart", "spacious", "standard", "stay", "studio", "suite",
+    "superior", "urban", "vienna", "wien",
+}
+
 
 # District name corrections for encoding problems from Airbnb data
 DISTRICT_FIXES = {
@@ -286,7 +308,7 @@ def normalize_unit_type(raw: str) -> str:
 
 ESTABLISHMENT_COLS = [
     "source", "granularity", "name", "address", "district", "lat", "lon",
-    "unit_type", "operator_name", "host_id", "host_listings_count",
+    "unit_type", "operator_name", "operator_name_source", "host_id", "host_listings_count",
     "website", "picture_url", "phone", "email", "raw_id",
 ]
 
@@ -317,6 +339,7 @@ def load_datagv() -> pd.DataFrame:
             "lon": pd.to_numeric(r.get("lon"), errors="coerce"),
             "unit_type": str(r.get("category", "") or ""),
             "operator_name": name,  # business name IS the operator identity
+            "operator_name_source": "venue_name_fallback",
             "host_id": "",
             "host_listings_count": None,
             "website": str(r.get("website", "") or ""),
@@ -355,10 +378,16 @@ def load_osm() -> pd.DataFrame:
         district = _district_from_postcode(el.get("addr_postcode", ""))
         # Use operator tag, fall back to brand, then to name as operator identity
         operator = el.get("operator") or el.get("brand", "")
+        operator_source = ""
+        if el.get("operator"):
+            operator_source = "osm_operator_tag"
+        elif el.get("brand"):
+            operator_source = "osm_brand_tag"
         if not operator:
             name = el.get("name", "")
             if name:
                 operator = name
+                operator_source = "venue_name_fallback"
         rows.append({
             "source": "osm",
             "granularity": "establishment",
@@ -369,6 +398,7 @@ def load_osm() -> pd.DataFrame:
             "lon": el.get("lon"),
             "unit_type": el.get("tourism") or el.get("building", ""),
             "operator_name": operator,
+            "operator_name_source": operator_source,
             "host_id": "",
             "host_listings_count": None,
             "website": el.get("website", ""),
@@ -402,9 +432,20 @@ def load_wikidata() -> pd.DataFrame:
             or el.get("owner_name")
             or ""
         )
+        if el.get("operator_name"):
+            operator_source = "wikidata_operator"
+        elif el.get("parent_org_name"):
+            operator_source = "wikidata_parent_org"
+        elif el.get("brand_name"):
+            operator_source = "wikidata_brand"
+        elif el.get("owner_name"):
+            operator_source = "wikidata_owner"
+        else:
+            operator_source = ""
         # Fall back to hotel name as operator identity
         if not operator and name:
             operator = name
+            operator_source = "venue_name_fallback"
         rows.append({
             "source": "wikidata",
             "granularity": "establishment",
@@ -415,6 +456,7 @@ def load_wikidata() -> pd.DataFrame:
             "lon": lon,
             "unit_type": "hotel",
             "operator_name": operator,
+            "operator_name_source": operator_source,
             "host_id": "",  # host_id is for Airbnb only
             "host_listings_count": None,
             "website": el.get("website", ""),
@@ -452,6 +494,7 @@ def load_airbnb() -> pd.DataFrame:
     df["address"] = df.get("district", "")
     df["phone"] = ""
     df["email"] = ""
+    df["operator_name_source"] = "airbnb_host"
     if "district" in df.columns:
         df["district"] = df["district"].fillna("").astype(str).apply(normalize_district)
 
@@ -524,9 +567,9 @@ def _extract_brand_operator(df: pd.DataFrame) -> pd.DataFrame:
         for hid, brand in list(brand_map.items())[:10]:
             old = df.loc[df["host_id"] == hid, "operator_name"].iloc[0]
             print(f"    {old} -> {brand}")
-        df.loc[df["host_id"].isin(brand_map), "operator_name"] = (
-            df.loc[df["host_id"].isin(brand_map), "host_id"].map(brand_map)
-        )
+        host_mask = df["host_id"].isin(brand_map)
+        df.loc[host_mask, "operator_name"] = df.loc[host_mask, "host_id"].map(brand_map)
+        df.loc[host_mask, "operator_name_source"] = "airbnb_brand_prefix"
 
     return df
 
@@ -544,6 +587,64 @@ def _is_generic_name(name_norm: str) -> bool:
         "private room", "entire apartment", "home", "flat", "holiday apartment",
     }
     return name_norm in generic or len(name_norm) < 4
+
+
+def _match_tokens(*values) -> set:
+    tokens = set()
+    for value in values:
+        for token in re.findall(r"[a-z0-9]+", normalize_name(value)):
+            if len(token) < 3 or token in MATCH_TOKEN_STOPWORDS:
+                continue
+            tokens.add(token)
+    return tokens
+
+
+def _non_generic_phrase(value: str) -> str:
+    phrase = normalize_name(value)
+    words = [w for w in phrase.split() if len(w) >= 3 and w not in MATCH_TOKEN_STOPWORDS]
+    return " ".join(words).strip()
+
+
+def _classify_listing_match(listing: pd.Series, establishment: pd.Series, distance_m: float):
+    listing_name = str(listing.get("name", ""))
+    listing_operator = str(listing.get("operator_name", ""))
+    est_name = str(establishment.get("name", ""))
+    est_operator = str(establishment.get("operator_name", ""))
+
+    listing_tokens = _match_tokens(listing_name, listing_operator)
+    establishment_tokens = _match_tokens(est_name, est_operator)
+    overlap = sorted(list(listing_tokens & establishment_tokens))
+
+    listing_operator_norm = normalize_name(listing_operator)
+    est_operator_norm = normalize_name(est_operator)
+    exact_operator = (
+        len(listing_operator_norm) >= 4
+        and listing_operator_norm == est_operator_norm
+    )
+
+    listing_name_phrase = _non_generic_phrase(listing_name)
+    est_name_phrase = _non_generic_phrase(est_name)
+    phrase_match = (
+        len(est_name_phrase) >= 8
+        and est_name_phrase in listing_name_phrase
+    ) or (
+        len(listing_name_phrase) >= 8
+        and listing_name_phrase in est_name_phrase
+    )
+
+    evidence = [f"distance<={int(round(distance_m))}m"]
+    if exact_operator:
+        evidence.append("operator_exact")
+    if phrase_match:
+        evidence.append("name_phrase")
+    if overlap:
+        evidence.append(f"token_overlap={','.join(overlap[:4])}")
+
+    if distance_m <= 30 and (exact_operator or phrase_match or len(overlap) >= 2):
+        return "high", " + ".join(evidence)
+    if distance_m <= 15 and (exact_operator or phrase_match or len(overlap) >= 1):
+        return "medium", " + ".join(evidence)
+    return "", " + ".join(evidence)
 
 
 def merge_establishment_sources(frames: list) -> pd.DataFrame:
@@ -622,6 +723,24 @@ def merge_establishment_sources(frames: list) -> pd.DataFrame:
         scores = group.apply(lambda r: r.notna().sum() + (r.astype(str) != "").sum(), axis=1)
         base = group.loc[scores.idxmax()].copy()
 
+        # Prefer the strongest available operator evidence inside a merged group.
+        operator_group = group.copy()
+        operator_group["operator_identity_confidence"] = operator_group["operator_name_source"].map(
+            OPERATOR_SOURCE_CONFIDENCE
+        ).fillna("low")
+        operator_rank = {"high": 2, "medium": 1, "low": 0}
+        operator_group["operator_rank"] = operator_group["operator_identity_confidence"].map(
+            operator_rank
+        ).fillna(0)
+        operator_candidates = operator_group[
+            operator_group["operator_name"].notna()
+            & (operator_group["operator_name"].astype(str).str.strip() != "")
+        ].sort_values("operator_rank", ascending=False)
+        if not operator_candidates.empty:
+            best_operator = operator_candidates.iloc[0]
+            base["operator_name"] = best_operator["operator_name"]
+            base["operator_name_source"] = best_operator["operator_name_source"]
+
         source_names = sorted(group["source"].dropna().unique().tolist())
         # Filter out empty strings from source names
         source_names = [s for s in source_names if s]
@@ -635,7 +754,10 @@ def merge_establishment_sources(frames: list) -> pd.DataFrame:
         base["granularity"] = "establishment"
 
         # Fill missing fields from other rows
-        for col in ["address", "lat", "lon", "operator_name", "website", "phone", "district"]:
+        for col in [
+            "address", "lat", "lon", "operator_name", "operator_name_source",
+            "website", "phone", "district"
+        ]:
             val = base.get(col)
             if not val or (isinstance(val, float) and math.isnan(val)):
                 for _, row in group.iterrows():
@@ -674,10 +796,20 @@ def link_listings_to_establishments(
     """
     if establishments.empty or listings.empty:
         listings["linked_establishment_id"] = ""
+        listings["linked_establishment_confidence"] = ""
+        listings["linked_establishment_evidence"] = ""
+        listings["candidate_establishment_id"] = ""
+        listings["candidate_establishment_distance_m"] = None
+        listings["candidate_establishment_evidence"] = ""
         return listings
 
     listings = listings.copy()
     listings["linked_establishment_id"] = ""
+    listings["linked_establishment_confidence"] = ""
+    listings["linked_establishment_evidence"] = ""
+    listings["candidate_establishment_id"] = ""
+    listings["candidate_establishment_distance_m"] = None
+    listings["candidate_establishment_evidence"] = ""
 
     # Build spatial index from establishments that have coordinates
     estab_coords = []
@@ -686,29 +818,45 @@ def link_listings_to_establishments(
             estab_coords.append((
                 float(row["lat"]), float(row["lon"]),
                 str(row.get("canonical_id", "")),
-                normalize_name(str(row.get("name", ""))),
+                row,
             ))
 
     if not estab_coords:
         return listings
 
     linked_count = 0
+    candidate_count = 0
     for idx, listing in listings.iterrows():
         if pd.isna(listing.get("lat")) or pd.isna(listing.get("lon")):
             continue
         llat, llon = float(listing["lat"]), float(listing["lon"])
         best_dist = float("inf")
         best_id = ""
-        for elat, elon, eid, ename in estab_coords:
+        best_row = None
+        for elat, elon, eid, erow in estab_coords:
             dist = haversine_m(llat, llon, elat, elon)
             if dist < best_dist:
                 best_dist = dist
                 best_id = eid
+                best_row = erow
         if best_dist <= max_dist_m:
-            listings.at[idx, "linked_establishment_id"] = best_id
-            linked_count += 1
+            confidence, evidence = _classify_listing_match(listing, best_row, best_dist)
+            listings.at[idx, "candidate_establishment_id"] = best_id
+            listings.at[idx, "candidate_establishment_distance_m"] = round(best_dist, 2)
+            listings.at[idx, "candidate_establishment_evidence"] = evidence
+            if confidence:
+                listings.at[idx, "linked_establishment_id"] = best_id
+                listings.at[idx, "linked_establishment_confidence"] = confidence
+                listings.at[idx, "linked_establishment_evidence"] = evidence
+                linked_count += 1
+            else:
+                candidate_count += 1
 
-    print(f"  Linked {linked_count} Airbnb listings to nearby establishments (within {max_dist_m}m)")
+    print(
+        "  Listing matches: "
+        f"{linked_count} evidence-backed links, "
+        f"{candidate_count} proximity-only candidates kept out of the graph"
+    )
     return listings
 
 
@@ -775,6 +923,9 @@ def main():
 
     # Add operator_name_normalized
     unified["operator_name_normalized"] = unified["operator_name"].apply(normalize_name)
+    unified["operator_identity_confidence"] = unified["operator_name_source"].map(
+        OPERATOR_SOURCE_CONFIDENCE
+    ).fillna("low")
 
     # Normalize accommodation types
     unified["unit_type_normalized"] = unified["unit_type"].apply(normalize_unit_type)
@@ -827,6 +978,16 @@ def main():
             print(f"  observed in {s}: {cnt}")
     linked = unified["linked_establishment_id"].astype(str).str.strip().ne("")
     print(f"  Listings linked to establishments: {linked.sum()}")
+    if "linked_establishment_confidence" in unified.columns:
+        link_conf = unified["linked_establishment_confidence"].fillna("").astype(str).str.strip()
+        for confidence, count in link_conf[link_conf.ne("")].value_counts().items():
+            print(f"    {confidence}: {count}")
+    if "candidate_establishment_id" in unified.columns:
+        candidate = unified["candidate_establishment_id"].fillna("").astype(str).str.strip().ne("")
+        print(f"  Listings with nearby establishment candidates: {candidate.sum()}")
+    print("  Operator identity confidence:")
+    for confidence, count in unified["operator_identity_confidence"].value_counts().items():
+        print(f"    {confidence}: {count}")
 
     unified.to_csv(OUTPUT_FILE, index=False, encoding="utf-8")
     print(f"\nSaved unified dataset to {OUTPUT_FILE}")

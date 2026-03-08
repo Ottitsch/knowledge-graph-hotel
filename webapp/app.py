@@ -67,7 +67,8 @@ def operator_units():
             RETURN u.name AS unit, u.address AS address, u.unit_type AS type,
                    u.unit_type_normalized AS type_normalized,
                    u.granularity AS granularity, u.district AS district,
-                   u.lat AS lat, u.lon AS lon, u.source_names AS sources
+                   u.lat AS lat, u.lon AS lon, u.source_names AS sources,
+                   u.operator_identity_confidence AS operator_identity_confidence
             ORDER BY u.name
         """, id=op_id)
     elif name:
@@ -76,7 +77,8 @@ def operator_units():
             RETURN u.name AS unit, u.address AS address, u.unit_type AS type,
                    u.unit_type_normalized AS type_normalized,
                    u.granularity AS granularity, u.district AS district,
-                   u.lat AS lat, u.lon AS lon, u.source_names AS sources
+                   u.lat AS lat, u.lon AS lon, u.source_names AS sources,
+                   u.operator_identity_confidence AS operator_identity_confidence
             ORDER BY u.name
         """, name=name)
     else:
@@ -162,6 +164,38 @@ def granularity_counts():
     return jsonify(records)
 
 
+@app.route("/api/quality-summary")
+def quality_summary():
+    totals = run_query("""
+        MATCH (u:AccommodationUnit)
+        RETURN count(u) AS total,
+               sum(CASE WHEN u.granularity = 'listing' THEN 1 ELSE 0 END) AS listings,
+               sum(CASE WHEN u.granularity = 'establishment' THEN 1 ELSE 0 END) AS establishments
+    """)
+    operator_confidence = run_query("""
+        MATCH (u:AccommodationUnit)
+        RETURN coalesce(u.operator_identity_confidence, 'unknown') AS confidence, count(u) AS count
+        ORDER BY count DESC
+    """)
+    listing_matches = run_query("""
+        MATCH (l:AccommodationUnit {granularity: 'listing'})
+        OPTIONAL MATCH (l)-[r:LISTING_OF]->(:AccommodationUnit)
+        RETURN coalesce(r.confidence, 'unlinked') AS confidence, count(l) AS count
+        ORDER BY count DESC
+    """)
+    source_overlap = run_query("""
+        MATCH (u:AccommodationUnit {granularity: 'establishment'})
+        RETURN sum(CASE WHEN u.merge_confidence = 'strong' THEN 1 ELSE 0 END) AS multi_source_establishments,
+               count(u) AS establishments
+    """)
+    return jsonify({
+        "totals": totals[0] if totals else {},
+        "operator_confidence": operator_confidence,
+        "listing_matches": listing_matches,
+        "source_overlap": source_overlap[0] if source_overlap else {},
+    })
+
+
 # --- Map endpoints ---
 
 @app.route("/api/map-points")
@@ -226,24 +260,29 @@ def property_network():
 
 @app.route("/api/graph")
 def graph():
-    records = run_query("""
-        MATCH (o:Operator)
-        WHERE o.observed_unit_count > 3
-           OR exists { (u:AccommodationUnit)-[:OPERATED_BY]->(o) }
-        WITH o
+    min_units = request.args.get("min_units", default=1, type=int)
+    if min_units is None or min_units < 1:
+        min_units = 1
+    limit = request.args.get("limit", default=0, type=int)
+    limit_clause = "LIMIT $limit" if limit and limit > 0 else ""
+
+    records = run_query(f"""
         MATCH (u:AccommodationUnit)-[:OPERATED_BY]->(o)
         WITH o, count(u) AS propCount
-        WHERE propCount > 3
+        WHERE propCount >= $min_units
+        ORDER BY propCount DESC
+        {limit_clause}
         OPTIONAL MATCH (o)-[:AFFILIATED_WITH]->(c:HotelChain)
         OPTIONAL MATCH (u2:AccommodationUnit)-[:OPERATED_BY]->(o)
         OPTIONAL MATCH (u2)-[:LOCATED_IN]->(d:District)
-        WITH o, c, collect(DISTINCT d)[0..5] AS districts, propCount
-        RETURN o, c, districts, propCount
-        LIMIT 150
-    """)
+        WITH o, propCount, collect(DISTINCT c) AS chains, collect(DISTINCT d) AS districts
+        RETURN o, chains, districts, propCount
+        ORDER BY propCount DESC
+    """, min_units=min_units, limit=limit)
 
     nodes = {}
     links = []
+    link_keys = set()
 
     def add_node(nid, label, ntype, count=None, operator_id=None):
         if nid not in nodes:
@@ -253,9 +292,15 @@ def graph():
             if operator_id is not None:
                 nodes[nid]["operator_id"] = operator_id
 
+    def add_link(source, target, rel_type):
+        key = (source, target, rel_type)
+        if key not in link_keys:
+            link_keys.add(key)
+            links.append({"source": source, "target": target, "type": rel_type})
+
     for row in records:
         o = row["o"]
-        c = row["c"]
+        chains = row["chains"]
         districts = row["districts"]
         prop_count = row["propCount"]
 
@@ -263,18 +308,30 @@ def graph():
         add_node(o_id, o.get("name", "Unknown"), "operator", prop_count,
                  operator_id=o.get("id"))
 
-        if c is not None:
-            c_id = f"chain_{c.element_id}"
-            add_node(c_id, c.get("name", "Unknown"), "chain")
-            links.append({"source": o_id, "target": c_id, "type": "AFFILIATED_WITH"})
+        for c in chains:
+            if c is not None:
+                c_id = f"chain_{c.element_id}"
+                add_node(c_id, c.get("name", "Unknown"), "chain")
+                add_link(o_id, c_id, "AFFILIATED_WITH")
 
         for d in districts:
             if d is not None:
                 d_id = f"dist_{d.element_id}"
                 add_node(d_id, d.get("name", "Unknown"), "district")
-                links.append({"source": o_id, "target": d_id, "type": "LOCATED_IN"})
+                add_link(o_id, d_id, "LOCATED_IN")
 
-    return jsonify({"nodes": list(nodes.values()), "links": links})
+    operator_count = sum(1 for node in nodes.values() if node["type"] == "operator")
+    return jsonify({
+        "nodes": list(nodes.values()),
+        "links": links,
+        "meta": {
+            "operator_count": operator_count,
+            "node_count": len(nodes),
+            "link_count": len(links),
+            "min_units": min_units,
+            "limit": limit,
+        },
+    })
 
 
 @app.route("/api/chain-map")
