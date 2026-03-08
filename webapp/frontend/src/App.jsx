@@ -39,18 +39,41 @@ function SizeObserver({ children }) {
 
 function GraphTab({ selected, onForceGraphSelect }) {
   return (
-    <motion.div {...fadeVariant} className="grid grid-cols-1 xl:grid-cols-2 gap-5">
-      <Panel title="Operator Network — click a node to explore units operated">
-        <SizeObserver>
-          {(w, h) => (
-            <ForceGraph width={w} height={h} onOperatorClick={(name) => onForceGraphSelect(name, 'operator')} />
-          )}
-        </SizeObserver>
-      </Panel>
+    <motion.div {...fadeVariant} className="flex flex-col gap-5">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
+        <Panel title="Operator Network — click a node to explore units operated">
+          <SizeObserver>
+            {(w, h) => (
+              <ForceGraph width={w} height={h} onOperatorClick={(op) => onForceGraphSelect(op.name, 'operator', op.id)} />
+            )}
+          </SizeObserver>
+        </Panel>
 
-      <Panel title="Units operated by selected operator">
-        <OperatorMap operatorName={selected?.name} operatorType={selected?.type} />
-      </Panel>
+        <Panel title="Units operated by selected operator">
+          <OperatorMap operatorName={selected?.name} operatorId={selected?.operatorId} operatorType={selected?.type} />
+        </Panel>
+      </div>
+
+      <motion.div
+        className="glass p-5 flex flex-col gap-3"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+      >
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-white/50">
+          About this data
+        </h2>
+        <p className="text-xs text-white/40 leading-relaxed">
+          The Airbnb operator data shown here is derived from an Inside Airbnb snapshot taken in September 2025.
+          Because Airbnb hosts can rename their profiles, transfer listings between accounts, or delist units at any time,
+          the operator names and listing counts displayed may no longer match what is currently shown on Airbnb.
+          For example, a host listed as "Daniel" in our data may now appear under a different name on the platform,
+          or may have fewer listings than recorded at the time of the snapshot.
+          Operators are linked by their unique Airbnb host ID rather than by name,
+          so units belonging to the same host are correctly grouped even when names appear inconsistent.
+          Data from other sources (data.gv.at, OpenStreetMap, Wikidata) may similarly reflect the state at the time of collection.
+        </p>
+      </motion.div>
     </motion.div>
   )
 }
@@ -59,7 +82,7 @@ function AnalyticsTab({ onNavigate }) {
   return (
     <motion.div {...fadeVariant} className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
       <Panel title="Top 20 Operators by accommodation units" className="xl:col-span-2">
-        <TopOperators onSelect={(name) => onNavigate(name, 'operator')} />
+        <TopOperators onSelect={(op) => onNavigate(op.name, 'operator', op.id)} />
       </Panel>
       <Panel title="Chain-affiliated establishments">
         <ChainBar onSelect={(name) => onNavigate(name, 'chain')} />
@@ -91,8 +114,8 @@ export default function App() {
   const [tab, setTab] = useState('graph')
   const [selected, setSelected] = useState(null) // { name, type: 'operator'|'chain' }
 
-  function navigateToGraph(name, type) {
-    setSelected({ name, type })
+  function navigateToGraph(name, type, operatorId) {
+    setSelected({ name, type, operatorId })
     setTab('graph')
   }
 
@@ -117,7 +140,7 @@ export default function App() {
             <GraphTab
               key="graph"
               selected={selected}
-              onForceGraphSelect={(name, type) => setSelected({ name, type })}
+              onForceGraphSelect={(name, type, operatorId) => setSelected({ name, type, operatorId })}
             />
           )}
           {tab === 'analytics' && (

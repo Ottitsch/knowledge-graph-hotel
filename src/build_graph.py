@@ -56,10 +56,22 @@ def slugify(s: str) -> str:
     return s.strip("_") or "unknown"
 
 
+def _clean_host_id(raw) -> str:
+    """Convert host_id to clean integer string (handles float like 175131.0)."""
+    s = str(raw).strip()
+    if not s or s in ("", "nan", "None", "0"):
+        return ""
+    # Strip trailing ".0" from float representation
+    if s.endswith(".0"):
+        s = s[:-2]
+    return s
+
+
 def _operator_id(op_name: str, host_id: str, source: str) -> str:
     """Generate a stable operator ID. Only use host_id for Airbnb sources."""
-    if source == "airbnb" and host_id and host_id not in ("", "nan", "None"):
-        return f"airbnb:{host_id}"
+    hid = _clean_host_id(host_id)
+    if source == "airbnb" and hid:
+        return f"airbnb:{hid}"
     return f"name:{slugify(op_name)}"
 
 
@@ -85,6 +97,9 @@ def build_neo4j(df: pd.DataFrame, wikidata: list):
         return
 
     with driver.session() as session:
+        # Wipe existing data to avoid duplicates on re-runs
+        print("  Clearing existing graph data ...")
+        session.run("MATCH (n) DETACH DELETE n")
         _create_constraints(session)
         _ingest_sources(session)
         _ingest_districts(session, df)
@@ -142,6 +157,7 @@ def _ingest_units(session, df: pd.DataFrame):
         SET u.name = $name,
             u.address = $address,
             u.unit_type = $unit_type,
+            u.unit_type_normalized = $unit_type_normalized,
             u.granularity = $granularity,
             u.lat = $lat,
             u.lon = $lon,
@@ -157,6 +173,7 @@ def _ingest_units(session, df: pd.DataFrame):
             name=name,
             address=str(row.get("address", "")),
             unit_type=str(row.get("unit_type", row.get("property_type", ""))),
+            unit_type_normalized=str(row.get("unit_type_normalized", "other")),
             granularity=str(row.get("granularity", "")),
             lat=float(row["lat"]) if pd.notna(row.get("lat")) else None,
             lon=float(row["lon"]) if pd.notna(row.get("lon")) else None,
@@ -196,19 +213,21 @@ def _ingest_operators(session, df: pd.DataFrame):
         if not op_name:
             continue
         unit_id = str(row.get("canonical_id", "")) or slugify(f"{row.get('name','')}_{row.get('raw_id','')}")
-        host_id = str(row.get("host_id", ""))
+        host_id = _clean_host_id(row.get("host_id", ""))
         source = str(row.get("source_names", row.get("source", "")))
         op_id = _operator_id(op_name, host_id, source)
         listings = int(row["host_listings_count"]) if pd.notna(row.get("host_listings_count")) else None
+        op_type = str(row.get("operator_type", "individual"))
         session.run("""
         MERGE (o:Operator {id: $op_id})
         SET o.name = $name,
             o.airbnb_host_id = $host_id,
-            o.observed_unit_count = $listings
+            o.observed_unit_count = $listings,
+            o.operator_type = $op_type
         WITH o
         MATCH (u:AccommodationUnit {id: $uid})
         MERGE (u)-[:OPERATED_BY]->(o)
-        """, op_id=op_id, name=op_name, host_id=host_id, listings=listings, uid=unit_id)
+        """, op_id=op_id, name=op_name, host_id=host_id, listings=listings, uid=unit_id, op_type=op_type)
 
 
 def _ingest_chains(session, df: pd.DataFrame, wikidata: list):
@@ -306,6 +325,9 @@ def build_rdf(df: pd.DataFrame, wikidata: list) -> Graph:
         unit_type = str(row.get("unit_type", row.get("property_type", ""))).strip()
         if unit_type:
             g.add((unit_uri, VAOK.unitType, Literal(unit_type)))
+        unit_type_norm = str(row.get("unit_type_normalized", "")).strip()
+        if unit_type_norm:
+            g.add((unit_uri, VAOK.unitTypeNormalized, Literal(unit_type_norm)))
 
         granularity = str(row.get("granularity", "")).strip()
         if granularity:
@@ -333,13 +355,16 @@ def build_rdf(df: pd.DataFrame, wikidata: list) -> Graph:
         # Operator
         op_name = str(row.get("operator_name", "")).strip()
         if op_name:
-            host_id = str(row.get("host_id", ""))
+            host_id = _clean_host_id(row.get("host_id", ""))
             source = str(row.get("source_names", row.get("source", "")))
             op_id = _operator_id(op_name, host_id, source)
             op_uri = VAOK[f"operator/{slugify(op_id)}"]
             if op_uri not in operators_seen:
                 g.add((op_uri, RDF.type, VAOK.Operator))
                 g.add((op_uri, RDFS.label, Literal(op_name)))
+                op_type = str(row.get("operator_type", "individual")).strip()
+                if op_type:
+                    g.add((op_uri, VAOK.operatorType, Literal(op_type)))
                 operators_seen.add(op_uri)
             g.add((unit_uri, VAOK.operatedBy, op_uri))
 

@@ -39,7 +39,7 @@ export default function ForceGraph({ width = 500, height = 400, onOperatorClick 
   const handleNodeClick = useCallback((node) => {
     if (node.type === 'operator') {
       setSelectedId(node.id)
-      onOperatorClick?.(node.label)
+      onOperatorClick?.({ name: node.label, id: node.operator_id })
     }
   }, [onOperatorClick])
 

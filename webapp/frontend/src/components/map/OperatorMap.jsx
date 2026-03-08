@@ -12,7 +12,7 @@ function buildPopup(pt) {
   return `<div style="font-family:Inter,sans-serif;min-width:160px;">${img}<b style="font-size:13px;">${name}</b><br><span style="font-size:11px;color:#64748b;">${pt.type}</span>${granularity}${link ? '<br>' + link : ''}</div>`
 }
 
-export default function OperatorMap({ operatorName, operatorType = 'operator' }) {
+export default function OperatorMap({ operatorName, operatorId, operatorType = 'operator' }) {
   const containerRef = useRef()
   const mapRef = useRef()
   const layerRef = useRef()
@@ -47,7 +47,10 @@ export default function OperatorMap({ operatorName, operatorType = 'operator' })
     setTimeout(() => mapRef.current?.invalidateSize(), 50)
 
     const endpoint = operatorType === 'chain' ? '/api/chain-map' : '/api/operator-map'
-    fetch(`${endpoint}?name=${encodeURIComponent(operatorName)}`)
+    const query = operatorType !== 'chain' && operatorId
+      ? `id=${encodeURIComponent(operatorId)}`
+      : `name=${encodeURIComponent(operatorName)}`
+    fetch(`${endpoint}?${query}`)
       .then((r) => r.json())
       .then((data) => {
         if (!mapRef.current) return
@@ -78,7 +81,7 @@ export default function OperatorMap({ operatorName, operatorType = 'operator' })
         }
       })
       .catch(console.error)
-  }, [operatorName])
+  }, [operatorName, operatorId])
 
   return (
     <div className="w-full flex flex-col gap-2">

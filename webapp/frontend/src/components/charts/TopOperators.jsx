@@ -26,7 +26,7 @@ export default function TopOperators({ onSelect }) {
           labelStyle={{ color: '#f8fafc', fontWeight: 600 }}
           itemStyle={{ color: TEAL }}
         />
-        <Bar dataKey="count" radius={[0, 6, 6, 0]} style={{ cursor: 'pointer' }} onClick={(d) => onSelect?.(d.operator)}>
+        <Bar dataKey="count" radius={[0, 6, 6, 0]} style={{ cursor: 'pointer' }} onClick={(d) => onSelect?.({ name: d.operator, id: d.id })}>
           {data?.map((_, i) => (
             <Cell key={i} fill={`rgba(45,212,191,${0.9 - i * 0.03})`} />
           ))}

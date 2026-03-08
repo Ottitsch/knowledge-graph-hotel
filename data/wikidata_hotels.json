@@ -1582,20 +1582,6 @@
     "coord": "Point(16.37531 48.20171)"
   },
   {
-    "hotel_uri": "http://www.wikidata.org/entity/Q116297737",
-    "hotel_name": "Hotel Ambassador",
-    "operator_uri": "",
-    "operator_name": "",
-    "owner_uri": "",
-    "owner_name": "",
-    "parent_org_uri": "",
-    "parent_org_name": "",
-    "brand_uri": "",
-    "brand_name": "",
-    "website": "",
-    "coord": "Point(16.370935 48.20576)"
-  },
-  {
     "hotel_uri": "http://www.wikidata.org/entity/Q111410530",
     "hotel_name": "Hotel Ambassador",
     "operator_uri": "",
@@ -1608,6 +1594,20 @@
     "brand_name": "",
     "website": "",
     "coord": "Point(16.37085 48.2059)"
+  },
+  {
+    "hotel_uri": "http://www.wikidata.org/entity/Q116297737",
+    "hotel_name": "Hotel Ambassador",
+    "operator_uri": "",
+    "operator_name": "",
+    "owner_uri": "",
+    "owner_name": "",
+    "parent_org_uri": "",
+    "parent_org_name": "",
+    "brand_uri": "",
+    "brand_name": "",
+    "website": "",
+    "coord": "Point(16.370935 48.20576)"
   },
   {
     "hotel_uri": "http://www.wikidata.org/entity/Q112015324",

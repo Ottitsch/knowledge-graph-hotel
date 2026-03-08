@@ -46,7 +46,8 @@ def index():
 def top_operators():
     records = run_query("""
         MATCH (u:AccommodationUnit)-[:OPERATED_BY]->(o:Operator)
-        RETURN o.name AS operator, count(u) AS count
+        RETURN o.id AS id, o.name AS operator, count(u) AS count,
+               o.operator_type AS operator_type
         ORDER BY count DESC
         LIMIT 20
     """)
@@ -55,17 +56,31 @@ def top_operators():
 
 @app.route("/api/operator-units")
 def operator_units():
-    """All accommodation units for a given operator (main question endpoint)."""
+    """All accommodation units for a given operator (main question endpoint).
+    Accepts ?id= (operator ID, preferred) or ?name= (fallback, may match multiple operators).
+    """
+    op_id = request.args.get("id", "")
     name = request.args.get("name", "")
-    if not name:
-        return jsonify([])
-    records = run_query("""
-        MATCH (u:AccommodationUnit)-[:OPERATED_BY]->(o:Operator {name: $name})
-        RETURN u.name AS unit, u.address AS address, u.unit_type AS type,
-               u.granularity AS granularity, u.district AS district,
-               u.lat AS lat, u.lon AS lon, u.source_names AS sources
-        ORDER BY u.name
-    """, name=name)
+    if op_id:
+        records = run_query("""
+            MATCH (u:AccommodationUnit)-[:OPERATED_BY]->(o:Operator {id: $id})
+            RETURN u.name AS unit, u.address AS address, u.unit_type AS type,
+                   u.unit_type_normalized AS type_normalized,
+                   u.granularity AS granularity, u.district AS district,
+                   u.lat AS lat, u.lon AS lon, u.source_names AS sources
+            ORDER BY u.name
+        """, id=op_id)
+    elif name:
+        records = run_query("""
+            MATCH (u:AccommodationUnit)-[:OPERATED_BY]->(o:Operator {name: $name})
+            RETURN u.name AS unit, u.address AS address, u.unit_type AS type,
+                   u.unit_type_normalized AS type_normalized,
+                   u.granularity AS granularity, u.district AS district,
+                   u.lat AS lat, u.lon AS lon, u.source_names AS sources
+            ORDER BY u.name
+        """, name=name)
+    else:
+        records = []
     return jsonify(records)
 
 
@@ -95,15 +110,18 @@ def districts():
 
 @app.route("/api/corporate-vs-individual")
 def corporate_vs_individual():
+    """Professional vs individual operators by district.
+    Uses the operator_type flag set during pipeline (based on host_listings_count
+    for Airbnb and chain affiliation for other sources).
+    """
     records = run_query("""
         MATCH (u:AccommodationUnit)-[:OPERATED_BY]->(o:Operator)
         MATCH (u)-[:LOCATED_IN]->(d:District)
-        WITH d, o, count(u) AS unit_count
         WITH d,
-             sum(CASE WHEN unit_count > 3 THEN unit_count ELSE 0 END) AS professional,
-             sum(CASE WHEN unit_count <= 3 THEN unit_count ELSE 0 END) AS individual
-        RETURN d.name AS district, professional, individual
-        ORDER BY (professional + individual) DESC
+             sum(CASE WHEN o.operator_type = 'professional' THEN 1 ELSE 0 END) AS corporate,
+             sum(CASE WHEN o.operator_type <> 'professional' THEN 1 ELSE 0 END) AS individual
+        RETURN d.name AS district, corporate, individual
+        ORDER BY (corporate + individual) DESC
     """)
     return jsonify(records)
 
@@ -114,8 +132,8 @@ def corporate_vs_individual():
 def property_types():
     records = run_query("""
         MATCH (u:AccommodationUnit)
-        WHERE u.unit_type IS NOT NULL AND u.unit_type <> ''
-        RETURN u.unit_type AS type, count(u) AS count
+        WHERE u.unit_type_normalized IS NOT NULL AND u.unit_type_normalized <> ''
+        RETURN u.unit_type_normalized AS type, count(u) AS count
         ORDER BY count DESC
     """)
     return jsonify(records)
@@ -228,11 +246,13 @@ def graph():
     nodes = {}
     links = []
 
-    def add_node(nid, label, ntype, count=None):
+    def add_node(nid, label, ntype, count=None, operator_id=None):
         if nid not in nodes:
             nodes[nid] = {"id": nid, "label": label, "type": ntype}
             if count is not None:
                 nodes[nid]["count"] = count
+            if operator_id is not None:
+                nodes[nid]["operator_id"] = operator_id
 
     for row in records:
         o = row["o"]
@@ -241,7 +261,8 @@ def graph():
         prop_count = row["propCount"]
 
         o_id = f"op_{o.element_id}"
-        add_node(o_id, o.get("name", "Unknown"), "operator", prop_count)
+        add_node(o_id, o.get("name", "Unknown"), "operator", prop_count,
+                 operator_id=o.get("id"))
 
         if c is not None:
             c_id = f"chain_{c.element_id}"
@@ -275,17 +296,28 @@ def chain_map():
 
 @app.route("/api/operator-map")
 def operator_map():
+    op_id = request.args.get("id", "")
     name = request.args.get("name", "")
-    if not name:
-        return jsonify([])
-    records = run_query("""
-        MATCH (u:AccommodationUnit)-[:OPERATED_BY]->(o:Operator {name: $name})
-        WHERE u.lat IS NOT NULL AND u.lon IS NOT NULL
-        RETURN u.name AS name, u.lat AS lat, u.lon AS lon,
-               coalesce(u.unit_type, 'unknown') AS type,
-               u.website AS website, u.picture_url AS picture_url,
-               u.granularity AS granularity
-    """, name=name)
+    if op_id:
+        records = run_query("""
+            MATCH (u:AccommodationUnit)-[:OPERATED_BY]->(o:Operator {id: $id})
+            WHERE u.lat IS NOT NULL AND u.lon IS NOT NULL
+            RETURN u.name AS name, u.lat AS lat, u.lon AS lon,
+                   coalesce(u.unit_type_normalized, u.unit_type, 'unknown') AS type,
+                   u.website AS website, u.picture_url AS picture_url,
+                   u.granularity AS granularity
+        """, id=op_id)
+    elif name:
+        records = run_query("""
+            MATCH (u:AccommodationUnit)-[:OPERATED_BY]->(o:Operator {name: $name})
+            WHERE u.lat IS NOT NULL AND u.lon IS NOT NULL
+            RETURN u.name AS name, u.lat AS lat, u.lon AS lon,
+                   coalesce(u.unit_type_normalized, u.unit_type, 'unknown') AS type,
+                   u.website AS website, u.picture_url AS picture_url,
+                   u.granularity AS granularity
+        """, name=name)
+    else:
+        records = []
     return jsonify(records)
 
 

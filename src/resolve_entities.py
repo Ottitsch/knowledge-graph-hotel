@@ -96,6 +96,76 @@ DISTRICT_NUMBER_TO_NAME = {
     "23": "Liesing",
 }
 
+# Accommodation type normalization → canonical category
+# Keys are lowercase; lookup should lowercase the input first.
+UNIT_TYPE_MAP = {
+    # Airbnb property types
+    "entire rental unit": "apartment",
+    "private room in rental unit": "apartment",
+    "shared room in rental unit": "apartment",
+    "entire condo": "apartment",
+    "private room in condo": "apartment",
+    "shared room in condo": "apartment",
+    "entire serviced apartment": "apartment",
+    "private room in serviced apartment": "apartment",
+    "room in serviced apartment": "apartment",
+    "room in aparthotel": "apartment",
+    "entire loft": "apartment",
+    "private room in loft": "apartment",
+    "shared room in loft": "apartment",
+    "room in hotel": "hotel",
+    "room in boutique hotel": "hotel",
+    "shared room in hotel": "hotel",
+    "entire home": "house",
+    "private room in home": "house",
+    "entire vacation home": "house",
+    "entire villa": "house",
+    "private room in villa": "house",
+    "entire townhouse": "house",
+    "private room in townhouse": "house",
+    "entire cottage": "house",
+    "entire bungalow": "house",
+    "entire chalet": "house",
+    "tiny home": "house",
+    "entire guesthouse": "guest_house",
+    "private room in guesthouse": "guest_house",
+    "entire guest suite": "guest_house",
+    "private room in guest suite": "guest_house",
+    "private room in bed and breakfast": "guest_house",
+    "shared room in bed and breakfast": "guest_house",
+    "private room in pension": "pension",
+    "private room in hostel": "hostel",
+    "shared room in hostel": "hostel",
+    "private room": "other",
+    "entire place": "other",
+    "casa particular": "other",
+    "private room in casa particular": "other",
+    "barn": "other",
+    "private room in barn": "other",
+    "private room in earthen home": "other",
+    "private room in cave": "other",
+    "private room in nature lodge": "other",
+    "private room in camper/rv": "other",
+    "private room in castle": "other",
+    "private room in cycladic house": "other",
+    # OSM types
+    "hotel": "hotel",
+    "apartment": "apartment",
+    "guest_house": "guest_house",
+    "hostel": "hostel",
+    "motel": "motel",
+    "chalet": "house",
+    "alpine_hut": "house",
+    # data.gv.at types (German)
+    "pension": "pension",
+    "appartement": "apartment",
+    "saisonhotel": "hotel",
+}
+
+# Threshold: operators with more than this many listings are "professional"
+PROFESSIONAL_THRESHOLD = 3
+
+
 # District name corrections for encoding problems from Airbnb data
 DISTRICT_FIXES = {
     "landstra\u00a7e": "Landstraße",
@@ -201,6 +271,13 @@ def detect_chain(name: str, operator: str = "") -> str:
         if keyword in combined:
             return chain
     return ""
+
+
+def normalize_unit_type(raw: str) -> str:
+    """Map raw accommodation/property type to a canonical category."""
+    if not isinstance(raw, str) or not raw.strip():
+        return "other"
+    return UNIT_TYPE_MAP.get(raw.strip().lower(), "other")
 
 
 # ──────────────────────────────────────────────────────────────
@@ -378,12 +455,80 @@ def load_airbnb() -> pd.DataFrame:
     if "district" in df.columns:
         df["district"] = df["district"].fillna("").astype(str).apply(normalize_district)
 
+    # Convert host_id to clean integer string (pandas reads as float: 175131.0 → "175131")
+    if "host_id" in df.columns:
+        df["host_id"] = (
+            pd.to_numeric(df["host_id"], errors="coerce")
+            .fillna(0)
+            .astype(int)
+            .astype(str)
+            .replace("0", "")
+        )
+
+    # Extract brand/company name from listing names for professional hosts.
+    # Many hosts use a personal first name (e.g. "Markus") but their listings
+    # all start with a company brand (e.g. "Vienna Residence, ...").
+    df = _extract_brand_operator(df)
+
     keep = LISTING_COLS
     for col in keep:
         if col not in df.columns:
             df[col] = ""
     df["raw_id"] = df["raw_id"].astype(str).apply(lambda x: f"airbnb:{x}")
     return df[keep].copy()
+
+
+def _extract_brand_operator(df: pd.DataFrame) -> pd.DataFrame:
+    """Override operator_name with brand extracted from listing names.
+
+    For hosts with >PROFESSIONAL_THRESHOLD listings, check if a common prefix
+    appears in >50% of their listing names (before first comma/pipe/colon).
+    If so, and the prefix differs from the host_name, use it as operator_name.
+    """
+    from collections import Counter
+
+    host_groups = df.groupby("host_id")
+    brand_map = {}  # host_id → brand name
+
+    for hid, group in host_groups:
+        if len(group) <= PROFESSIONAL_THRESHOLD:
+            continue
+        names = group["name"].dropna().tolist()
+        if not names:
+            continue
+
+        # Extract prefix before first separator (comma, pipe, colon, #)
+        prefixes = []
+        for n in names:
+            for sep in [",", "|", ":", "#"]:
+                if sep in n:
+                    prefix = n.split(sep)[0].strip()
+                    if len(prefix) >= 3:
+                        prefixes.append(prefix)
+                    break
+
+        if not prefixes:
+            continue
+
+        most_common_prefix, count = Counter(prefixes).most_common(1)[0]
+        ratio = count / len(names)
+
+        # Only override if prefix appears in >50% of listings and
+        # isn't just the host_name repeated
+        host_name = group["operator_name"].iloc[0] if "operator_name" in group.columns else ""
+        if ratio > 0.5 and normalize_name(most_common_prefix) != normalize_name(str(host_name)):
+            brand_map[hid] = most_common_prefix
+
+    if brand_map:
+        print(f"  Extracted brand names for {len(brand_map)} Airbnb hosts:")
+        for hid, brand in list(brand_map.items())[:10]:
+            old = df.loc[df["host_id"] == hid, "operator_name"].iloc[0]
+            print(f"    {old} -> {brand}")
+        df.loc[df["host_id"].isin(brand_map), "operator_name"] = (
+            df.loc[df["host_id"].isin(brand_map), "host_id"].map(brand_map)
+        )
+
+    return df
 
 
 # ──────────────────────────────────────────────────────────────
@@ -631,12 +776,32 @@ def main():
     # Add operator_name_normalized
     unified["operator_name_normalized"] = unified["operator_name"].apply(normalize_name)
 
+    # Normalize accommodation types
+    unified["unit_type_normalized"] = unified["unit_type"].apply(normalize_unit_type)
+    print(f"\n  Accommodation type distribution (normalized):")
+    for t, cnt in unified["unit_type_normalized"].value_counts().items():
+        print(f"    {t}: {cnt}")
+
+    # Classify operators as professional or individual
+    # For Airbnb: use host_listings_count (total across all markets)
+    # For non-Airbnb: use chain affiliation or count of units in our data
+    unified["operator_type"] = "individual"
+    airbnb_mask = unified["source_names"] == "airbnb"
+    high_count = pd.to_numeric(unified["host_listings_count"], errors="coerce").fillna(0) > PROFESSIONAL_THRESHOLD
+    unified.loc[airbnb_mask & high_count, "operator_type"] = "professional"
+
     # Detect chain membership
     unified["hotel_chain"] = unified.apply(
         lambda r: detect_chain(r.get("name", ""), r.get("operator_name", "")), axis=1
     )
+    # Chain-affiliated establishments are always professional
+    unified.loc[unified["hotel_chain"] != "", "operator_type"] = "professional"
+
     chain_count = (unified["hotel_chain"] != "").sum()
     print(f"  Chain membership detected for {chain_count} units")
+    prof = (unified["operator_type"] == "professional").sum()
+    indiv = (unified["operator_type"] == "individual").sum()
+    print(f"  Operator classification: {prof} professional, {indiv} individual")
 
     # Summary
     print(f"\nTotal unified records: {len(unified)}")
