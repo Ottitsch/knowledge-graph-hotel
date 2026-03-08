@@ -51,7 +51,8 @@ def main():
         steps.append(("download_airbnb.py", "Download Inside Airbnb Vienna listings"))
 
     steps += [
-        ("resolve_entities.py", "Entity resolution — merge sources, add granularity & provenance"),
+        ("resolve_entities.py",
+         "Entity resolution — merge establishments, link Airbnb listings, normalize districts"),
         ("build_graph.py", "Build Knowledge Graph (Neo4j + RDF Turtle)"),
     ]
 
