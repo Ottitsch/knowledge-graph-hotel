@@ -12,6 +12,7 @@ export default function ForceGraph({ width = 500, height = 400, onOperatorClick 
   const { data, isLoading, error } = useApi('/api/graph')
   const fgRef = useRef()
   const [selectedId, setSelectedId] = useState(null)
+  const [hoveredNode, setHoveredNode] = useState(null)
 
   const nodeCanvasObject = useCallback((node, ctx, globalScale) => {
     const color = NODE_COLORS[node.type] ?? '#888'
@@ -42,11 +43,15 @@ export default function ForceGraph({ width = 500, height = 400, onOperatorClick 
     }
   }, [onOperatorClick])
 
+  const handleNodeHover = useCallback((node) => {
+    setHoveredNode(node ?? null)
+  }, [])
+
   if (isLoading) return <div className="text-white/40 text-sm p-4">Loading graph…</div>
   if (error) return <div className="text-red-400 text-sm p-4">Error loading graph data</div>
 
   return (
-    <div className="w-full h-full overflow-hidden rounded-xl">
+    <div className="w-full h-full overflow-hidden rounded-xl relative">
       <ForceGraph2D
         ref={fgRef}
         graphData={data ?? { nodes: [], links: [] }}
@@ -60,9 +65,40 @@ export default function ForceGraph({ width = 500, height = 400, onOperatorClick 
         enableNodeDrag={true}
         enableZoomInteraction={true}
         cooldownTicks={120}
-        nodeLabel={(n) => `${n.label} (${n.type}${n.count ? ` · ${n.count} props` : ''})`}
+        nodeLabel={() => ''}
         onNodeClick={handleNodeClick}
+        onNodeHover={handleNodeHover}
       />
+
+      {/* Hover info box */}
+      {hoveredNode && (
+        <div
+          className="absolute top-3 left-3 pointer-events-none rounded-xl px-3 py-2 text-xs"
+          style={{
+            background: 'rgba(15,17,23,0.88)',
+            border: '1px solid rgba(255,255,255,0.12)',
+            backdropFilter: 'blur(8px)',
+            maxWidth: 220,
+          }}
+        >
+          <div className="font-semibold text-white/90 truncate">{hoveredNode.label}</div>
+          <div className="flex gap-2 mt-0.5 text-white/50">
+            <span
+              className="font-medium"
+              style={{ color: NODE_COLORS[hoveredNode.type] ?? '#888' }}
+            >
+              {hoveredNode.type}
+            </span>
+            {hoveredNode.count != null && (
+              <span>· {hoveredNode.count} unit{hoveredNode.count !== 1 ? 's' : ''}</span>
+            )}
+          </div>
+          {hoveredNode.type === 'operator' && (
+            <div className="mt-1 text-white/30 text-[10px]">click to explore</div>
+          )}
+        </div>
+      )}
+
       <div className="flex gap-4 mt-2 px-2 items-center">
         {Object.entries(NODE_COLORS).map(([type, color]) => (
           <span key={type} className="flex items-center gap-1.5 text-xs text-white/60">

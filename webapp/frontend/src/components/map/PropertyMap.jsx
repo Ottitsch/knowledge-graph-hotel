@@ -103,10 +103,12 @@ function makeIcon(color, size = 8) {
 }
 
 function buildPopup(pt) {
-  const name = pt.name ?? 'Property'
+  const name = pt.name ?? 'Accommodation Unit'
   const img = pt.picture_url ? `<img src="${pt.picture_url}" alt="" style="width:100%;height:120px;object-fit:cover;border-radius:6px;margin-bottom:6px;display:block;">` : ''
   const link = pt.website ? `<a href="${pt.website}" target="_blank" rel="noopener noreferrer" style="color:#2dd4bf;font-size:11px;">View listing ↗</a>` : ''
-  return `<div style="font-family:Inter,sans-serif;min-width:160px;">${img}<b style="font-size:13px;">${name}</b><br><span style="font-size:11px;color:#64748b;">${pt.type}</span>${link ? '<br>' + link : ''}</div>`
+  const granularity = pt.granularity ? `<span style="font-size:10px;color:#94a3b8;margin-left:4px;">(${pt.granularity})</span>` : ''
+  const sources = pt.sources ? `<div style="font-size:10px;color:#64748b;margin-top:3px;">Sources: ${pt.sources}</div>` : ''
+  return `<div style="font-family:Inter,sans-serif;min-width:160px;">${img}<b style="font-size:13px;">${name}</b><br><span style="font-size:11px;color:#64748b;">${pt.type}</span>${granularity}${sources}${link ? '<br>' + link : ''}</div>`
 }
 
 export default function PropertyMap() {
@@ -268,7 +270,7 @@ export default function PropertyMap() {
               </button>
             </div>
           ) : (
-            <span className="text-xs text-white/30">Click any listing to explore its operator network</span>
+            <span className="text-xs text-white/30">Click any accommodation unit to explore its operator network</span>
           )}
           {loading && <span className="text-xs text-white/40 ml-3">Loading…</span>}
         </div>

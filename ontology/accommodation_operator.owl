@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+  <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+  <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+  <!ENTITY vaok "http://example.org/vienna-accommodation-operator-kg/" >
+]>
+
+<rdf:RDF xmlns="http://example.org/vienna-accommodation-operator-kg/"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:schema="http://schema.org/"
+     xml:base="http://example.org/vienna-accommodation-operator-kg/">
+
+  <!-- Ontology declaration -->
+  <owl:Ontology rdf:about="http://example.org/vienna-accommodation-operator-kg/ontology">
+    <rdfs:label>Vienna Accommodation Operator Knowledge Graph Ontology</rdfs:label>
+    <rdfs:comment>
+      OWL ontology for studying which accommodation units in Vienna are operated
+      by the same person or organization. Data sources: Inside Airbnb (listing-level),
+      OpenStreetMap, Wikidata, and the official Vienna accommodation registry (data.gv.at)
+      (establishment-level). Legal ownership is out of scope.
+    </rdfs:comment>
+    <owl:versionInfo>2.0</owl:versionInfo>
+  </owl:Ontology>
+
+  <!-- ============================================================
+       CLASSES
+       ============================================================ -->
+
+  <owl:Class rdf:about="&vaok;AccommodationUnit">
+    <rdfs:label>Accommodation Unit</rdfs:label>
+    <rdfs:comment>
+      A hotel, apartment, hostel, or other accommodation observed in one or more
+      public data sources. May be a listing-level record (Airbnb) or an
+      establishment-level record (OSM, Wikidata, data.gv.at).
+    </rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://schema.org/LodgingBusiness"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&vaok;Operator">
+    <rdfs:label>Operator</rdfs:label>
+    <rdfs:comment>
+      The individual or organization who manages and operates the accommodation.
+      For Airbnb this is the host; for hotels it is the named operator from OSM
+      or Wikidata. May or may not be the legal property owner.
+    </rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://schema.org/Organization"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&vaok;HotelChain">
+    <rdfs:label>Hotel Chain</rdfs:label>
+    <rdfs:comment>
+      A hotel brand or group (e.g. Marriott, AccorHotels, Vienna House) that
+      operators may be affiliated with.
+    </rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://schema.org/Organization"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&vaok;District">
+    <rdfs:label>District</rdfs:label>
+    <rdfs:comment>A Vienna administrative district (Bezirk), 1st through 23rd.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://schema.org/AdministrativeArea"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&vaok;Source">
+    <rdfs:label>Source</rdfs:label>
+    <rdfs:comment>
+      A public data source in which an accommodation unit was observed.
+      Core sources: InsideAirbnb, OpenStreetMap, Wikidata, data.gv.at.
+    </rdfs:comment>
+  </owl:Class>
+
+  <!-- ============================================================
+       OBJECT PROPERTIES
+       ============================================================ -->
+
+  <owl:ObjectProperty rdf:about="&vaok;operatedBy">
+    <rdfs:label>operated by</rdfs:label>
+    <rdfs:comment>An accommodation unit is operated/managed by an operator.</rdfs:comment>
+    <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
+    <rdfs:range rdf:resource="&vaok;Operator"/>
+    <owl:inverseOf rdf:resource="&vaok;operates"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&vaok;operates">
+    <rdfs:label>operates</rdfs:label>
+    <rdfs:domain rdf:resource="&vaok;Operator"/>
+    <rdfs:range rdf:resource="&vaok;AccommodationUnit"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&vaok;locatedIn">
+    <rdfs:label>located in</rdfs:label>
+    <rdfs:comment>An accommodation unit is located in a Vienna district.</rdfs:comment>
+    <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
+    <rdfs:range rdf:resource="&vaok;District"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&vaok;affiliatedWith">
+    <rdfs:label>affiliated with</rdfs:label>
+    <rdfs:comment>
+      An operator is affiliated with a hotel chain or brand based on observable
+      public data (OSM tags, Wikidata parent organization). This does not imply
+      strict legal ownership.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="&vaok;Operator"/>
+    <rdfs:range rdf:resource="&vaok;HotelChain"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&vaok;observedIn">
+    <rdfs:label>observed in</rdfs:label>
+    <rdfs:comment>An accommodation unit was observed/recorded in a public data source.</rdfs:comment>
+    <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
+    <rdfs:range rdf:resource="&vaok;Source"/>
+  </owl:ObjectProperty>
+
+  <!-- ============================================================
+       DATATYPE PROPERTIES
+       ============================================================ -->
+
+  <owl:DatatypeProperty rdf:about="&vaok;unitType">
+    <rdfs:label>unit type</rdfs:label>
+    <rdfs:comment>Type of accommodation (hotel, hostel, apartment, guest_house, etc.).</rdfs:comment>
+    <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
+    <rdfs:range rdf:resource="&xsd;string"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&vaok;granularity">
+    <rdfs:label>granularity</rdfs:label>
+    <rdfs:comment>
+      Data granularity level: 'listing' for Airbnb-style individual listings,
+      'establishment' for physical accommodation locations from OSM/Wikidata/data.gv.at.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
+    <rdfs:range rdf:resource="&xsd;string"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&vaok;mergeConfidence">
+    <rdfs:label>merge confidence</rdfs:label>
+    <rdfs:comment>
+      Confidence level of entity resolution merge: 'strong' (name+coordinates matched),
+      'medium' (name+address matched), 'single' (no merge — unique record).
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="&vaok;AccommodationUnit"/>
+    <rdfs:range rdf:resource="&xsd;string"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&vaok;airbnbHostId">
+    <rdfs:label>Airbnb host ID</rdfs:label>
+    <rdfs:comment>Airbnb host identifier for operators sourced from Inside Airbnb data.</rdfs:comment>
+    <rdfs:domain rdf:resource="&vaok;Operator"/>
+    <rdfs:range rdf:resource="&xsd;string"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&vaok;observedUnitCount">
+    <rdfs:label>observed unit count</rdfs:label>
+    <rdfs:comment>Number of accommodation units observed for this operator.</rdfs:comment>
+    <rdfs:domain rdf:resource="&vaok;Operator"/>
+    <rdfs:range rdf:resource="&xsd;integer"/>
+  </owl:DatatypeProperty>
+
+</rdf:RDF>

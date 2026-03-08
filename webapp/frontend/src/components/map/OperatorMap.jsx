@@ -5,10 +5,11 @@ import 'leaflet/dist/leaflet.css'
 const MARKER_COLOR = '#2dd4bf'
 
 function buildPopup(pt) {
-  const name = pt.name ?? 'Property'
+  const name = pt.name ?? 'Accommodation Unit'
   const img = pt.picture_url ? `<img src="${pt.picture_url}" alt="" style="width:100%;height:120px;object-fit:cover;border-radius:6px;margin-bottom:6px;display:block;">` : ''
   const link = pt.website ? `<a href="${pt.website}" target="_blank" rel="noopener noreferrer" style="color:#2dd4bf;font-size:11px;">View listing ↗</a>` : ''
-  return `<div style="font-family:Inter,sans-serif;min-width:160px;">${img}<b style="font-size:13px;">${name}</b><br><span style="font-size:11px;color:#64748b;">${pt.type}</span>${link ? '<br>' + link : ''}</div>`
+  const granularity = pt.granularity ? `<span style="font-size:10px;color:#94a3b8;margin-left:4px;">(${pt.granularity})</span>` : ''
+  return `<div style="font-family:Inter,sans-serif;min-width:160px;">${img}<b style="font-size:13px;">${name}</b><br><span style="font-size:11px;color:#64748b;">${pt.type}</span>${granularity}${link ? '<br>' + link : ''}</div>`
 }
 
 export default function OperatorMap({ operatorName, operatorType = 'operator' }) {
@@ -86,11 +87,11 @@ export default function OperatorMap({ operatorName, operatorType = 'operator' })
           className="flex items-center justify-center text-white/30 text-sm"
           style={{ height: 420, borderRadius: 12, border: '1px dashed rgba(255,255,255,0.12)' }}
         >
-          Click an operator node in the Force Graph to see their listings here
+          Click an operator node in the graph to see their units here
         </div>
       ) : (
         <p className="text-xs text-white/50">
-          {operatorType === 'chain' ? 'Chain' : 'Operator'}: <span className="font-medium" style={{ color: '#2dd4bf' }}>{operatorName}</span>
+          {operatorType === 'chain' ? 'Affiliated with chain' : 'Units operated by'}: <span className="font-medium" style={{ color: '#2dd4bf' }}>{operatorName}</span>
         </p>
       )}
       {/* Always in DOM so Leaflet can init; hidden when no operator selected */}

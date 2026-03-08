@@ -40,7 +40,7 @@ function SizeObserver({ children }) {
 function GraphTab({ selected, onForceGraphSelect }) {
   return (
     <motion.div {...fadeVariant} className="grid grid-cols-1 xl:grid-cols-2 gap-5">
-      <Panel title="Force Graph — click an operator node to explore">
+      <Panel title="Operator Network — click a node to explore units operated">
         <SizeObserver>
           {(w, h) => (
             <ForceGraph width={w} height={h} onOperatorClick={(name) => onForceGraphSelect(name, 'operator')} />
@@ -48,7 +48,7 @@ function GraphTab({ selected, onForceGraphSelect }) {
         </SizeObserver>
       </Panel>
 
-      <Panel title="Operator Listings Map — listings by selected operator">
+      <Panel title="Units operated by selected operator">
         <OperatorMap operatorName={selected?.name} operatorType={selected?.type} />
       </Panel>
     </motion.div>
@@ -58,19 +58,19 @@ function GraphTab({ selected, onForceGraphSelect }) {
 function AnalyticsTab({ onNavigate }) {
   return (
     <motion.div {...fadeVariant} className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
-      <Panel title="Top 20 Operators by listings" className="xl:col-span-2">
+      <Panel title="Top 20 Operators by accommodation units" className="xl:col-span-2">
         <TopOperators onSelect={(name) => onNavigate(name, 'operator')} />
       </Panel>
-      <Panel title="Hotel Chains by property count">
+      <Panel title="Chain-affiliated establishments">
         <ChainBar onSelect={(name) => onNavigate(name, 'chain')} />
       </Panel>
-      <Panel title="Properties by District">
+      <Panel title="Accommodation units by district">
         <DistrictBar />
       </Panel>
-      <Panel title="Corporate vs Individual by District" className="xl:col-span-2">
+      <Panel title="Professional vs smaller operators by district" className="xl:col-span-2">
         <CorporateBar />
       </Panel>
-      <Panel title="Property Types">
+      <Panel title="Accommodation types">
         <TypePie />
       </Panel>
     </motion.div>
@@ -80,7 +80,7 @@ function AnalyticsTab({ onNavigate }) {
 function MapTab() {
   return (
     <motion.div {...fadeVariant}>
-      <Panel title="Vienna — all geolocated properties · click to explore operator network">
+      <Panel title="Vienna — all geolocated accommodation units · click to explore operator network">
         <PropertyMap />
       </Panel>
     </motion.div>
@@ -101,11 +101,11 @@ export default function App() {
       <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white">
-            Vienna Hotel{' '}
+            Vienna Accommodation Operator{' '}
             <span style={{ color: '#2dd4bf' }}>Knowledge Graph</span>
           </h1>
           <p className="text-sm text-white/40 mt-0.5">
-            Airbnb listings · Neo4j · {new Date().getFullYear()}
+            Public accommodation data · operator analysis · Neo4j
           </p>
         </div>
         <Nav active={tab} onChange={setTab} />
@@ -128,7 +128,7 @@ export default function App() {
       </main>
 
       <footer className="text-center text-white/20 text-xs pb-2">
-        Knowledge Graph Dashboard · Vienna Hotel Market Analysis
+        Knowledge Graph Dashboard · Vienna Accommodation Operator Analysis
       </footer>
     </div>
   )

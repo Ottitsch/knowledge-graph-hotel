@@ -1,5 +1,6 @@
 """
-Query Wikidata SPARQL for Vienna hotels with ownership/chain information.
+Query Wikidata SPARQL for Vienna accommodations with operator, parent organization,
+and brand enrichment.
 Output: data/wikidata_hotels.json
 """
 
@@ -22,7 +23,7 @@ SELECT DISTINCT
   ?website
   ?coord
 WHERE {
-  # Hotels directly located in Vienna (Q1741) — avoid slow transitive P131*
+  # Hotels directly located in Vienna (Q1741)
   ?hotel wdt:P131 wd:Q1741.
   # Must be some kind of accommodation
   VALUES ?hotelType { wd:Q27686 wd:Q2876219 wd:Q182228 wd:Q45776 wd:Q2060301 }
@@ -42,9 +43,9 @@ ORDER BY ?hotelLabel
 
 
 def fetch_wikidata() -> list:
-    print("Querying Wikidata SPARQL for Vienna hotels ...")
+    print("Querying Wikidata SPARQL for Vienna accommodations ...")
     sparql = SPARQLWrapper(SPARQL_ENDPOINT)
-    sparql.addCustomHttpHeader("User-Agent", "ViennaHotelKG/1.0 (academic research)")
+    sparql.addCustomHttpHeader("User-Agent", "ViennaAccommodationOperatorKG/1.0 (academic research)")
     sparql.setQuery(QUERY)
     sparql.setReturnFormat(JSON)
 
@@ -57,7 +58,7 @@ def fetch_wikidata() -> list:
         def val(key):
             return b[key]["value"] if key in b else ""
 
-        rows.append({
+        row = {
             "hotel_uri": val("hotel"),
             "hotel_name": val("hotelLabel"),
             "operator_uri": val("operator"),
@@ -68,11 +69,10 @@ def fetch_wikidata() -> list:
             "parent_org_name": val("parentOrgLabel"),
             "brand_uri": val("brand"),
             "brand_name": val("brandLabel"),
-            "inception": val("inception"),
-            "stars": val("stars"),
             "website": val("website"),
             "coord": val("coord"),
-        })
+        }
+        rows.append(row)
     return rows
 
 

@@ -1,9 +1,13 @@
 """
-Master pipeline runner — executes all collection, resolution, and graph-building steps.
+Vienna Accommodation Operator KG — master pipeline runner.
+Executes all collection, resolution, and graph-building steps.
+
 Run from the project root: python src/run_pipeline.py
 
-Pass --skip-neo4j to skip Neo4j ingestion (still produces RDF Turtle).
-Pass --skip-airbnb to skip Inside Airbnb download (useful if already downloaded).
+Flags:
+  --skip-neo4j    Skip Neo4j ingestion (still produces RDF Turtle)
+  --skip-airbnb   Skip Inside Airbnb download (useful if already downloaded)
+  --with-optional Run optional enrichment scripts (e.g. Firmenbuch placeholder)
 """
 
 import subprocess
@@ -28,25 +32,32 @@ def run(script: str, description: str) -> bool:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Run the Vienna Hotel KG pipeline")
+    parser = argparse.ArgumentParser(
+        description="Run the Vienna Accommodation Operator KG pipeline"
+    )
     parser.add_argument("--skip-neo4j", action="store_true", help="Skip Neo4j ingestion")
     parser.add_argument("--skip-airbnb", action="store_true", help="Skip Airbnb download")
+    parser.add_argument("--with-optional", action="store_true",
+                        help="Run optional enrichment scripts (Firmenbuch placeholder)")
     args = parser.parse_args()
 
     steps = [
         ("collect_datagv.py", "Fetch data.gv.at Vienna accommodations"),
-        ("collect_osm.py", "Fetch OSM hotel POIs via Overpass"),
-        ("collect_wikidata.py", "Fetch Wikidata hotel ownership"),
+        ("collect_osm.py", "Fetch OSM accommodation POIs via Overpass"),
+        ("collect_wikidata.py", "Fetch Wikidata accommodation + operator enrichment"),
     ]
 
     if not args.skip_airbnb:
         steps.append(("download_airbnb.py", "Download Inside Airbnb Vienna listings"))
 
     steps += [
-        ("resolve_entities.py", "Entity resolution & deduplication"),
-        ("collect_firmenbuch.py", "Firmenbuch company lookups"),
+        ("resolve_entities.py", "Entity resolution — merge sources, add granularity & provenance"),
         ("build_graph.py", "Build Knowledge Graph (Neo4j + RDF Turtle)"),
     ]
+
+    if args.with_optional:
+        steps.append(("optional_collect_firmenbuch.py",
+                       "Optional: record operator names for future Firmenbuch enrichment"))
 
     if args.skip_neo4j:
         os.environ["SKIP_NEO4J"] = "1"
@@ -58,7 +69,7 @@ def main():
             failed.append(script)
 
     print(f"\n{'='*60}")
-    print("PIPELINE COMPLETE")
+    print("PIPELINE COMPLETE — Vienna Accommodation Operator KG")
     print(f"{'='*60}")
     if failed:
         print(f"Steps with errors: {failed}")
@@ -69,8 +80,9 @@ def main():
     print("\nNext steps:")
     print("  1. Open Neo4j Browser: http://localhost:7474")
     print("  2. Run Cypher queries from src/queries.cypher")
-    print("  3. View RDF graph: graph/vienna_hotels.ttl")
-    print("  4. Open ontology: ontology/hotel_ownership.owl (in Protege)")
+    print("  3. View RDF graph: graph/vienna_accommodation_operator_kg.ttl")
+    print("  4. Open ontology: ontology/accommodation_operator.owl (in Protege)")
+    print("  5. Run the dashboard: python webapp/app.py")
 
 
 if __name__ == "__main__":

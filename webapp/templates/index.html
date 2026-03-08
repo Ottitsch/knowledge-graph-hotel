@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vienna Hotel Knowledge Graph — Dashboard</title>
+  <title>Vienna Accommodation Operator Knowledge Graph — Dashboard</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
@@ -100,15 +100,15 @@
 <body>
 
 <header>
-  <h1>Vienna Hotel Knowledge Graph</h1>
-  <p>Ownership, operators and distribution across Vienna's 23 districts</p>
+  <h1>Vienna Accommodation Operator Knowledge Graph</h1>
+  <p>Which units are operated by the same operator? · Operators, chains, and districts across Vienna</p>
 </header>
 
 <div class="grid">
 
   <!-- Panel 1: Top 20 Operators -->
   <div class="panel">
-    <h2>Top 20 Operators by Property Count</h2>
+    <h2>Top 20 Operators by Accommodation Unit Count</h2>
     <div class="chart-wrap">
       <canvas id="chartOperators"></canvas>
     </div>
@@ -116,7 +116,7 @@
 
   <!-- Panel 2: Hotel Chain Dominance -->
   <div class="panel">
-    <h2>Hotel Chain Dominance</h2>
+    <h2>Chain-affiliated Establishments</h2>
     <div class="chart-wrap">
       <canvas id="chartChains"></canvas>
     </div>
@@ -124,7 +124,7 @@
 
   <!-- Panel 3: Properties by District -->
   <div class="panel">
-    <h2>Properties by District</h2>
+    <h2>Accommodation Units by District</h2>
     <div class="chart-wrap">
       <canvas id="chartDistricts"></canvas>
     </div>
@@ -132,7 +132,7 @@
 
   <!-- Panel 4: Corporate vs Individual by District -->
   <div class="panel">
-    <h2>Corporate vs Individual Hosts by District</h2>
+    <h2>Professional vs Smaller Operators by District</h2>
     <div class="chart-wrap">
       <canvas id="chartCorporate"></canvas>
     </div>
@@ -140,7 +140,7 @@
 
   <!-- Panel 5: Property Type Breakdown -->
   <div class="panel">
-    <h2>Property Type Breakdown</h2>
+    <h2>Accommodation Type Breakdown</h2>
     <div class="chart-wrap" style="max-height:340px;">
       <canvas id="chartTypes"></canvas>
     </div>
@@ -148,7 +148,7 @@
 
   <!-- Panel 6: Map -->
   <div class="panel">
-    <h2>Map of All Properties</h2>
+    <h2>Map of All Accommodation Units</h2>
     <div id="map"></div>
   </div>
 
@@ -255,13 +255,13 @@ async function renderCorporate() {
       labels: data.map(d => d.district),
       datasets: [
         {
-          label: 'Corporate (>3 listings)',
+          label: 'Professional (>3 units)',
           data: data.map(d => d.corporate),
           backgroundColor: '#f97316',
           stack: 'stack',
         },
         {
-          label: 'Individual (≤3 listings)',
+          label: 'Smaller operators (≤3 units)',
           data: data.map(d => d.individual),
           backgroundColor: '#22c55e',
           stack: 'stack',

@@ -1,5 +1,6 @@
 """
-Fetch hotel/accommodation POIs in Vienna from OpenStreetMap via the Overpass API.
+Fetch accommodation POIs in Vienna from OpenStreetMap via the Overpass API.
+Collects nodes, ways, and relations tagged as tourism accommodation in Wien.
 Output: data/osm_hotels.json
 """
 
@@ -13,15 +14,16 @@ OUTPUT_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "osm_hotels.
 
 OVERPASS_URL = "https://overpass-api.de/api/interpreter"
 
-# Query all nodes/ways/relations tagged as tourism accommodation in Wien
 OVERPASS_QUERY = """
 [out:json][timeout:60];
 area["name"="Wien"]["admin_level"="4"]->.wien;
 (
   node["tourism"~"hotel|apartment|hostel|guest_house|motel|chalet|alpine_hut"](area.wien);
   way["tourism"~"hotel|apartment|hostel|guest_house|motel|chalet|alpine_hut"](area.wien);
+  relation["tourism"~"hotel|apartment|hostel|guest_house|motel|chalet|alpine_hut"](area.wien);
   node["building"="hotel"](area.wien);
   way["building"="hotel"](area.wien);
+  relation["building"="hotel"](area.wien);
 );
 out body center;
 """
@@ -54,10 +56,18 @@ def normalize_elements(elements: list) -> list:
     results = []
     for el in elements:
         tags = el.get("tags", {})
-        # For ways, Overpass 'out center' puts centroid in el["center"]
+        # For ways/relations, Overpass 'out center' puts centroid in el["center"]
         center = el.get("center", {})
         lat = el.get("lat") or center.get("lat")
         lon = el.get("lon") or center.get("lon")
+
+        # Normalize address
+        street = tags.get("addr:street", "")
+        housenumber = tags.get("addr:housenumber", "")
+        postcode = tags.get("addr:postcode", "")
+        city = tags.get("addr:city", "")
+        address = " ".join(filter(None, [street, housenumber, postcode, city])).strip()
+
         results.append({
             "osm_type": el.get("type"),
             "osm_id": el.get("id"),
@@ -68,10 +78,11 @@ def normalize_elements(elements: list) -> list:
             "brand": tags.get("brand", ""),
             "stars": tags.get("stars", ""),
             "rooms": tags.get("rooms", ""),
-            "addr_street": tags.get("addr:street", ""),
-            "addr_housenumber": tags.get("addr:housenumber", ""),
-            "addr_postcode": tags.get("addr:postcode", ""),
-            "addr_city": tags.get("addr:city", ""),
+            "address": address,
+            "addr_street": street,
+            "addr_housenumber": housenumber,
+            "addr_postcode": postcode,
+            "addr_city": city,
             "website": tags.get("website", ""),
             "phone": tags.get("phone", ""),
             "email": tags.get("email", ""),
