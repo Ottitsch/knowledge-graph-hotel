@@ -782,9 +782,12 @@ def main():
     for t, cnt in unified["unit_type_normalized"].value_counts().items():
         print(f"    {t}: {cnt}")
 
-    # Detect chain membership
+    # Detect chain membership (only for establishment-level sources, not Airbnb listings)
     unified["hotel_chain"] = unified.apply(
-        lambda r: detect_chain(r.get("name", ""), r.get("operator_name", "")), axis=1
+        lambda r: detect_chain(r.get("name", ""), r.get("operator_name", ""))
+        if str(r.get("source_names", "")) != "airbnb"
+        else "",
+        axis=1,
     )
     chain_count = (unified["hotel_chain"] != "").sum()
     print(f"  Chain membership detected for {chain_count} units")
