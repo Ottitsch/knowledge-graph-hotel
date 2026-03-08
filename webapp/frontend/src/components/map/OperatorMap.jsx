@@ -6,9 +6,15 @@ const MARKER_COLOR = '#2dd4bf'
 
 function buildPopup(pt) {
   const name = pt.name ?? 'Accommodation Unit'
-  const img = pt.picture_url ? `<img src="${pt.picture_url}" alt="" style="width:100%;height:120px;object-fit:cover;border-radius:6px;margin-bottom:6px;display:block;">` : ''
-  const link = pt.website ? `<a href="${pt.website}" target="_blank" rel="noopener noreferrer" style="color:#2dd4bf;font-size:11px;">View listing ↗</a>` : ''
-  const granularity = pt.granularity ? `<span style="font-size:10px;color:#94a3b8;margin-left:4px;">(${pt.granularity})</span>` : ''
+  const img = pt.picture_url
+    ? `<img src="${pt.picture_url}" alt="" style="width:100%;height:120px;object-fit:cover;border-radius:6px;margin-bottom:6px;display:block;">`
+    : ''
+  const link = pt.website
+    ? `<a href="${pt.website}" target="_blank" rel="noopener noreferrer" style="color:#2dd4bf;font-size:11px;">View listing -></a>`
+    : ''
+  const granularity = pt.granularity
+    ? `<span style="font-size:10px;color:#94a3b8;margin-left:4px;">(${pt.granularity})</span>`
+    : ''
   return `<div style="font-family:Inter,sans-serif;min-width:160px;">${img}<b style="font-size:13px;">${name}</b><br><span style="font-size:11px;color:#64748b;">${pt.type}</span>${granularity}${link ? '<br>' + link : ''}</div>`
 }
 
@@ -16,8 +22,8 @@ export default function OperatorMap({ operatorName, operatorId, operatorType = '
   const containerRef = useRef()
   const mapRef = useRef()
   const layerRef = useRef()
+  const requestRef = useRef({ id: 0, controller: null })
 
-  // Init map once the container div is in the DOM (always rendered)
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
     mapRef.current = L.map(containerRef.current).setView([48.2082, 16.3738], 13)
@@ -27,33 +33,46 @@ export default function OperatorMap({ operatorName, operatorId, operatorType = '
     }).addTo(mapRef.current)
 
     return () => {
+      requestRef.current.controller?.abort()
       mapRef.current?.remove()
       mapRef.current = null
     }
   }, [])
 
-  // Load markers whenever operatorName changes
   useEffect(() => {
     if (!mapRef.current) return
+
+    requestRef.current.controller?.abort()
+    const controller = new AbortController()
+    const requestId = requestRef.current.id + 1
+    requestRef.current = { id: requestId, controller }
 
     if (layerRef.current) {
       mapRef.current.removeLayer(layerRef.current)
       layerRef.current = null
     }
 
-    if (!operatorName) return
+    if (!operatorName) {
+      return () => controller.abort()
+    }
 
-    // Invalidate size in case the container was hidden before
     setTimeout(() => mapRef.current?.invalidateSize(), 50)
 
     const endpoint = operatorType === 'chain' ? '/api/chain-map' : '/api/operator-map'
     const query = operatorType !== 'chain' && operatorId
       ? `id=${encodeURIComponent(operatorId)}`
       : `name=${encodeURIComponent(operatorName)}`
-    fetch(`${endpoint}?${query}`)
+
+    fetch(`${endpoint}?${query}`, { signal: controller.signal })
       .then((r) => r.json())
       .then((data) => {
-        if (!mapRef.current) return
+        if (
+          controller.signal.aborted ||
+          !mapRef.current ||
+          requestRef.current.id !== requestId
+        ) {
+          return
+        }
 
         const icon = L.divIcon({
           html: `<div style="width:14px;height:14px;border-radius:50%;background:${MARKER_COLOR};border:2px solid rgba(255,255,255,0.6);box-shadow:0 0 6px ${MARKER_COLOR}88;"></div>`,
@@ -72,6 +91,14 @@ export default function OperatorMap({ operatorName, operatorId, operatorType = '
           latlngs.push([pt.lat, pt.lon])
         })
 
+        if (
+          controller.signal.aborted ||
+          !mapRef.current ||
+          requestRef.current.id !== requestId
+        ) {
+          return
+        }
+
         mapRef.current.addLayer(group)
         layerRef.current = group
 
@@ -80,8 +107,12 @@ export default function OperatorMap({ operatorName, operatorId, operatorType = '
           if (bounds.isValid()) mapRef.current.fitBounds(bounds, { padding: [32, 32] })
         }
       })
-      .catch(console.error)
-  }, [operatorName, operatorId])
+      .catch((err) => {
+        if (err?.name !== 'AbortError') console.error(err)
+      })
+
+    return () => controller.abort()
+  }, [operatorName, operatorId, operatorType])
 
   return (
     <div className="w-full flex flex-col gap-2">
@@ -94,10 +125,10 @@ export default function OperatorMap({ operatorName, operatorId, operatorType = '
         </div>
       ) : (
         <p className="text-xs text-white/50">
-          {operatorType === 'chain' ? 'Affiliated with chain' : 'Units operated by'}: <span className="font-medium" style={{ color: '#2dd4bf' }}>{operatorName}</span>
+          {operatorType === 'chain' ? 'Affiliated with chain' : 'Units operated by'}:{' '}
+          <span className="font-medium" style={{ color: '#2dd4bf' }}>{operatorName}</span>
         </p>
       )}
-      {/* Always in DOM so Leaflet can init; hidden when no operator selected */}
       <div
         ref={containerRef}
         style={{

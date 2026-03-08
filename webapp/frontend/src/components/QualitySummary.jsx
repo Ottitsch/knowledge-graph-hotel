@@ -53,7 +53,7 @@ export default function QualitySummary() {
       </div>
 
       <div className="text-xs leading-relaxed text-white/45">
-        The graph now distinguishes evidence-backed listing links from weak proximity-only cases.
+        The graph distinguishes evidence-backed listing links from weak proximity-only cases.
         Unlinked listings include both genuinely isolated listings and nearby candidates that were
         intentionally kept out of the graph because the textual evidence was too weak.
         Current unlinked listing count: {unlinked?.count || 0}.
