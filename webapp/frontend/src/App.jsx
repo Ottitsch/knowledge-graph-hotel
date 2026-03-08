@@ -96,6 +96,26 @@ function AnalyticsTab({ onNavigate }) {
       <Panel title="Accommodation types">
         <TypePie />
       </Panel>
+      <motion.div
+        className="glass p-5 flex flex-col gap-3 xl:col-span-2 max-h-52 overflow-y-auto"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+      >
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-white/50">
+          About this data
+        </h2>
+        <p className="text-xs text-white/40 leading-relaxed">
+          The Airbnb operator data shown here is derived from an Inside Airbnb snapshot taken in September 2025.
+          Because Airbnb hosts can rename their profiles, transfer listings between accounts, or delist units at any time,
+          the operator names and listing counts displayed may no longer match what is currently shown on Airbnb.
+          For example, a host listed as "Daniel" in our data may now appear under a different name on the platform,
+          or may have fewer listings than recorded at the time of the snapshot.
+          Operators are linked by their unique Airbnb host ID rather than by name,
+          so units belonging to the same host are correctly grouped even when names appear inconsistent.
+          Data from other sources (data.gv.at, OpenStreetMap, Wikidata) may similarly reflect the state at the time of collection.
+        </p>
+      </motion.div>
     </motion.div>
   )
 }

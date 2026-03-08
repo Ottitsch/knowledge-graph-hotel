@@ -8,7 +8,7 @@ export default function CorporateBar() {
   if (error) return <div className="text-red-400 text-sm">Error loading data</div>
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height={350}>
       <BarChart data={data} margin={{ left: 8, right: 16, top: 4, bottom: 60 }}>
         <XAxis
           dataKey="district"
@@ -23,7 +23,7 @@ export default function CorporateBar() {
           contentStyle={{ background: 'rgba(15,12,41,0.9)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10 }}
           labelStyle={{ color: '#f8fafc', fontWeight: 600 }}
         />
-        <Legend wrapperStyle={{ color: 'rgba(248,250,252,0.7)', fontSize: 12, paddingTop: 8 }} />
+        <Legend wrapperStyle={{ color: 'rgba(248,250,252,0.7)', fontSize: 12, paddingTop: 38 }} />
         <Bar dataKey="multi_listing" stackId="a" fill="rgba(45,212,191,0.85)" radius={[0, 0, 0, 0]} name="Multi-listing" />
         <Bar dataKey="single_property" stackId="a" fill="rgba(167,139,250,0.85)" radius={[6, 6, 0, 0]} name="Single-property" />
       </BarChart>
