@@ -37,6 +37,60 @@ This knowledge graph combines public data sources to study operator relationship
 
 **Key properties on `Operator`:** `name`, `airbnb_host_id`, `observed_unit_count`
 
+## Data Provenance and Confidence
+
+Each `AccommodationUnit` node carries explicit provenance metadata so you can trace every record back to its origin:
+
+| Property | Description |
+|---|---|
+| `granularity` | `listing` (Airbnb, one record per listing) or `establishment` (OSM/Wikidata/data.gv.at, one record per physical location) |
+| `source_names` | Comma-separated list of contributing sources, e.g. `OpenStreetMap,Wikidata` |
+| `source_record_ids` | Original IDs from each contributing source |
+| `merge_confidence` | `high` (strong name+coordinate or website+coordinate match) · `medium` (name+address match) · `single` (only one source) |
+
+**Merge strategy:** Establishment-level records (OSM, Wikidata, data.gv.at) are matched in two stages using a Union-Find algorithm:
+1. Same normalized name + coordinates within ~100 m → `high` confidence merge
+2. Same website domain + coordinates within ~200 m → `high` confidence merge
+
+Airbnb listings are never merged with establishment records — they are always `granularity=listing` with `merge_confidence=single`.
+
+Multi-source records (e.g. a hotel confirmed by both OSM and Wikidata) have `merge_confidence=high` and list both sources in `source_names`.
+
+## Pipeline
+
+```
+Raw sources                  Collection scripts        Intermediate data
+───────────────────────────────────────────────────────────────────────────
+Inside Airbnb (CSV)    ──►  download_airbnb.py   ──►  inside_airbnb_listings.csv
+OSM Overpass API       ──►  collect_osm.py        ──►  osm_hotels.json
+Wikidata SPARQL        ──►  collect_wikidata.py   ──►  wikidata_hotels.json
+data.gv.at WFS         ──►  collect_datagv.py     ──►  datagv_accommodations.csv
+                                   │
+                                   ▼
+                          resolve_entities.py
+                          (Union-Find merge,
+                           granularity labels,
+                           provenance tracking)
+                                   │
+                                   ▼
+                          properties_unified.csv
+                                   │
+                          ┌────────┴────────┐
+                          ▼                 ▼
+                     build_graph.py    build_graph.py
+                          │                 │
+                          ▼                 ▼
+                    Neo4j graph      RDF Turtle (.ttl)
+                   (bolt://7687)    (graph/*.ttl)
+                          │
+                          ▼
+                     webapp/app.py
+                    (Flask API :5000)
+                          │
+                          ▼
+                   React Dashboard
+```
+
 ## Architecture
 
 ```

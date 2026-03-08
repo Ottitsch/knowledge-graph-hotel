@@ -53,35 +53,23 @@ def fetch_datagv(debug: bool = False) -> pd.DataFrame:
         geom = feat.get("geometry", {})
         coords = geom.get("coordinates", [None, None]) if geom else [None, None]
 
-        # Try multiple likely field name variants for name and category
+        # WFS actual field names (verified via --debug): BETRIEB, BETRIEBSART_TXT,
+        # ADRESSE, BEZIRK, KONTAKT_EMAIL, KONTAKT_TEL, WEBLINK1
         name = (
-            props.get("NAME")
-            or props.get("name")
+            props.get("BETRIEB")
+            or props.get("NAME")
             or props.get("BEZEICHNUNG")
-            or props.get("bezeichnung")
             or ""
         )
         category = (
-            props.get("KATEGORIE")
-            or props.get("kategorie")
+            props.get("BETRIEBSART_TXT")
+            or props.get("KATEGORIE_TXT")
             or props.get("BETRIEBSART")
-            or props.get("betriebsart")
-            or props.get("ART")
-            or props.get("art")
+            or props.get("KATEGORIE")
             or ""
         )
-        address = (
-            props.get("ADRESSE")
-            or props.get("adresse")
-            or props.get("STRASSE")
-            or ""
-        )
-        district = (
-            props.get("BEZIRK")
-            or props.get("bezirk")
-            or props.get("BEZIRK_NR")
-            or ""
-        )
+        address = props.get("ADRESSE") or props.get("STRASSE") or ""
+        district = props.get("BEZIRK") or props.get("BEZIRK_NR") or ""
 
         rows.append({
             "source": "datagv",
@@ -90,9 +78,9 @@ def fetch_datagv(debug: bool = False) -> pd.DataFrame:
             "address": address,
             "district": str(district) if district else "",
             "postal_code": props.get("PLZ", ""),
-            "phone": props.get("TELEFON", "") or props.get("telefon", ""),
-            "email": props.get("EMAIL", "") or props.get("email", ""),
-            "website": props.get("WEBLINK1", "") or props.get("weblink1", "") or props.get("WEBSITE", ""),
+            "phone": props.get("KONTAKT_TEL", "") or props.get("TELEFON", ""),
+            "email": props.get("KONTAKT_EMAIL", "") or props.get("EMAIL", ""),
+            "website": props.get("WEBLINK1", "") or props.get("WEBSITE", ""),
             "lon": coords[0] if coords and len(coords) > 0 else None,
             "lat": coords[1] if coords and len(coords) > 1 else None,
             "raw_id": props.get("OBJECTID", "") or props.get("objectid", ""),

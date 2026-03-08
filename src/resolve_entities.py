@@ -6,8 +6,8 @@ Matching strategy (in priority order):
   1. Strong: same source-specific ID
   2. Strong: normalized name + coordinates within ~100m
   3. Strong: same website domain + coordinates within ~200m
-  4. Medium: normalized name + similar address (establishment sources only)
-  5. Airbnb listings are kept separate — not merged with establishment records.
+  4. Airbnb listings are kept as listing granularity, but linked to nearby
+     establishments via the linked_establishment_id column.
 
 Output: data/properties_unified.csv
 """
@@ -69,6 +69,33 @@ CHAIN_KEYWORDS = {
     "a&o": "A&O Hotels and Hostels",
 }
 
+# Vienna district number → official name mapping
+DISTRICT_NUMBER_TO_NAME = {
+    "1": "Innere Stadt",
+    "2": "Leopoldstadt",
+    "3": "Landstraße",
+    "4": "Wieden",
+    "5": "Margareten",
+    "6": "Mariahilf",
+    "7": "Neubau",
+    "8": "Josefstadt",
+    "9": "Alsergrund",
+    "10": "Favoriten",
+    "11": "Simmering",
+    "12": "Meidling",
+    "13": "Hietzing",
+    "14": "Penzing",
+    "15": "Rudolfsheim-Fünfhaus",
+    "16": "Ottakring",
+    "17": "Hernals",
+    "18": "Währing",
+    "19": "Döbling",
+    "20": "Brigittenau",
+    "21": "Floridsdorf",
+    "22": "Donaustadt",
+    "23": "Liesing",
+}
+
 # District name corrections for encoding problems from Airbnb data
 DISTRICT_FIXES = {
     "landstra\u00a7e": "Landstraße",
@@ -77,9 +104,11 @@ DISTRICT_FIXES = {
     "rudolfsheim f\u00fcnfhaus": "Rudolfsheim-Fünfhaus",
     "rudolfsheim funfhaus": "Rudolfsheim-Fünfhaus",
     "rudolfsheim-f\u00fcnfhaus": "Rudolfsheim-Fünfhaus",
+    "rudolfsheim-fnfhaus": "Rudolfsheim-Fünfhaus",
     "favoriten": "Favoriten",
     "hernals": "Hernals",
     "wahring": "Währing",
+    "whring": "Währing",
     "w\u00e4hring": "Währing",
     "donaustadt": "Donaustadt",
     "floridsdorf": "Floridsdorf",
@@ -100,6 +129,10 @@ DISTRICT_FIXES = {
     "hietzing": "Hietzing",
     "d\u00f6bling": "Döbling",
     "dobling": "Döbling",
+    "dbling": "Döbling",
+    "d\x9abling": "Döbling",       # garbled Windows-1252 from Airbnb
+    "w\x8ahring": "Währing",       # garbled Windows-1252 from Airbnb
+    "rudolfsheim-f\x9fnfhaus": "Rudolfsheim-Fünfhaus",  # garbled Windows-1252 from Airbnb
 }
 
 
@@ -115,12 +148,19 @@ def normalize_name(s: str) -> str:
     return s
 
 
-def normalize_district(s: str) -> str:
-    """Fix known encoding problems and normalize district names."""
-    if not isinstance(s, str) or not s.strip():
+def normalize_district(s) -> str:
+    """Convert district numbers to names, fix encoding problems, normalize."""
+    if s is None:
         return ""
+    s = str(s).strip()
+    if not s:
+        return ""
+    # Convert district numbers (e.g. "7", "7.0") to official names
+    num = re.sub(r"\.0$", "", s)  # handle float-like "7.0"
+    if num in DISTRICT_NUMBER_TO_NAME:
+        return DISTRICT_NUMBER_TO_NAME[num]
     # Try direct fix after lowercasing
-    lower = s.strip().lower()
+    lower = s.lower()
     if lower in DISTRICT_FIXES:
         return DISTRICT_FIXES[lower]
     # Try to fix § → ß (latin small letter sharp s)
@@ -128,7 +168,7 @@ def normalize_district(s: str) -> str:
     lower_fixed = fixed.strip().lower()
     if lower_fixed in DISTRICT_FIXES:
         return DISTRICT_FIXES[lower_fixed]
-    return s.strip()
+    return s
 
 
 def extract_domain(url: str) -> str:
@@ -187,24 +227,39 @@ def load_datagv() -> pd.DataFrame:
     df = pd.read_csv(INPUT_DATAGV, encoding="utf-8")
     # Drop rows where name is empty
     df = df[df["name"].notna() & (df["name"].astype(str).str.strip() != "")]
-    out = pd.DataFrame()
-    out["source"] = "datagv"
-    out["granularity"] = "establishment"
-    out["name"] = df["name"].astype(str)
-    out["address"] = df.get("address", "").fillna("").astype(str)
-    out["district"] = df.get("district", "").fillna("").astype(str).apply(normalize_district)
-    out["lat"] = pd.to_numeric(df.get("lat"), errors="coerce")
-    out["lon"] = pd.to_numeric(df.get("lon"), errors="coerce")
-    out["unit_type"] = df.get("category", "").fillna("").astype(str)
-    out["operator_name"] = ""
-    out["host_id"] = ""
-    out["host_listings_count"] = None
-    out["website"] = df.get("website", "").fillna("").astype(str)
-    out["picture_url"] = ""
-    out["phone"] = df.get("phone", "").fillna("").astype(str)
-    out["email"] = df.get("email", "").fillna("").astype(str)
-    out["raw_id"] = df.get("raw_id", "").fillna("").astype(str).apply(lambda x: f"datagv:{x}")
-    return out.reset_index(drop=True)
+    rows = []
+    for _, r in df.iterrows():
+        name = str(r.get("name", "")).strip()
+        rows.append({
+            "source": "datagv",
+            "granularity": "establishment",
+            "name": name,
+            "address": str(r.get("address", "") or ""),
+            "district": normalize_district(r.get("district", "")),
+            "lat": pd.to_numeric(r.get("lat"), errors="coerce"),
+            "lon": pd.to_numeric(r.get("lon"), errors="coerce"),
+            "unit_type": str(r.get("category", "") or ""),
+            "operator_name": name,  # business name IS the operator identity
+            "host_id": "",
+            "host_listings_count": None,
+            "website": str(r.get("website", "") or ""),
+            "picture_url": "",
+            "phone": str(r.get("phone", "") or ""),
+            "email": str(r.get("email", "") or ""),
+            "raw_id": f"datagv:{r.get('raw_id', '')}",
+        })
+    return pd.DataFrame(rows, columns=ESTABLISHMENT_COLS)
+
+
+def _district_from_postcode(postcode: str) -> str:
+    """Derive Vienna district name from postal code (1XXX → district XX)."""
+    if not postcode:
+        return ""
+    m = re.match(r"^1(\d{2})0$", str(postcode).strip())
+    if m:
+        num = str(int(m.group(1)))  # "01" → "1", "10" → "10"
+        return DISTRICT_NUMBER_TO_NAME.get(num, "")
+    return ""
 
 
 def load_osm() -> pd.DataFrame:
@@ -219,16 +274,24 @@ def load_osm() -> pd.DataFrame:
             el.get("addr_street", ""), el.get("addr_housenumber", ""),
             el.get("addr_postcode", ""), el.get("addr_city", "")
         ]))
+        # Derive district from postal code when available
+        district = _district_from_postcode(el.get("addr_postcode", ""))
+        # Use operator tag, fall back to brand, then to name as operator identity
+        operator = el.get("operator") or el.get("brand", "")
+        if not operator:
+            name = el.get("name", "")
+            if name:
+                operator = name
         rows.append({
             "source": "osm",
             "granularity": "establishment",
             "name": el.get("name", ""),
             "address": address.strip(),
-            "district": "",
+            "district": district,
             "lat": el.get("lat"),
             "lon": el.get("lon"),
             "unit_type": el.get("tourism") or el.get("building", ""),
-            "operator_name": el.get("operator") or el.get("brand", ""),
+            "operator_name": operator,
             "host_id": "",
             "host_listings_count": None,
             "website": el.get("website", ""),
@@ -254,6 +317,7 @@ def load_wikidata() -> pd.DataFrame:
             m = re.match(r"Point\(([0-9.\-]+)\s+([0-9.\-]+)\)", coord)
             if m:
                 lon, lat = float(m.group(1)), float(m.group(2))
+        name = el.get("hotel_name", "")
         operator = (
             el.get("operator_name")
             or el.get("parent_org_name")
@@ -261,17 +325,20 @@ def load_wikidata() -> pd.DataFrame:
             or el.get("owner_name")
             or ""
         )
+        # Fall back to hotel name as operator identity
+        if not operator and name:
+            operator = name
         rows.append({
             "source": "wikidata",
             "granularity": "establishment",
-            "name": el.get("hotel_name", ""),
+            "name": name,
             "address": "",
             "district": "",
             "lat": lat,
             "lon": lon,
             "unit_type": "hotel",
             "operator_name": operator,
-            "host_id": el.get("hotel_uri", ""),
+            "host_id": "",  # host_id is for Airbnb only
             "host_listings_count": None,
             "website": el.get("website", ""),
             "picture_url": "",
@@ -410,13 +477,17 @@ def merge_establishment_sources(frames: list) -> pd.DataFrame:
         scores = group.apply(lambda r: r.notna().sum() + (r.astype(str) != "").sum(), axis=1)
         base = group.loc[scores.idxmax()].copy()
 
-        source_names = sorted(group["source"].unique().tolist())
+        source_names = sorted(group["source"].dropna().unique().tolist())
+        # Filter out empty strings from source names
+        source_names = [s for s in source_names if s]
         source_ids = sorted(group["raw_id"].dropna().unique().tolist())
 
         base["source_names"] = ",".join(source_names)
         base["source_record_ids"] = ",".join(str(x) for x in source_ids)
         base["merge_confidence"] = "strong" if len(idxs) > 1 else "single"
         base["canonical_id"] = str(uuid.uuid4())
+        # Merged records are always establishment granularity
+        base["granularity"] = "establishment"
 
         # Fill missing fields from other rows
         for col in ["address", "lat", "lon", "operator_name", "website", "phone", "district"]:
@@ -446,6 +517,54 @@ def keep_airbnb_listings(df: pd.DataFrame) -> pd.DataFrame:
     df["canonical_id"] = [str(uuid.uuid4()) for _ in range(len(df))]
     df["domain"] = df["website"].apply(extract_domain)
     return df
+
+
+def link_listings_to_establishments(
+    establishments: pd.DataFrame, listings: pd.DataFrame, max_dist_m: float = 50
+) -> pd.DataFrame:
+    """
+    Link Airbnb listings to nearby establishments.
+    For each listing within max_dist_m of an establishment, record the
+    establishment's canonical_id in linked_establishment_id.
+    """
+    if establishments.empty or listings.empty:
+        listings["linked_establishment_id"] = ""
+        return listings
+
+    listings = listings.copy()
+    listings["linked_establishment_id"] = ""
+
+    # Build spatial index from establishments that have coordinates
+    estab_coords = []
+    for _, row in establishments.iterrows():
+        if pd.notna(row.get("lat")) and pd.notna(row.get("lon")):
+            estab_coords.append((
+                float(row["lat"]), float(row["lon"]),
+                str(row.get("canonical_id", "")),
+                normalize_name(str(row.get("name", ""))),
+            ))
+
+    if not estab_coords:
+        return listings
+
+    linked_count = 0
+    for idx, listing in listings.iterrows():
+        if pd.isna(listing.get("lat")) or pd.isna(listing.get("lon")):
+            continue
+        llat, llon = float(listing["lat"]), float(listing["lon"])
+        best_dist = float("inf")
+        best_id = ""
+        for elat, elon, eid, ename in estab_coords:
+            dist = haversine_m(llat, llon, elat, elon)
+            if dist < best_dist:
+                best_dist = dist
+                best_id = eid
+        if best_dist <= max_dist_m:
+            listings.at[idx, "linked_establishment_id"] = best_id
+            linked_count += 1
+
+    print(f"  Linked {linked_count} Airbnb listings to nearby establishments (within {max_dist_m}m)")
+    return listings
 
 
 def main():
@@ -489,6 +608,13 @@ def main():
         airbnb_unified = keep_airbnb_listings(airbnb_df)
         print(f"  Airbnb listings kept: {len(airbnb_unified)}")
 
+    # Cross-granularity linking: connect Airbnb listings to nearby establishments
+    if not establishment_unified.empty and not airbnb_unified.empty:
+        print("\nLinking Airbnb listings to establishments ...")
+        airbnb_unified = link_listings_to_establishments(
+            establishment_unified, airbnb_unified
+        )
+
     # Combine
     all_frames = [f for f in [establishment_unified, airbnb_unified] if not f.empty]
     if not all_frames:
@@ -496,6 +622,11 @@ def main():
         return
 
     unified = pd.concat(all_frames, ignore_index=True)
+
+    # Ensure linked_establishment_id column exists for all rows
+    if "linked_establishment_id" not in unified.columns:
+        unified["linked_establishment_id"] = ""
+    unified["linked_establishment_id"] = unified["linked_establishment_id"].fillna("")
 
     # Add operator_name_normalized
     unified["operator_name_normalized"] = unified["operator_name"].apply(normalize_name)
@@ -521,6 +652,8 @@ def main():
                     source_counts[s] = source_counts.get(s, 0) + 1
         for s, cnt in sorted(source_counts.items(), key=lambda x: -x[1]):
             print(f"  observed in {s}: {cnt}")
+    linked = unified["linked_establishment_id"].astype(str).str.strip().ne("")
+    print(f"  Listings linked to establishments: {linked.sum()}")
 
     unified.to_csv(OUTPUT_FILE, index=False, encoding="utf-8")
     print(f"\nSaved unified dataset to {OUTPUT_FILE}")

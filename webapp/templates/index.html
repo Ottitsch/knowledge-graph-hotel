@@ -146,8 +146,16 @@
     </div>
   </div>
 
-  <!-- Panel 6: Map -->
+  <!-- Panel 6: Granularity (listing vs establishment) -->
   <div class="panel">
+    <h2>Data Granularity — Listing vs Establishment</h2>
+    <div class="chart-wrap" style="max-height:340px;">
+      <canvas id="chartGranularity"></canvas>
+    </div>
+  </div>
+
+  <!-- Panel 7: Map (full width) -->
+  <div class="panel full-width">
     <h2>Map of All Accommodation Units</h2>
     <div id="map"></div>
   </div>
@@ -256,7 +264,7 @@ async function renderCorporate() {
       datasets: [
         {
           label: 'Professional (>3 units)',
-          data: data.map(d => d.corporate),
+          data: data.map(d => d.professional),
           backgroundColor: '#f97316',
           stack: 'stack',
         },
@@ -311,7 +319,37 @@ async function renderTypes() {
   });
 }
 
-// ── Panel 6: Map ──────────────────────────────────────────────────
+// ── Panel 6: Granularity ──────────────────────────────────────────
+async function renderGranularity() {
+  const data = await fetchJSON('/api/granularity-counts');
+  const ctx = document.getElementById('chartGranularity').getContext('2d');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: data.map(d => d.granularity || 'unknown'),
+      datasets: [{
+        data: data.map(d => d.count),
+        backgroundColor: ['#4f9cf9', '#f97316', '#22c55e', '#a855f7'],
+        borderColor: '#1a1f2e',
+        borderWidth: 2,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'right',
+          labels: { color: '#a0aec0', font: { size: 11 }, padding: 12 },
+        },
+        tooltip: { backgroundColor: '#1e2535', titleColor: '#e2e8f0', bodyColor: '#a0aec0' },
+      },
+    }
+  });
+}
+
+// ── Panel 7: Map ──────────────────────────────────────────────────
 async function renderMap() {
   const map = L.map('map').setView([48.2082, 16.3738], 13);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
@@ -349,6 +387,7 @@ Promise.all([
   renderDistricts(),
   renderCorporate(),
   renderTypes(),
+  renderGranularity(),
   renderMap(),
 ]).catch(err => console.error('Dashboard error:', err));
 </script>

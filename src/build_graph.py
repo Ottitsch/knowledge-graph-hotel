@@ -56,8 +56,9 @@ def slugify(s: str) -> str:
     return s.strip("_") or "unknown"
 
 
-def _operator_id(op_name: str, host_id: str) -> str:
-    if host_id and host_id not in ("", "nan", "None"):
+def _operator_id(op_name: str, host_id: str, source: str) -> str:
+    """Generate a stable operator ID. Only use host_id for Airbnb sources."""
+    if source == "airbnb" and host_id and host_id not in ("", "nan", "None"):
         return f"airbnb:{host_id}"
     return f"name:{slugify(op_name)}"
 
@@ -90,6 +91,7 @@ def build_neo4j(df: pd.DataFrame, wikidata: list):
         _ingest_units(session, df)
         _ingest_operators(session, df)
         _ingest_chains(session, df, wikidata)
+        _ingest_listing_links(session, df)
 
     driver.close()
     print("Neo4j ingestion complete.")
@@ -195,7 +197,8 @@ def _ingest_operators(session, df: pd.DataFrame):
             continue
         unit_id = str(row.get("canonical_id", "")) or slugify(f"{row.get('name','')}_{row.get('raw_id','')}")
         host_id = str(row.get("host_id", ""))
-        op_id = _operator_id(op_name, host_id)
+        source = str(row.get("source_names", row.get("source", "")))
+        op_id = _operator_id(op_name, host_id, source)
         listings = int(row["host_listings_count"]) if pd.notna(row.get("host_listings_count")) else None
         session.run("""
         MERGE (o:Operator {id: $op_id})
@@ -238,6 +241,25 @@ def _ingest_chains(session, df: pd.DataFrame, wikidata: list):
             session.run("MERGE (c:HotelChain {name: $name})", name=brand)
 
 
+def _ingest_listing_links(session, df: pd.DataFrame):
+    """Create LISTING_OF relationships between Airbnb listings and their parent establishments."""
+    if "linked_establishment_id" not in df.columns:
+        return
+    col = df["linked_establishment_id"].fillna("").astype(str).str.strip()
+    linked = df[(col != "") & (col != "nan")]
+    if linked.empty:
+        return
+    print(f"  Creating LISTING_OF links for {len(linked)} Airbnb listings ...")
+    for _, row in linked.iterrows():
+        listing_id = str(row.get("canonical_id", ""))
+        estab_id = str(row["linked_establishment_id"]).strip()
+        if listing_id and estab_id:
+            session.run("""
+            MATCH (l:AccommodationUnit {id: $lid}), (e:AccommodationUnit {id: $eid})
+            MERGE (l)-[:LISTING_OF]->(e)
+            """, lid=listing_id, eid=estab_id)
+
+
 # ──────────────────────────────────────────────────────────────
 # RDF / Turtle
 # ──────────────────────────────────────────────────────────────
@@ -259,6 +281,7 @@ def build_rdf(df: pd.DataFrame, wikidata: list) -> Graph:
 
     operators_seen = set()
     chains_seen = set()
+    unit_uris = {}  # canonical_id → URI for cross-linking
 
     for _, row in df.iterrows():
         name = str(row.get("name", "")).strip()
@@ -267,6 +290,7 @@ def build_rdf(df: pd.DataFrame, wikidata: list) -> Graph:
 
         uid = str(row.get("canonical_id", "")) or slugify(f"{name}_{row.get('raw_id','')}")
         unit_uri = VAOK[f"unit/{slugify(uid)}"]
+        unit_uris[uid] = unit_uri
         g.add((unit_uri, RDF.type, VAOK.AccommodationUnit))
         g.add((unit_uri, RDFS.label, Literal(name)))
         g.add((unit_uri, SCHEMA.name, Literal(name)))
@@ -309,7 +333,9 @@ def build_rdf(df: pd.DataFrame, wikidata: list) -> Graph:
         # Operator
         op_name = str(row.get("operator_name", "")).strip()
         if op_name:
-            op_id = _operator_id(op_name, str(row.get("host_id", "")))
+            host_id = str(row.get("host_id", ""))
+            source = str(row.get("source_names", row.get("source", "")))
+            op_id = _operator_id(op_name, host_id, source)
             op_uri = VAOK[f"operator/{slugify(op_id)}"]
             if op_uri not in operators_seen:
                 g.add((op_uri, RDF.type, VAOK.Operator))
@@ -326,6 +352,16 @@ def build_rdf(df: pd.DataFrame, wikidata: list) -> Graph:
                     g.add((chain_uri, RDFS.label, Literal(chain_name)))
                     chains_seen.add(chain_uri)
                 g.add((op_uri, VAOK.affiliatedWith, chain_uri))
+
+    # Cross-granularity: LISTING_OF links
+    if "linked_establishment_id" in df.columns:
+        for _, row in df.iterrows():
+            linked_id = str(row.get("linked_establishment_id", "")).strip()
+            if not linked_id:
+                continue
+            listing_uid = str(row.get("canonical_id", ""))
+            if listing_uid in unit_uris and linked_id in unit_uris:
+                g.add((unit_uris[listing_uid], VAOK.listingOf, unit_uris[linked_id]))
 
     return g
 
@@ -372,6 +408,10 @@ def main():
             print(f"    {g}: {cnt}")
     print(f"  Wikidata records:    {len(wikidata)}")
     print(f"  RDF triples:         {triple_count}")
+    if "linked_establishment_id" in df.columns:
+        linked = df["linked_establishment_id"].fillna("").astype(str).str.strip()
+        linked = linked.ne("") & linked.ne("nan")
+        print(f"  Listing->establishment links: {linked.sum()}")
 
 
 if __name__ == "__main__":
