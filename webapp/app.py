@@ -152,8 +152,11 @@ def map_points():
     records = run_query("""
         MATCH (u:AccommodationUnit)
         WHERE u.lat IS NOT NULL AND u.lon IS NOT NULL
+        OPTIONAL MATCH (u)-[:OPERATED_BY]->(o:Operator)
+        WITH u, head(collect(DISTINCT o.name)) AS operator
         RETURN u.name AS name, u.lat AS lat, u.lon AS lon,
                coalesce(u.unit_type, 'unknown') AS type,
+               coalesce(operator, 'Unknown') AS operator,
                u.website AS website, u.picture_url AS picture_url,
                u.granularity AS granularity, u.source_names AS sources
     """)
@@ -194,6 +197,7 @@ def property_network():
             "lat": r["lat"],
             "lon": r["lon"],
             "type": r["type"],
+            "operator": r.get("operator") or "",
             "website": r.get("website") or "",
             "picture_url": r.get("picture_url") or "",
             "granularity": r.get("granularity") or "",

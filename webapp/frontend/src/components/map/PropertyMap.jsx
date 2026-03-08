@@ -53,24 +53,24 @@ const TILE_STYLES = [
   },
 ]
 
-// Color ramp: teal → indigo → rose (no orange/yellow/green)
 function clusterColor(count) {
-  if (count < 15) return '#2dd4bf'   // teal
-  if (count < 60) return '#6366f1'   // indigo
-  return '#fb7185'                    // rose
+  if (count < 15) return '#2dd4bf'
+  if (count < 60) return '#6366f1'
+  return '#fb7185'
 }
-
-// ── Cluster icon builders ─────────────────────────────────────────
 
 function hexagonIcon(count) {
   const color = clusterColor(count)
   const size = count < 15 ? 32 : count < 60 ? 42 : 52
-  const cx = size / 2, cy = size / 2, r = size / 2 - 2
+  const cx = size / 2
+  const cy = size / 2
+  const r = size / 2 - 2
   const pts = Array.from({ length: 6 }, (_, i) => {
-    const a = (i * 60 - 90) * Math.PI / 180
+    const a = ((i * 60 - 90) * Math.PI) / 180
     return `${cx + r * Math.cos(a)},${cy + r * Math.sin(a)}`
   }).join(' ')
   const fs = size < 42 ? 11 : 13
+
   return L.divIcon({
     html: `<svg width="${size}" height="${size}" style="filter:drop-shadow(0 2px 6px ${color}66)">
       <polygon points="${pts}" fill="${color}" fill-opacity="0.88" stroke="white" stroke-width="1" stroke-opacity="0.5"/>
@@ -83,11 +83,7 @@ function hexagonIcon(count) {
   })
 }
 
-const CLUSTER_STYLES = [
-  { id: 'hexagon', label: 'Hexagon', fn: hexagonIcon },
-]
-
-// ─────────────────────────────────────────────────────────────────
+const CLUSTER_STYLES = [{ id: 'hexagon', label: 'Hexagon', fn: hexagonIcon }]
 
 function colorFor(type) {
   return TYPE_COLORS[type] ?? TYPE_COLORS.unknown
@@ -104,11 +100,35 @@ function makeIcon(color, size = 8) {
 
 function buildPopup(pt) {
   const name = pt.name ?? 'Accommodation Unit'
-  const img = pt.picture_url ? `<img src="${pt.picture_url}" alt="" style="width:100%;height:120px;object-fit:cover;border-radius:6px;margin-bottom:6px;display:block;">` : ''
-  const link = pt.website ? `<a href="${pt.website}" target="_blank" rel="noopener noreferrer" style="color:#2dd4bf;font-size:11px;">View listing ↗</a>` : ''
-  const granularity = pt.granularity ? `<span style="font-size:10px;color:#94a3b8;margin-left:4px;">(${pt.granularity})</span>` : ''
-  const sources = pt.sources ? `<div style="font-size:10px;color:#64748b;margin-top:3px;">Sources: ${pt.sources}</div>` : ''
-  return `<div style="font-family:Inter,sans-serif;min-width:160px;">${img}<b style="font-size:13px;">${name}</b><br><span style="font-size:11px;color:#64748b;">${pt.type}</span>${granularity}${sources}${link ? '<br>' + link : ''}</div>`
+  const img = pt.picture_url
+    ? `<img src="${pt.picture_url}" alt="" style="width:100%;height:120px;object-fit:cover;border-radius:6px;margin-bottom:6px;display:block;">`
+    : ''
+  const link = pt.website
+    ? `<a href="${pt.website}" target="_blank" rel="noopener noreferrer" style="color:#2dd4bf;font-size:11px;">View listing -></a>`
+    : ''
+  const granularity = pt.granularity
+    ? `<span style="font-size:10px;color:#94a3b8;margin-left:4px;">(${pt.granularity})</span>`
+    : ''
+  const sources = pt.sources
+    ? `<div style="font-size:10px;color:#64748b;margin-top:3px;">Sources: ${pt.sources}</div>`
+    : ''
+  const operator = pt.operator
+    ? `<div style="font-size:10px;color:#475569;margin-top:2px;">Operator: ${pt.operator}</div>`
+    : ''
+
+  return `<div style="font-family:Inter,sans-serif;min-width:160px;">${img}<b style="font-size:13px;">${name}</b><br><span style="font-size:11px;color:#64748b;">${pt.type}</span>${granularity}${operator}${sources}${link ? '<br>' + link : ''}</div>`
+}
+
+function buildTooltip(pt) {
+  const granularity = pt.granularity ? ` (${pt.granularity})` : ''
+  const operator = pt.operator
+    ? `<div style="font-size:10px;color:#64748b;">${pt.operator}</div>`
+    : ''
+  return `<div style="font-family:Inter,sans-serif;min-width:130px;">
+    <b style="font-size:12px;">${pt.name ?? 'Accommodation Unit'}</b><br>
+    <span style="font-size:10px;color:#64748b;">${pt.type ?? 'unknown'}${granularity}</span>
+    ${operator}
+  </div>`
 }
 
 export default function PropertyMap() {
@@ -129,7 +149,6 @@ export default function PropertyMap() {
     return fn(cluster.getChildCount())
   }, [])
 
-  // Init map once
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
     mapRef.current = L.map(containerRef.current).setView([48.2082, 16.3738], 13)
@@ -138,10 +157,12 @@ export default function PropertyMap() {
       attribution: style.attribution,
       maxZoom: 19,
     }).addTo(mapRef.current)
-    return () => { mapRef.current?.remove(); mapRef.current = null }
+    return () => {
+      mapRef.current?.remove()
+      mapRef.current = null
+    }
   }, [])
 
-  // Swap tile layer
   useEffect(() => {
     if (!mapRef.current) return
     const style = TILE_STYLES.find((s) => s.id === tileStyle)
@@ -154,13 +175,9 @@ export default function PropertyMap() {
     tileLayerRef.current.bringToBack()
   }, [tileStyle])
 
-
-  // Render all clustered markers once data arrives
   useEffect(() => {
     if (!data || !mapRef.current) return
     const map = mapRef.current
-
-    // Canvas renderer — no DOM node per marker, handles 10k+ points smoothly
     const renderer = L.canvas({ padding: 0.5 })
 
     const clusters = L.markerClusterGroup({
@@ -182,14 +199,22 @@ export default function PropertyMap() {
         weight: 1.5,
       })
       marker.bindPopup(buildPopup(pt), { maxWidth: 260 })
+      marker.bindTooltip(buildTooltip(pt), {
+        direction: 'top',
+        offset: [0, -8],
+        sticky: true,
+        opacity: 0.95,
+      })
       marker.on('click', () => handlePropertyClick(pt))
       clusters.addLayer(marker)
     })
 
     map.addLayer(clusters)
     allLayerRef.current = clusters
-    return () => { map.removeLayer(clusters) }
-  }, [data])
+    return () => {
+      map.removeLayer(clusters)
+    }
+  }, [data, iconCreateFunction])
 
   function handlePropertyClick(pt) {
     setLoading(true)
@@ -200,7 +225,10 @@ export default function PropertyMap() {
         if (!mapRef.current) return
         const map = mapRef.current
 
-        if (focusLayerRef.current) { map.removeLayer(focusLayerRef.current); focusLayerRef.current = null }
+        if (focusLayerRef.current) {
+          map.removeLayer(focusLayerRef.current)
+          focusLayerRef.current = null
+        }
 
         if (!result.operator) {
           if (allLayerRef.current) map.addLayer(allLayerRef.current)
@@ -217,7 +245,10 @@ export default function PropertyMap() {
           const isSelf = Math.abs(p.lat - pt.lat) < 0.0001 && Math.abs(p.lon - pt.lon) < 0.0001
           if (!isSelf) {
             L.polyline([origin, [p.lat, p.lon]], {
-              color: '#2dd4bf', weight: 1.5, opacity: 0.35, dashArray: '4 6',
+              color: '#2dd4bf',
+              weight: 1.5,
+              opacity: 0.35,
+              dashArray: '4 6',
             }).addTo(group)
           }
         })
@@ -227,6 +258,12 @@ export default function PropertyMap() {
           const icon = isSelf ? makeIcon('#1e293b', 18) : makeIcon('#2dd4bf', 14)
           L.marker([p.lat, p.lon], { icon })
             .bindPopup(buildPopup(p), { maxWidth: 260 })
+            .bindTooltip(buildTooltip(p), {
+              direction: 'top',
+              offset: [0, -10],
+              sticky: true,
+              opacity: 0.95,
+            })
             .addTo(group)
         })
 
@@ -244,39 +281,46 @@ export default function PropertyMap() {
 
   function clearFocus() {
     if (!mapRef.current) return
-    if (focusLayerRef.current) { mapRef.current.removeLayer(focusLayerRef.current); focusLayerRef.current = null }
+    if (focusLayerRef.current) {
+      mapRef.current.removeLayer(focusLayerRef.current)
+      focusLayerRef.current = null
+    }
     if (allLayerRef.current) mapRef.current.addLayer(allLayerRef.current)
     setFocusInfo(null)
   }
 
   return (
     <div className="w-full flex flex-col gap-3">
-      {/* Top bar */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="min-h-[28px] flex items-center">
           {focusInfo ? (
             <div className="flex items-center gap-3">
               <span className="text-sm text-white/70">
                 Operated by{' '}
-                <span className="font-semibold" style={{ color: '#2dd4bf' }}>{focusInfo.operator}</span>
+                <span className="font-semibold" style={{ color: '#2dd4bf' }}>
+                  {focusInfo.operator}
+                </span>
                 {' '}·{' '}
-                <span className="text-white/50">{focusInfo.count} listing{focusInfo.count !== 1 ? 's' : ''}</span>
+                <span className="text-white/50">
+                  {focusInfo.count} listing{focusInfo.count !== 1 ? 's' : ''}
+                </span>
               </span>
               <button
                 onClick={clearFocus}
                 className="px-3 py-1 rounded-lg text-xs text-white/60 hover:text-white bg-white/10 hover:bg-white/15 transition-all"
               >
-                ← Show all
+                {'<- Show all'}
               </button>
             </div>
           ) : (
-            <span className="text-xs text-white/30">Click any accommodation unit to explore its operator network</span>
+            <span className="text-xs text-white/30">
+              Hover any accommodation unit for details · click to explore its operator network
+            </span>
           )}
-          {loading && <span className="text-xs text-white/40 ml-3">Loading…</span>}
+          {loading && <span className="text-xs text-white/40 ml-3">Loading...</span>}
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
-          {/* Tile style picker */}
           <div className="flex gap-1 p-1 rounded-xl" style={{ background: 'rgba(255,255,255,0.06)' }}>
             {TILE_STYLES.map((s) => (
               <button
@@ -285,7 +329,11 @@ export default function PropertyMap() {
                 className="px-3 py-1 rounded-lg text-xs font-medium transition-all duration-150"
                 style={
                   tileStyle === s.id
-                    ? { background: 'rgba(45,212,191,0.2)', color: '#2dd4bf', border: '1px solid rgba(45,212,191,0.35)' }
+                    ? {
+                        background: 'rgba(45,212,191,0.2)',
+                        color: '#2dd4bf',
+                        border: '1px solid rgba(45,212,191,0.35)',
+                      }
                     : { color: 'rgba(248,250,252,0.45)', border: '1px solid transparent' }
                 }
               >
@@ -296,7 +344,7 @@ export default function PropertyMap() {
         </div>
       </div>
 
-      {isLoading && <div className="text-white/40 text-sm">Loading map data…</div>}
+      {isLoading && <div className="text-white/40 text-sm">Loading map data...</div>}
       {error && <div className="text-red-400 text-sm">Error loading map data</div>}
 
       <div ref={containerRef} style={{ height: '70vh', borderRadius: 12, overflow: 'hidden' }} />
