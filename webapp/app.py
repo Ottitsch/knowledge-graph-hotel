@@ -110,18 +110,17 @@ def districts():
 
 @app.route("/api/corporate-vs-individual")
 def corporate_vs_individual():
-    """Professional vs individual operators by district.
-    Uses the operator_type flag set during pipeline (based on host_listings_count
-    for Airbnb and chain affiliation for other sources).
+    """Multi-listing vs single-property operators by district.
+    Classified by number of units operated in this dataset (>1 = multi_listing).
     """
     records = run_query("""
         MATCH (u:AccommodationUnit)-[:OPERATED_BY]->(o:Operator)
         MATCH (u)-[:LOCATED_IN]->(d:District)
         WITH d,
-             sum(CASE WHEN o.operator_type = 'professional' THEN 1 ELSE 0 END) AS corporate,
-             sum(CASE WHEN o.operator_type <> 'professional' THEN 1 ELSE 0 END) AS individual
-        RETURN d.name AS district, corporate, individual
-        ORDER BY (corporate + individual) DESC
+             sum(CASE WHEN o.operator_type = 'multi_listing' THEN 1 ELSE 0 END) AS multi_listing,
+             sum(CASE WHEN o.operator_type <> 'multi_listing' THEN 1 ELSE 0 END) AS single_property
+        RETURN d.name AS district, multi_listing, single_property
+        ORDER BY (multi_listing + single_property) DESC
     """)
     return jsonify(records)
 

@@ -90,7 +90,7 @@ function AnalyticsTab({ onNavigate }) {
       <Panel title="Accommodation units by district">
         <DistrictBar />
       </Panel>
-      <Panel title="Professional vs smaller operators by district" className="xl:col-span-2">
+      <Panel title="Multi-listing vs single-property operators by district" className="xl:col-span-2">
         <CorporateBar />
       </Panel>
       <Panel title="Accommodation types">

@@ -24,8 +24,8 @@ export default function CorporateBar() {
           labelStyle={{ color: '#f8fafc', fontWeight: 600 }}
         />
         <Legend wrapperStyle={{ color: 'rgba(248,250,252,0.7)', fontSize: 12, paddingTop: 8 }} />
-        <Bar dataKey="corporate" stackId="a" fill="rgba(45,212,191,0.85)" radius={[0, 0, 0, 0]} name="Corporate" />
-        <Bar dataKey="individual" stackId="a" fill="rgba(167,139,250,0.85)" radius={[6, 6, 0, 0]} name="Individual" />
+        <Bar dataKey="multi_listing" stackId="a" fill="rgba(45,212,191,0.85)" radius={[0, 0, 0, 0]} name="Multi-listing" />
+        <Bar dataKey="single_property" stackId="a" fill="rgba(167,139,250,0.85)" radius={[6, 6, 0, 0]} name="Single-property" />
       </BarChart>
     </ResponsiveContainer>
   )

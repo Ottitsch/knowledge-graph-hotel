@@ -782,26 +782,31 @@ def main():
     for t, cnt in unified["unit_type_normalized"].value_counts().items():
         print(f"    {t}: {cnt}")
 
-    # Classify operators as professional or individual
-    # For Airbnb: use host_listings_count (total across all markets)
-    # For non-Airbnb: use chain affiliation or count of units in our data
-    unified["operator_type"] = "individual"
-    airbnb_mask = unified["source_names"] == "airbnb"
-    high_count = pd.to_numeric(unified["host_listings_count"], errors="coerce").fillna(0) > PROFESSIONAL_THRESHOLD
-    unified.loc[airbnb_mask & high_count, "operator_type"] = "professional"
-
     # Detect chain membership
     unified["hotel_chain"] = unified.apply(
         lambda r: detect_chain(r.get("name", ""), r.get("operator_name", "")), axis=1
     )
-    # Chain-affiliated establishments are always professional
-    unified.loc[unified["hotel_chain"] != "", "operator_type"] = "professional"
-
     chain_count = (unified["hotel_chain"] != "").sum()
     print(f"  Chain membership detected for {chain_count} units")
-    prof = (unified["operator_type"] == "professional").sum()
-    indiv = (unified["operator_type"] == "individual").sum()
-    print(f"  Operator classification: {prof} professional, {indiv} individual")
+
+    # Classify operators as multi_listing or single_property based on how many
+    # units they operate in our own dataset.
+    def _temp_op_key(row):
+        if str(row.get("source_names", "")) == "airbnb":
+            hid = str(row.get("host_id", "")).replace(".0", "").strip()
+            return f"airbnb:{hid}" if hid else None
+        return str(row.get("operator_name", "")).strip().lower() or None
+
+    unified["_op_key"] = unified.apply(_temp_op_key, axis=1)
+    op_counts = unified.groupby("_op_key")["_op_key"].transform("count")
+    unified["operator_type"] = op_counts.apply(
+        lambda c: "multi_listing" if c > 1 else "single_property"
+    )
+    unified.drop(columns=["_op_key"], inplace=True)
+
+    multi = (unified["operator_type"] == "multi_listing").sum()
+    single = (unified["operator_type"] == "single_property").sum()
+    print(f"  Operator classification: {multi} multi-listing, {single} single-property")
 
     # Summary
     print(f"\nTotal unified records: {len(unified)}")
