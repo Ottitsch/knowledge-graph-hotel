@@ -1,0 +1,2 @@
+Operator Names for Airbnb Unit Linking isnt sufficient, we need to check unique user id's or something else instead.
+NO Distinction in Professional vs smaller operators by district (corporate arent being found)
