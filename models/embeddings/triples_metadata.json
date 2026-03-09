@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-03-09T01:08:13+00:00",
-  "triple_count": 82894,
-  "entity_count_estimate": 22369,
+  "generated_at": "2026-03-09T01:45:07+00:00",
+  "triple_count": 82929,
+  "entity_count_estimate": 22382,
   "relation_count": 7,
   "relations": {
-    "affiliatedWith": 7310,
-    "hasGranularity": 15003,
-    "hasUnitType": 15003,
-    "listingOf": 221,
-    "locatedIn": 15003,
-    "observedIn": 15351,
-    "operatedBy": 15003
+    "affiliatedWith": 7315,
+    "hasGranularity": 15011,
+    "hasUnitType": 15011,
+    "listingOf": 215,
+    "locatedIn": 15011,
+    "observedIn": 15355,
+    "operatedBy": 15011
   }
 }

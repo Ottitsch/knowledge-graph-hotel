@@ -1,14 +1,14 @@
 # Evolution Report
 
-- Generated at: 2026-03-09T01:09:17+00:00
-- Previous snapshot: 20260309_020906
-- Current snapshot: 20260309_020915
+- Generated at: 2026-03-09T01:46:01+00:00
+- Previous snapshot: 20260309_023845
+- Current snapshot: 20260309_024559
 - Added units: 0
 - Removed units: 0
 - Listing links added: 0
 - Listing links removed: 0
 - Operator labels changed: 0
-- Rule fact delta: 0
+- Rule fact delta: -256
 - Evidence-backed listing delta: 0
 
 ## Sample Operator Label Changes

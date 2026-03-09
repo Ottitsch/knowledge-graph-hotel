@@ -4,8 +4,8 @@ into a single unified CSV with source provenance and granularity labels.
 
 Matching strategy (in priority order):
   1. Strong: same source-specific ID
-  2. Strong: normalized name + coordinates within ~100m
-  3. Strong: same website domain + coordinates within ~200m
+  2. Strong: normalized name + coordinates within ~80m
+  3. Strong: same website domain + coordinates within ~150m
   4. Airbnb listings are kept as listing granularity, but linked to nearby
      establishments via the linked_establishment_id column.
 
@@ -186,6 +186,12 @@ MATCH_TOKEN_STOPWORDS = {
     "room", "smart", "spacious", "standard", "stay", "studio", "suite",
     "superior", "urban", "vienna", "wien",
 }
+
+ESTABLISHMENT_NAME_MERGE_MAX_DIST_M = 80
+ESTABLISHMENT_DOMAIN_MERGE_MAX_DIST_M = 150
+LISTING_CANDIDATE_MAX_DIST_M = 40
+LISTING_HIGH_CONFIDENCE_MAX_DIST_M = 25
+LISTING_MEDIUM_CONFIDENCE_MAX_DIST_M = 12
 
 
 # District name corrections for encoding problems from Airbnb data
@@ -640,9 +646,9 @@ def _classify_listing_match(listing: pd.Series, establishment: pd.Series, distan
     if overlap:
         evidence.append(f"token_overlap={','.join(overlap[:4])}")
 
-    if distance_m <= 30 and (exact_operator or phrase_match or len(overlap) >= 2):
+    if distance_m <= LISTING_HIGH_CONFIDENCE_MAX_DIST_M and (exact_operator or phrase_match or len(overlap) >= 2):
         return "high", " + ".join(evidence)
-    if distance_m <= 15 and (exact_operator or phrase_match or len(overlap) >= 1):
+    if distance_m <= LISTING_MEDIUM_CONFIDENCE_MAX_DIST_M and (exact_operator or phrase_match or len(overlap) >= 1):
         return "medium", " + ".join(evidence)
     return "", " + ".join(evidence)
 
@@ -686,7 +692,7 @@ def merge_establishment_sources(frames: list) -> pd.DataFrame:
         if dom:
             domain_index.setdefault(dom, []).append(i)
 
-    # Pass 1: same normalized name + coordinates within ~100m
+    # Pass 1: same normalized name + coordinates within the tighter name threshold.
     for nn, idxs in name_index.items():
         if _is_generic_name(nn):
             continue
@@ -695,10 +701,10 @@ def merge_establishment_sources(frames: list) -> pd.DataFrame:
                 ia, ib = idxs[a], idxs[b]
                 ra, rb = rows.iloc[ia], rows.iloc[ib]
                 dist = haversine_m(ra["lat"], ra["lon"], rb["lat"], rb["lon"])
-                if dist < 100:
+                if dist < ESTABLISHMENT_NAME_MERGE_MAX_DIST_M:
                     union(ia, ib)
 
-    # Pass 2: same website domain + coordinates within ~200m
+    # Pass 2: same website domain + coordinates within the tighter domain threshold.
     for dom, idxs in domain_index.items():
         if len(dom) < 5:
             continue
@@ -707,7 +713,7 @@ def merge_establishment_sources(frames: list) -> pd.DataFrame:
                 ia, ib = idxs[a], idxs[b]
                 ra, rb = rows.iloc[ia], rows.iloc[ib]
                 dist = haversine_m(ra["lat"], ra["lon"], rb["lat"], rb["lon"])
-                if dist < 200:
+                if dist < ESTABLISHMENT_DOMAIN_MERGE_MAX_DIST_M:
                     union(ia, ib)
 
     # Build merged groups
@@ -787,7 +793,7 @@ def keep_airbnb_listings(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def link_listings_to_establishments(
-    establishments: pd.DataFrame, listings: pd.DataFrame, max_dist_m: float = 50
+    establishments: pd.DataFrame, listings: pd.DataFrame, max_dist_m: float = LISTING_CANDIDATE_MAX_DIST_M
 ) -> pd.DataFrame:
     """
     Link Airbnb listings to nearby establishments.

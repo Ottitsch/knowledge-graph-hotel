@@ -1,16 +1,16 @@
 # Rule Inference Report
 
-- Generated at: 2026-03-09T01:08:11+00:00
-- Input rows: 15003
+- Generated at: 2026-03-09T01:45:05+00:00
+- Input rows: 15011
 - Rules applied: 4
-- Total inferred facts: 1810
+- Total inferred facts: 1553
 
 ## Facts by Type
 
 - `CrossDistrictOperator`: 590
-- `LikelyChainAffiliatedOperator`: 81
-- `MultiSourceConfirmedEstablishment`: 281
-- `ProfessionalOperator`: 858
+- `LikelyChainAffiliatedOperator`: 83
+- `MultiSourceConfirmedEstablishment`: 278
+- `ProfessionalOperator`: 602
 
 ## Sample Facts
 

@@ -9,12 +9,21 @@ function Stat({ label, value }) {
   )
 }
 
-export default function EvolutionSummary() {
-  const { data, error, isLoading } = useApi('/api/evolution/summary')
+function buildEvolutionPath(basePath, previousSnapshot, currentSnapshot) {
+  const params = new URLSearchParams()
+  if (previousSnapshot) params.set('previous', previousSnapshot)
+  if (currentSnapshot) params.set('current', currentSnapshot)
+  const query = params.toString()
+  return query ? `${basePath}?${query}` : basePath
+}
+
+export default function EvolutionSummary({ previousSnapshot, currentSnapshot }) {
+  const path = buildEvolutionPath('/api/evolution/summary', previousSnapshot, currentSnapshot)
+  const { data, error, isLoading } = useApi(path)
 
   if (isLoading) return <div className="text-sm text-white/45">Loading evolution summary...</div>
   if (error || !data) return <div className="text-sm text-red-200/80">Evolution summary unavailable.</div>
-  if (data.status === 'insufficient_snapshots') {
+  if (data.status === 'insufficient_snapshots' || data.status === 'invalid_snapshot' || data.status === 'invalid_order') {
     return <div className="text-sm text-white/45">{data.message}</div>
   }
 
@@ -46,8 +55,8 @@ export default function EvolutionSummary() {
         </div>
         {isZeroDiff && (
           <div className="mt-3 text-xs leading-relaxed text-white/45">
-            The latest two snapshots are currently identical, so the evolution diff is empty.
-            This usually happens when snapshots were created back-to-back without a real data or pipeline change between them.
+            The selected snapshots currently produce an empty evolution diff.
+            Choose a wider time gap or compare two runs with different matching or reasoning settings.
           </div>
         )}
       </div>

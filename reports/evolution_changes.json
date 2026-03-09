@@ -1,14 +1,14 @@
 {
   "summary": {
-    "generated_at": "2026-03-09T01:09:17+00:00",
-    "previous_snapshot": "20260309_020906",
-    "current_snapshot": "20260309_020915",
+    "generated_at": "2026-03-09T01:46:01+00:00",
+    "previous_snapshot": "20260309_023845",
+    "current_snapshot": "20260309_024559",
     "added_units": 0,
     "removed_units": 0,
     "listing_links_added": 0,
     "listing_links_removed": 0,
     "operator_labels_changed": 0,
-    "rule_fact_delta": 0,
+    "rule_fact_delta": -256,
     "linked_listing_delta": 0
   },
   "added_units": [],

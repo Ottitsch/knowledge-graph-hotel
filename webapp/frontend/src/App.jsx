@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Nav from './components/Nav'
 import Panel from './components/Panel'
+import { useApi } from './hooks/useApi'
 import ForceGraph from './components/graph/ForceGraph'
 import TopOperators from './components/charts/TopOperators'
 import ChainBar from './components/charts/ChainBar'
@@ -15,6 +16,7 @@ import EvidencePanel from './components/explain/EvidencePanel'
 import ReasoningLab from './components/reasoning/ReasoningLab'
 import EvolutionSummary from './components/evolution/EvolutionSummary'
 import ChangeTable from './components/evolution/ChangeTable'
+import SnapshotSelector from './components/evolution/SnapshotSelector'
 import QueryAssistant from './components/assistant/QueryAssistant'
 import FinancialKGComparison from './components/case-studies/FinancialKGComparison'
 
@@ -177,13 +179,61 @@ function ReasoningTab({ selected, inspectedLink, onInspectLink }) {
 }
 
 function EvolutionTab() {
+  const { data: snapshotData, error: snapshotError, isLoading: snapshotLoading } = useApi('/api/evolution/snapshots')
+  const snapshots = snapshotData?.snapshots || []
+  const [previousSnapshot, setPreviousSnapshot] = useState('')
+  const [currentSnapshot, setCurrentSnapshot] = useState('')
+
+  useEffect(() => {
+    if (!snapshots.length) return
+    const fallbackPrevious = snapshotData?.default_previous || snapshots[Math.max(snapshots.length - 2, 0)] || ''
+    const fallbackCurrent = snapshotData?.default_current || snapshots[snapshots.length - 1] || ''
+    setPreviousSnapshot((value) => (snapshots.includes(value) ? value : fallbackPrevious))
+    setCurrentSnapshot((value) => (snapshots.includes(value) ? value : fallbackCurrent))
+  }, [snapshotData, snapshots])
+
+  function handlePreviousChange(nextValue) {
+    setPreviousSnapshot(nextValue)
+    const nextIndex = snapshots.indexOf(nextValue)
+    const currentIndex = snapshots.indexOf(currentSnapshot)
+    if (currentIndex <= nextIndex) {
+      setCurrentSnapshot(snapshots[nextIndex + 1] || snapshots[snapshots.length - 1] || '')
+    }
+  }
+
+  function handleCurrentChange(nextValue) {
+    setCurrentSnapshot(nextValue)
+    const nextIndex = snapshots.indexOf(nextValue)
+    const previousIndex = snapshots.indexOf(previousSnapshot)
+    if (previousIndex >= nextIndex) {
+      setPreviousSnapshot(snapshots[nextIndex - 1] || snapshots[0] || '')
+    }
+  }
+
   return (
     <motion.div {...fadeVariant} className="flex flex-col gap-5">
-      <Panel title="Snapshot evolution summary">
-        <EvolutionSummary />
+      <Panel title="Choose snapshots to compare">
+        <SnapshotSelector
+          snapshots={snapshots}
+          previousSnapshot={previousSnapshot}
+          currentSnapshot={currentSnapshot}
+          onPreviousChange={handlePreviousChange}
+          onCurrentChange={handleCurrentChange}
+          isLoading={snapshotLoading}
+          error={snapshotError}
+        />
       </Panel>
-      <Panel title="Latest snapshot changes">
-        <ChangeTable />
+      <Panel title="Snapshot evolution summary">
+        <EvolutionSummary
+          previousSnapshot={previousSnapshot}
+          currentSnapshot={currentSnapshot}
+        />
+      </Panel>
+      <Panel title="Selected snapshot changes">
+        <ChangeTable
+          previousSnapshot={previousSnapshot}
+          currentSnapshot={currentSnapshot}
+        />
       </Panel>
     </motion.div>
   )

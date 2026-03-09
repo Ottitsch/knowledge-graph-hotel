@@ -44,38 +44,100 @@ def _non_empty(series: pd.Series) -> pd.Series:
     return series.fillna("").astype(str).str.strip()
 
 
+def _string_value(row: pd.Series, column: str) -> str:
+    value = row.get(column, "")
+    if pd.isna(value):
+        return ""
+    return str(value).strip()
+
+
+def _sorted_csv(value: str) -> str:
+    parts = [part.strip() for part in str(value).split(",") if part and part.strip()]
+    return ",".join(sorted(parts))
+
+
+def _entity_key(row: pd.Series) -> str:
+    granularity = _string_value(row, "granularity") or "unit"
+    raw_id = _string_value(row, "raw_id")
+    source_names = _sorted_csv(_string_value(row, "source_names"))
+    source_record_ids = _sorted_csv(_string_value(row, "source_record_ids"))
+
+    if granularity == "listing" and raw_id:
+        return f"listing:airbnb:{raw_id}"
+    if source_record_ids:
+        return f"{granularity}:{source_names}:{source_record_ids}"
+
+    name = _string_value(row, "name")
+    district = _string_value(row, "district")
+    lat = _string_value(row, "lat")
+    lon = _string_value(row, "lon")
+    return f"{granularity}:{source_names}:{name}:{district}:{lat}:{lon}"
+
+
+def _prepare_snapshot(df: pd.DataFrame) -> pd.DataFrame:
+    if df.empty:
+        return df.copy()
+
+    prepared = df.copy()
+    prepared["_snapshot_key"] = prepared.apply(_entity_key, axis=1)
+    prepared = prepared[prepared["_snapshot_key"].ne("")].copy()
+    prepared = prepared.drop_duplicates(subset="_snapshot_key", keep="first")
+    return prepared
+
+
 def build_diff(previous_df: pd.DataFrame, current_df: pd.DataFrame, previous_path: Path, current_path: Path) -> tuple[dict, dict]:
-    prev_ids = set(previous_df.get("canonical_id", pd.Series(dtype=str)).dropna().astype(str))
-    curr_ids = set(current_df.get("canonical_id", pd.Series(dtype=str)).dropna().astype(str))
+    previous_df = _prepare_snapshot(previous_df)
+    current_df = _prepare_snapshot(current_df)
+
+    prev_ids = set(previous_df.get("_snapshot_key", pd.Series(dtype=str)).dropna().astype(str))
+    curr_ids = set(current_df.get("_snapshot_key", pd.Series(dtype=str)).dropna().astype(str))
     added_ids = sorted(curr_ids - prev_ids)
     removed_ids = sorted(prev_ids - curr_ids)
 
-    prev_links = previous_df.set_index("canonical_id")["linked_establishment_id"].fillna("").astype(str) if not previous_df.empty else pd.Series(dtype=str)
-    curr_links = current_df.set_index("canonical_id")["linked_establishment_id"].fillna("").astype(str) if not current_df.empty else pd.Series(dtype=str)
+    prev_canonical_to_key = (
+        previous_df.set_index("canonical_id")["_snapshot_key"].fillna("").astype(str).to_dict()
+        if not previous_df.empty and "canonical_id" in previous_df
+        else {}
+    )
+    curr_canonical_to_key = (
+        current_df.set_index("canonical_id")["_snapshot_key"].fillna("").astype(str).to_dict()
+        if not current_df.empty and "canonical_id" in current_df
+        else {}
+    )
+    prev_links = (
+        previous_df.set_index("_snapshot_key")["linked_establishment_id"].fillna("").astype(str)
+        if not previous_df.empty
+        else pd.Series(dtype=str)
+    )
+    curr_links = (
+        current_df.set_index("_snapshot_key")["linked_establishment_id"].fillna("").astype(str)
+        if not current_df.empty
+        else pd.Series(dtype=str)
+    )
     link_added = []
     link_removed = []
     changed_operator_labels = []
 
     shared_ids = sorted(prev_ids & curr_ids)
-    for canonical_id in shared_ids:
-        prev_link = prev_links.get(canonical_id, "")
-        curr_link = curr_links.get(canonical_id, "")
+    for snapshot_key in shared_ids:
+        prev_link = prev_canonical_to_key.get(prev_links.get(snapshot_key, ""), "")
+        curr_link = curr_canonical_to_key.get(curr_links.get(snapshot_key, ""), "")
         if not prev_link and curr_link:
-            link_added.append({"canonical_id": canonical_id, "linked_establishment_id": curr_link})
+            link_added.append({"snapshot_key": snapshot_key, "linked_establishment_key": curr_link})
         elif prev_link and not curr_link:
-            link_removed.append({"canonical_id": canonical_id, "linked_establishment_id": prev_link})
+            link_removed.append({"snapshot_key": snapshot_key, "linked_establishment_key": prev_link})
 
     if not previous_df.empty and not current_df.empty:
-        prev_lookup = previous_df.set_index("canonical_id")
-        curr_lookup = current_df.set_index("canonical_id")
-        for canonical_id in shared_ids:
-            prev_name = str(prev_lookup.at[canonical_id, "operator_name"]) if canonical_id in prev_lookup.index else ""
-            curr_name = str(curr_lookup.at[canonical_id, "operator_name"]) if canonical_id in curr_lookup.index else ""
+        prev_lookup = previous_df.set_index("_snapshot_key")
+        curr_lookup = current_df.set_index("_snapshot_key")
+        for snapshot_key in shared_ids:
+            prev_name = str(prev_lookup.at[snapshot_key, "operator_name"]) if snapshot_key in prev_lookup.index else ""
+            curr_name = str(curr_lookup.at[snapshot_key, "operator_name"]) if snapshot_key in curr_lookup.index else ""
             if prev_name != curr_name:
                 changed_operator_labels.append(
                     {
-                        "canonical_id": canonical_id,
-                        "unit_name": str(curr_lookup.at[canonical_id, "name"]),
+                        "snapshot_key": snapshot_key,
+                        "unit_name": str(curr_lookup.at[snapshot_key, "name"]),
                         "previous_operator": prev_name,
                         "current_operator": curr_name,
                     }

@@ -40,6 +40,7 @@ from common_paths import (  # noqa: E402
     UNIFIED_DATA_FILE,
     read_json,
 )
+from diff_snapshots import build_diff  # noqa: E402
 from kg_utils import operator_key_from_row  # noqa: E402
 from query_templates import list_templates, match_query  # noqa: E402
 
@@ -95,6 +96,80 @@ def latest_snapshot_dirs() -> list[Path]:
     if not SNAPSHOTS_DIR.exists():
         return []
     return sorted([path for path in SNAPSHOTS_DIR.iterdir() if path.is_dir()])
+
+
+def _empty_evolution_changes(summary: dict) -> dict:
+    return {
+        "summary": summary,
+        "added_units": [],
+        "removed_units": [],
+        "listing_links_added": [],
+        "listing_links_removed": [],
+        "operator_labels_changed": [],
+    }
+
+
+def _load_snapshot_df(path: Path) -> pd.DataFrame:
+    file_path = path / UNIFIED_DATA_FILE.name
+    if not file_path.exists():
+        return pd.DataFrame()
+    return pd.read_csv(file_path, low_memory=False)
+
+
+def compare_snapshots(previous_name: str = "", current_name: str = "") -> tuple[dict, dict]:
+    snapshots = latest_snapshot_dirs()
+    snapshot_names = [path.name for path in snapshots]
+    default_previous = snapshot_names[-2] if len(snapshot_names) >= 2 else ""
+    default_current = snapshot_names[-1] if len(snapshot_names) >= 1 else ""
+    base_summary = {
+        "available_snapshots": snapshot_names,
+        "default_previous": default_previous,
+        "default_current": default_current,
+    }
+
+    if len(snapshots) < 2:
+        summary = {
+            **base_summary,
+            "status": "insufficient_snapshots",
+            "message": "Need at least two snapshots to compute an evolution diff.",
+        }
+        return summary, _empty_evolution_changes(summary)
+
+    previous_name = previous_name or default_previous
+    current_name = current_name or default_current
+    snapshot_map = {path.name: path for path in snapshots}
+
+    if previous_name not in snapshot_map or current_name not in snapshot_map:
+        summary = {
+            **base_summary,
+            "status": "invalid_snapshot",
+            "message": "Select two valid snapshot ids from the available list.",
+            "previous_snapshot": previous_name,
+            "current_snapshot": current_name,
+        }
+        return summary, _empty_evolution_changes(summary)
+
+    if snapshot_names.index(previous_name) >= snapshot_names.index(current_name):
+        summary = {
+            **base_summary,
+            "status": "invalid_order",
+            "message": "The previous snapshot must be older than the current snapshot.",
+            "previous_snapshot": previous_name,
+            "current_snapshot": current_name,
+        }
+        return summary, _empty_evolution_changes(summary)
+
+    previous_path = snapshot_map[previous_name]
+    current_path = snapshot_map[current_name]
+    summary, details = build_diff(
+        _load_snapshot_df(previous_path),
+        _load_snapshot_df(current_path),
+        previous_path,
+        current_path,
+    )
+    summary.update(base_summary)
+    details["summary"] = summary
+    return summary, details
 
 
 def _operator_summary_from_df(df: pd.DataFrame) -> pd.DataFrame:
@@ -577,12 +652,32 @@ def embedding_metrics():
 
 @app.route("/api/evolution/summary")
 def evolution_summary():
-    return jsonify(read_json(EVOLUTION_SUMMARY_JSON, default={}) or {})
+    previous_name = request.args.get("previous", "").strip()
+    current_name = request.args.get("current", "").strip()
+    summary, _ = compare_snapshots(previous_name=previous_name, current_name=current_name)
+    return jsonify(summary)
+
+
+@app.route("/api/evolution/snapshots")
+def evolution_snapshots():
+    summary, _ = compare_snapshots()
+    return jsonify(
+        {
+            "snapshots": summary.get("available_snapshots", []),
+            "default_previous": summary.get("default_previous", ""),
+            "default_current": summary.get("default_current", ""),
+            "status": summary.get("status", "ok"),
+            "message": summary.get("message", ""),
+        }
+    )
 
 
 @app.route("/api/evolution/changes")
 def evolution_changes():
-    return jsonify(read_json(EVOLUTION_CHANGES_JSON, default={}) or {})
+    previous_name = request.args.get("previous", "").strip()
+    current_name = request.args.get("current", "").strip()
+    _, details = compare_snapshots(previous_name=previous_name, current_name=current_name)
+    return jsonify(details)
 
 
 @app.route("/api/evolution/entity")

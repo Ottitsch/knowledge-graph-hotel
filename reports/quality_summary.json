@@ -1,35 +1,35 @@
 {
   "totals": {
-    "rows": 15003,
+    "rows": 15011,
     "listings": 14123,
-    "establishments": 880
+    "establishments": 888
   },
   "granularity": {
     "listing": 14123,
-    "establishment": 880
+    "establishment": 888
   },
   "source_combinations": {
     "airbnb": 14123,
-    "osm": 296,
-    "wikidata": 171,
-    "datagv": 146,
-    "datagv,osm": 121,
-    "datagv,osm,wikidata": 81,
+    "osm": 299,
+    "wikidata": 172,
+    "datagv": 152,
+    "datagv,osm": 120,
+    "datagv,osm,wikidata": 79,
     "datagv,wikidata": 33,
-    "osm,wikidata": 32
+    "osm,wikidata": 33
   },
   "establishment_merge_confidence": {
-    "single": 599,
-    "strong": 281
+    "single": 610,
+    "strong": 278
   },
   "operator_identity_confidence": {
     "high": 13761,
-    "low": 707,
+    "low": 715,
     "medium": 535
   },
   "operator_name_source": {
     "airbnb_host": 13644,
-    "venue_name_fallback": 707,
+    "venue_name_fallback": 715,
     "airbnb_brand_prefix": 479,
     "osm_operator_tag": 111,
     "osm_brand_tag": 51,
@@ -39,21 +39,21 @@
     "wikidata_parent_org": 1
   },
   "listing_matches": {
-    "linked": 221,
-    "candidate_only": 1470,
-    "no_candidate": 12432,
+    "linked": 215,
+    "candidate_only": 1097,
+    "no_candidate": 12811,
     "linked_confidence": {
-      "": 13902,
-      "medium": 121,
+      "": 13908,
+      "medium": 115,
       "high": 100
     }
   },
   "establishment_operator_fallbacks": {
-    "venue_name_fallback_rows": 707,
-    "share_percent": 80.3
+    "venue_name_fallback_rows": 715,
+    "share_percent": 80.5
   },
   "multi_source_establishments": {
-    "rows": 267,
-    "share_percent": 30.3
+    "rows": 265,
+    "share_percent": 29.8
   }
 }

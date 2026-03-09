@@ -2,41 +2,41 @@
 
 ## Snapshot
 
-- Total rows: 15003
+- Total rows: 15011
 - Listing-level rows: 14123
-- Establishment-level rows: 880
+- Establishment-level rows: 888
 
 ## Merge Quality
 
-- Multi-source establishments: 267 (30.3%)
-- Establishment merge confidence `single`: 599
-- Establishment merge confidence `strong`: 281
+- Multi-source establishments: 265 (29.8%)
+- Establishment merge confidence `single`: 610
+- Establishment merge confidence `strong`: 278
 
 ## Operator Evidence
 
-- Establishment rows using venue-name fallback operators: 707 (80.3%)
+- Establishment rows using venue-name fallback operators: 715 (80.5%)
 - Operator identity confidence `high`: 13761
-- Operator identity confidence `low`: 707
+- Operator identity confidence `low`: 715
 - Operator identity confidence `medium`: 535
 
 ## Airbnb to Establishment Matching
 
-- Evidence-backed listing links asserted in graph: 221
-- Nearby candidates kept out of graph: 1470
-- Listings without nearby candidate: 12432
-- Linked listing confidence `medium`: 121
+- Evidence-backed listing links asserted in graph: 215
+- Nearby candidates kept out of graph: 1097
+- Listings without nearby candidate: 12811
+- Linked listing confidence `medium`: 115
 - Linked listing confidence `high`: 100
 
 ## Top Source Combinations
 
 - `airbnb`: 14123
-- `osm`: 296
-- `wikidata`: 171
-- `datagv`: 146
-- `datagv,osm`: 121
-- `datagv,osm,wikidata`: 81
+- `osm`: 299
+- `wikidata`: 172
+- `datagv`: 152
+- `datagv,osm`: 120
+- `datagv,osm,wikidata`: 79
 - `datagv,wikidata`: 33
-- `osm,wikidata`: 32
+- `osm,wikidata`: 33
 
 ## Interpretation
 

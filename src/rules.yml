@@ -2,8 +2,8 @@ rules:
   - id: professional_operator
     label: Professional operator
     inferred_type: ProfessionalOperator
-    description: Operators with at least three accommodation units in the current dataset.
-    threshold: 3
+    description: Operators with at least four accommodation units in the current dataset.
+    threshold: 4
   - id: cross_district_operator
     label: Cross-district operator
     inferred_type: CrossDistrictOperator
