@@ -1,0 +1,4445 @@
+{
+  "generated_at": "2026-03-09T01:09:05+00:00",
+  "operators": [
+    {
+      "operator_id": "airbnb:385064248",
+      "operator_name": "Blueground",
+      "unit_count": 396,
+      "similar": [
+        {
+          "operator_id": "airbnb:9158703",
+          "operator_name": "Isabelle",
+          "unit_count": 31,
+          "similarity": 0.4926
+        },
+        {
+          "operator_id": "airbnb:13336646",
+          "operator_name": "Hotel Und",
+          "unit_count": 15,
+          "similarity": 0.4875
+        },
+        {
+          "operator_id": "airbnb:33262990",
+          "operator_name": "Susanne",
+          "unit_count": 14,
+          "similarity": 0.4807
+        },
+        {
+          "operator_id": "airbnb:252955210",
+          "operator_name": "Victor",
+          "unit_count": 21,
+          "similarity": 0.4746
+        },
+        {
+          "operator_id": "airbnb:511689935",
+          "operator_name": "Joachim",
+          "unit_count": 67,
+          "similarity": 0.4305
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:15935294",
+      "operator_name": "Vienna Residence",
+      "unit_count": 222,
+      "similar": [
+        {
+          "operator_id": "airbnb:175131",
+          "operator_name": "Ingela",
+          "unit_count": 14,
+          "similarity": 0.4733
+        },
+        {
+          "operator_id": "airbnb:222345303",
+          "operator_name": "Daria",
+          "unit_count": 119,
+          "similarity": 0.462
+        },
+        {
+          "operator_id": "airbnb:141076697",
+          "operator_name": "Andriy",
+          "unit_count": 27,
+          "similarity": 0.4446
+        },
+        {
+          "operator_id": "airbnb:518644",
+          "operator_name": "Michael",
+          "unit_count": 33,
+          "similarity": 0.4003
+        },
+        {
+          "operator_id": "airbnb:50945012",
+          "operator_name": "Easy Flat TEAM",
+          "unit_count": 62,
+          "similarity": 0.3808
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:547677118",
+      "operator_name": "Daniel",
+      "unit_count": 125,
+      "similar": [
+        {
+          "operator_id": "airbnb:516360514",
+          "operator_name": "Paulina & Attila",
+          "unit_count": 29,
+          "similarity": 0.5047
+        },
+        {
+          "operator_id": "airbnb:4331202",
+          "operator_name": "Florian",
+          "unit_count": 45,
+          "similarity": 0.4448
+        },
+        {
+          "operator_id": "airbnb:175131",
+          "operator_name": "Ingela",
+          "unit_count": 14,
+          "similarity": 0.4069
+        },
+        {
+          "operator_id": "airbnb:1643928",
+          "operator_name": "Harry",
+          "unit_count": 44,
+          "similarity": 0.3992
+        },
+        {
+          "operator_id": "airbnb:473779995",
+          "operator_name": "Merlinda",
+          "unit_count": 69,
+          "similarity": 0.3885
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:222345303",
+      "operator_name": "Daria",
+      "unit_count": 119,
+      "similar": [
+        {
+          "operator_id": "airbnb:695246045",
+          "operator_name": "josef's home",
+          "unit_count": 24,
+          "similarity": 0.505
+        },
+        {
+          "operator_id": "airbnb:589598935",
+          "operator_name": "Saad Rashid",
+          "unit_count": 44,
+          "similarity": 0.4873
+        },
+        {
+          "operator_id": "airbnb:7147147",
+          "operator_name": "Emmanuel",
+          "unit_count": 24,
+          "similarity": 0.4735
+        },
+        {
+          "operator_id": "airbnb:15935294",
+          "operator_name": "Vienna Residence",
+          "unit_count": 222,
+          "similarity": 0.462
+        },
+        {
+          "operator_id": "airbnb:548869588",
+          "operator_name": "Zoder",
+          "unit_count": 21,
+          "similarity": 0.4617
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:593098879",
+      "operator_name": "Ali",
+      "unit_count": 115,
+      "similar": [
+        {
+          "operator_id": "airbnb:71074913",
+          "operator_name": "Albi",
+          "unit_count": 20,
+          "similarity": 0.4464
+        },
+        {
+          "operator_id": "airbnb:511689935",
+          "operator_name": "Joachim",
+          "unit_count": 67,
+          "similarity": 0.4234
+        },
+        {
+          "operator_id": "airbnb:4331202",
+          "operator_name": "Florian",
+          "unit_count": 45,
+          "similarity": 0.4203
+        },
+        {
+          "operator_id": "airbnb:540236834",
+          "operator_name": "Host-It",
+          "unit_count": 34,
+          "similarity": 0.3904
+        },
+        {
+          "operator_id": "airbnb:385064248",
+          "operator_name": "Blueground",
+          "unit_count": 396,
+          "similarity": 0.3728
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:566831684",
+      "operator_name": "Mario",
+      "unit_count": 102,
+      "similar": [
+        {
+          "operator_id": "airbnb:227232876",
+          "operator_name": "Arthur",
+          "unit_count": 22,
+          "similarity": 0.3961
+        },
+        {
+          "operator_id": "airbnb:657257173",
+          "operator_name": "Valentin",
+          "unit_count": 38,
+          "similarity": 0.3516
+        },
+        {
+          "operator_id": "airbnb:385064248",
+          "operator_name": "Blueground",
+          "unit_count": 396,
+          "similarity": 0.3377
+        },
+        {
+          "operator_id": "airbnb:383835177",
+          "operator_name": "Avío",
+          "unit_count": 40,
+          "similarity": 0.3352
+        },
+        {
+          "operator_id": "airbnb:54741385",
+          "operator_name": "Self-Check-IN",
+          "unit_count": 26,
+          "similarity": 0.3328
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:156404033",
+      "operator_name": "Souhad",
+      "unit_count": 77,
+      "similar": [
+        {
+          "operator_id": "airbnb:540236834",
+          "operator_name": "Host-It",
+          "unit_count": 34,
+          "similarity": 0.5068
+        },
+        {
+          "operator_id": "airbnb:383835177",
+          "operator_name": "Avío",
+          "unit_count": 40,
+          "similarity": 0.4388
+        },
+        {
+          "operator_id": "airbnb:594507559",
+          "operator_name": "Souhad",
+          "unit_count": 32,
+          "similarity": 0.4275
+        },
+        {
+          "operator_id": "airbnb:504997811",
+          "operator_name": "Zeljko",
+          "unit_count": 30,
+          "similarity": 0.4209
+        },
+        {
+          "operator_id": "airbnb:511689935",
+          "operator_name": "Joachim",
+          "unit_count": 67,
+          "similarity": 0.3843
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:106634851",
+      "operator_name": "Michael",
+      "unit_count": 70,
+      "similar": [
+        {
+          "operator_id": "airbnb:594507559",
+          "operator_name": "Souhad",
+          "unit_count": 32,
+          "similarity": 0.4244
+        },
+        {
+          "operator_id": "airbnb:511689935",
+          "operator_name": "Joachim",
+          "unit_count": 67,
+          "similarity": 0.4049
+        },
+        {
+          "operator_id": "airbnb:675182",
+          "operator_name": "Stephanie",
+          "unit_count": 14,
+          "similarity": 0.4042
+        },
+        {
+          "operator_id": "airbnb:8632750",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 50,
+          "similarity": 0.3957
+        },
+        {
+          "operator_id": "airbnb:1853977",
+          "operator_name": "FeelGood Apartments",
+          "unit_count": 16,
+          "similarity": 0.3866
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:473779995",
+      "operator_name": "Merlinda",
+      "unit_count": 69,
+      "similar": [
+        {
+          "operator_id": "airbnb:504997811",
+          "operator_name": "Zeljko",
+          "unit_count": 30,
+          "similarity": 0.3991
+        },
+        {
+          "operator_id": "airbnb:571632714",
+          "operator_name": "Gunther",
+          "unit_count": 17,
+          "similarity": 0.3947
+        },
+        {
+          "operator_id": "airbnb:547677118",
+          "operator_name": "Daniel",
+          "unit_count": 125,
+          "similarity": 0.3885
+        },
+        {
+          "operator_id": "airbnb:493008351",
+          "operator_name": "Ebubekir",
+          "unit_count": 16,
+          "similarity": 0.3597
+        },
+        {
+          "operator_id": "airbnb:685495832",
+          "operator_name": "Pavel",
+          "unit_count": 15,
+          "similarity": 0.3578
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:511689935",
+      "operator_name": "Joachim",
+      "unit_count": 67,
+      "similar": [
+        {
+          "operator_id": "airbnb:175131",
+          "operator_name": "Ingela",
+          "unit_count": 14,
+          "similarity": 0.4494
+        },
+        {
+          "operator_id": "airbnb:577476357",
+          "operator_name": "Pavel",
+          "unit_count": 21,
+          "similarity": 0.4349
+        },
+        {
+          "operator_id": "airbnb:385064248",
+          "operator_name": "Blueground",
+          "unit_count": 396,
+          "similarity": 0.4305
+        },
+        {
+          "operator_id": "airbnb:593098879",
+          "operator_name": "Ali",
+          "unit_count": 115,
+          "similarity": 0.4234
+        },
+        {
+          "operator_id": "airbnb:657257173",
+          "operator_name": "Valentin",
+          "unit_count": 38,
+          "similarity": 0.4175
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:27775775",
+      "operator_name": "Rene",
+      "unit_count": 64,
+      "similar": [
+        {
+          "operator_id": "airbnb:54441651",
+          "operator_name": "Vienna Stay Apartments",
+          "unit_count": 43,
+          "similarity": 0.4191
+        },
+        {
+          "operator_id": "airbnb:9403216",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 21,
+          "similarity": 0.4181
+        },
+        {
+          "operator_id": "airbnb:1853977",
+          "operator_name": "FeelGood Apartments",
+          "unit_count": 16,
+          "similarity": 0.4136
+        },
+        {
+          "operator_id": "airbnb:9158703",
+          "operator_name": "Isabelle",
+          "unit_count": 31,
+          "similarity": 0.394
+        },
+        {
+          "operator_id": "airbnb:146020503",
+          "operator_name": "Denys",
+          "unit_count": 16,
+          "similarity": 0.3904
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:50945012",
+      "operator_name": "Easy Flat TEAM",
+      "unit_count": 62,
+      "similar": [
+        {
+          "operator_id": "airbnb:257543717",
+          "operator_name": "Manuel",
+          "unit_count": 15,
+          "similarity": 0.6182
+        },
+        {
+          "operator_id": "airbnb:519070229",
+          "operator_name": "Dr. Andre Justin",
+          "unit_count": 20,
+          "similarity": 0.4924
+        },
+        {
+          "operator_id": "airbnb:227232876",
+          "operator_name": "Arthur",
+          "unit_count": 22,
+          "similarity": 0.492
+        },
+        {
+          "operator_id": "airbnb:252955210",
+          "operator_name": "Victor",
+          "unit_count": 21,
+          "similarity": 0.4418
+        },
+        {
+          "operator_id": "airbnb:551661125",
+          "operator_name": "Manuel",
+          "unit_count": 19,
+          "similarity": 0.4301
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:14070533",
+      "operator_name": "Prestige Apartments Sabrina",
+      "unit_count": 59,
+      "similar": [
+        {
+          "operator_id": "airbnb:222345303",
+          "operator_name": "Daria",
+          "unit_count": 119,
+          "similarity": 0.4523
+        },
+        {
+          "operator_id": "airbnb:588267462",
+          "operator_name": "Katalin Tünde",
+          "unit_count": 13,
+          "similarity": 0.4483
+        },
+        {
+          "operator_id": "airbnb:695246045",
+          "operator_name": "josef's home",
+          "unit_count": 24,
+          "similarity": 0.4239
+        },
+        {
+          "operator_id": "airbnb:257543717",
+          "operator_name": "Manuel",
+          "unit_count": 15,
+          "similarity": 0.4071
+        },
+        {
+          "operator_id": "airbnb:678003291",
+          "operator_name": "Ali",
+          "unit_count": 18,
+          "similarity": 0.4008
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:1547126",
+      "operator_name": "Anna & Vladan",
+      "unit_count": 56,
+      "similar": [
+        {
+          "operator_id": "airbnb:252955210",
+          "operator_name": "Victor",
+          "unit_count": 21,
+          "similarity": 0.4257
+        },
+        {
+          "operator_id": "airbnb:189066567",
+          "operator_name": "Moe",
+          "unit_count": 17,
+          "similarity": 0.401
+        },
+        {
+          "operator_id": "airbnb:175131",
+          "operator_name": "Ingela",
+          "unit_count": 14,
+          "similarity": 0.3963
+        },
+        {
+          "operator_id": "airbnb:480282551",
+          "operator_name": "Hermine",
+          "unit_count": 23,
+          "similarity": 0.3835
+        },
+        {
+          "operator_id": "airbnb:407937258",
+          "operator_name": "Jay",
+          "unit_count": 27,
+          "similarity": 0.3551
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:151869337",
+      "operator_name": "Fahmee And Seb And Marc",
+      "unit_count": 55,
+      "similar": [
+        {
+          "operator_id": "airbnb:14070533",
+          "operator_name": "Prestige Apartments Sabrina",
+          "unit_count": 59,
+          "similarity": 0.3846
+        },
+        {
+          "operator_id": "airbnb:547677118",
+          "operator_name": "Daniel",
+          "unit_count": 125,
+          "similarity": 0.3403
+        },
+        {
+          "operator_id": "airbnb:418270816",
+          "operator_name": "Limehome",
+          "unit_count": 36,
+          "similarity": 0.3393
+        },
+        {
+          "operator_id": "airbnb:100351711",
+          "operator_name": "Claudia",
+          "unit_count": 15,
+          "similarity": 0.3339
+        },
+        {
+          "operator_id": "airbnb:385064248",
+          "operator_name": "Blueground",
+          "unit_count": 396,
+          "similarity": 0.3327
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:5874520",
+      "operator_name": "AdInfinitum Philip Bea Sophia",
+      "unit_count": 53,
+      "similar": [
+        {
+          "operator_id": "airbnb:222345303",
+          "operator_name": "Daria",
+          "unit_count": 119,
+          "similarity": 0.4399
+        },
+        {
+          "operator_id": "airbnb:100351711",
+          "operator_name": "Claudia",
+          "unit_count": 15,
+          "similarity": 0.4178
+        },
+        {
+          "operator_id": "airbnb:24704076",
+          "operator_name": "Wolfgang",
+          "unit_count": 14,
+          "similarity": 0.4107
+        },
+        {
+          "operator_id": "airbnb:157500977",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 15,
+          "similarity": 0.3953
+        },
+        {
+          "operator_id": "airbnb:97275819",
+          "operator_name": "Raphael",
+          "unit_count": 31,
+          "similarity": 0.3788
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:460889236",
+      "operator_name": "Bakir",
+      "unit_count": 52,
+      "similar": [
+        {
+          "operator_id": "airbnb:222345303",
+          "operator_name": "Daria",
+          "unit_count": 119,
+          "similarity": 0.4411
+        },
+        {
+          "operator_id": "airbnb:1108400",
+          "operator_name": "Dan",
+          "unit_count": 16,
+          "similarity": 0.4136
+        },
+        {
+          "operator_id": "airbnb:695246045",
+          "operator_name": "josef's home",
+          "unit_count": 24,
+          "similarity": 0.4017
+        },
+        {
+          "operator_id": "airbnb:657257173",
+          "operator_name": "Valentin",
+          "unit_count": 38,
+          "similarity": 0.3913
+        },
+        {
+          "operator_id": "airbnb:407937258",
+          "operator_name": "Jay",
+          "unit_count": 27,
+          "similarity": 0.3739
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:8632750",
+      "operator_name": "Ting Hsuan",
+      "unit_count": 50,
+      "similar": [
+        {
+          "operator_id": "airbnb:9403216",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 21,
+          "similarity": 0.4498
+        },
+        {
+          "operator_id": "airbnb:106634851",
+          "operator_name": "Michael",
+          "unit_count": 70,
+          "similarity": 0.3957
+        },
+        {
+          "operator_id": "airbnb:518644",
+          "operator_name": "Michael",
+          "unit_count": 33,
+          "similarity": 0.3929
+        },
+        {
+          "operator_id": "airbnb:151274765",
+          "operator_name": "Jimmys",
+          "unit_count": 19,
+          "similarity": 0.3699
+        },
+        {
+          "operator_id": "airbnb:54741385",
+          "operator_name": "Self-Check-IN",
+          "unit_count": 26,
+          "similarity": 0.3603
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:4331202",
+      "operator_name": "Florian",
+      "unit_count": 45,
+      "similar": [
+        {
+          "operator_id": "airbnb:547677118",
+          "operator_name": "Daniel",
+          "unit_count": 125,
+          "similarity": 0.4448
+        },
+        {
+          "operator_id": "airbnb:593098879",
+          "operator_name": "Ali",
+          "unit_count": 115,
+          "similarity": 0.4203
+        },
+        {
+          "operator_id": "airbnb:152433712",
+          "operator_name": "Christopher",
+          "unit_count": 28,
+          "similarity": 0.4055
+        },
+        {
+          "operator_id": "airbnb:407937258",
+          "operator_name": "Jay",
+          "unit_count": 27,
+          "similarity": 0.4043
+        },
+        {
+          "operator_id": "airbnb:466598000",
+          "operator_name": "Muhammad",
+          "unit_count": 37,
+          "similarity": 0.3899
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:481918816",
+      "operator_name": "Ofir",
+      "unit_count": 45,
+      "similar": [
+        {
+          "operator_id": "airbnb:92979273",
+          "operator_name": "Birgit",
+          "unit_count": 22,
+          "similarity": 0.3851
+        },
+        {
+          "operator_id": "airbnb:13336646",
+          "operator_name": "Hotel Und",
+          "unit_count": 15,
+          "similarity": 0.3621
+        },
+        {
+          "operator_id": "airbnb:385064248",
+          "operator_name": "Blueground",
+          "unit_count": 396,
+          "similarity": 0.3243
+        },
+        {
+          "operator_id": "airbnb:662259902",
+          "operator_name": "Majde",
+          "unit_count": 15,
+          "similarity": 0.3025
+        },
+        {
+          "operator_id": "airbnb:151869337",
+          "operator_name": "Fahmee And Seb And Marc",
+          "unit_count": 55,
+          "similarity": 0.2957
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:589598935",
+      "operator_name": "Saad Rashid",
+      "unit_count": 44,
+      "similar": [
+        {
+          "operator_id": "airbnb:222345303",
+          "operator_name": "Daria",
+          "unit_count": 119,
+          "similarity": 0.4873
+        },
+        {
+          "operator_id": "airbnb:2418146",
+          "operator_name": "Gisella",
+          "unit_count": 15,
+          "similarity": 0.4843
+        },
+        {
+          "operator_id": "airbnb:511689935",
+          "operator_name": "Joachim",
+          "unit_count": 67,
+          "similarity": 0.4121
+        },
+        {
+          "operator_id": "airbnb:175131",
+          "operator_name": "Ingela",
+          "unit_count": 14,
+          "similarity": 0.401
+        },
+        {
+          "operator_id": "airbnb:540236834",
+          "operator_name": "Host-It",
+          "unit_count": 34,
+          "similarity": 0.3947
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:1643928",
+      "operator_name": "Harry",
+      "unit_count": 44,
+      "similar": [
+        {
+          "operator_id": "airbnb:560447677",
+          "operator_name": "Simin",
+          "unit_count": 31,
+          "similarity": 0.3997
+        },
+        {
+          "operator_id": "airbnb:547677118",
+          "operator_name": "Daniel",
+          "unit_count": 125,
+          "similarity": 0.3992
+        },
+        {
+          "operator_id": "airbnb:504997811",
+          "operator_name": "Zeljko",
+          "unit_count": 30,
+          "similarity": 0.3488
+        },
+        {
+          "operator_id": "airbnb:8632750",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 50,
+          "similarity": 0.341
+        },
+        {
+          "operator_id": "airbnb:24704076",
+          "operator_name": "Wolfgang",
+          "unit_count": 14,
+          "similarity": 0.34
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:54441651",
+      "operator_name": "Vienna Stay Apartments",
+      "unit_count": 43,
+      "similar": [
+        {
+          "operator_id": "airbnb:100351711",
+          "operator_name": "Claudia",
+          "unit_count": 15,
+          "similarity": 0.4587
+        },
+        {
+          "operator_id": "airbnb:27775775",
+          "operator_name": "Rene",
+          "unit_count": 64,
+          "similarity": 0.4191
+        },
+        {
+          "operator_id": "airbnb:385064248",
+          "operator_name": "Blueground",
+          "unit_count": 396,
+          "similarity": 0.4092
+        },
+        {
+          "operator_id": "airbnb:24704076",
+          "operator_name": "Wolfgang",
+          "unit_count": 14,
+          "similarity": 0.4036
+        },
+        {
+          "operator_id": "airbnb:5874520",
+          "operator_name": "AdInfinitum Philip Bea Sophia",
+          "unit_count": 53,
+          "similarity": 0.3535
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:129960877",
+      "operator_name": "Mary & Kiki",
+      "unit_count": 43,
+      "similar": [
+        {
+          "operator_id": "airbnb:97275819",
+          "operator_name": "Raphael",
+          "unit_count": 31,
+          "similarity": 0.4229
+        },
+        {
+          "operator_id": "airbnb:9719601",
+          "operator_name": "Christiana",
+          "unit_count": 15,
+          "similarity": 0.4122
+        },
+        {
+          "operator_id": "airbnb:47034279",
+          "operator_name": "Eva & Friends",
+          "unit_count": 24,
+          "similarity": 0.4005
+        },
+        {
+          "operator_id": "airbnb:682285627",
+          "operator_name": "Souhad",
+          "unit_count": 31,
+          "similarity": 0.3969
+        },
+        {
+          "operator_id": "airbnb:504997811",
+          "operator_name": "Zeljko",
+          "unit_count": 30,
+          "similarity": 0.3846
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:743398",
+      "operator_name": "Team Richard",
+      "unit_count": 40,
+      "similar": [
+        {
+          "operator_id": "airbnb:35508371",
+          "operator_name": "Markus",
+          "unit_count": 14,
+          "similarity": 0.4721
+        },
+        {
+          "operator_id": "airbnb:130740696",
+          "operator_name": "Ray & Armine",
+          "unit_count": 15,
+          "similarity": 0.4445
+        },
+        {
+          "operator_id": "airbnb:288328438",
+          "operator_name": "Tetiana",
+          "unit_count": 16,
+          "similarity": 0.3965
+        },
+        {
+          "operator_id": "airbnb:157500977",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 15,
+          "similarity": 0.3633
+        },
+        {
+          "operator_id": "airbnb:66040140",
+          "operator_name": "Sascha & Marina",
+          "unit_count": 34,
+          "similarity": 0.345
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:383835177",
+      "operator_name": "Avío",
+      "unit_count": 40,
+      "similar": [
+        {
+          "operator_id": "airbnb:156404033",
+          "operator_name": "Souhad",
+          "unit_count": 77,
+          "similarity": 0.4388
+        },
+        {
+          "operator_id": "airbnb:540236834",
+          "operator_name": "Host-It",
+          "unit_count": 34,
+          "similarity": 0.4133
+        },
+        {
+          "operator_id": "airbnb:466598000",
+          "operator_name": "Muhammad",
+          "unit_count": 37,
+          "similarity": 0.3662
+        },
+        {
+          "operator_id": "airbnb:27775775",
+          "operator_name": "Rene",
+          "unit_count": 64,
+          "similarity": 0.3559
+        },
+        {
+          "operator_id": "airbnb:675064870",
+          "operator_name": "Ilian",
+          "unit_count": 24,
+          "similarity": 0.3524
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:657257173",
+      "operator_name": "Valentin",
+      "unit_count": 38,
+      "similar": [
+        {
+          "operator_id": "airbnb:47034279",
+          "operator_name": "Eva & Friends",
+          "unit_count": 24,
+          "similarity": 0.4423
+        },
+        {
+          "operator_id": "airbnb:480282551",
+          "operator_name": "Hermine",
+          "unit_count": 23,
+          "similarity": 0.4298
+        },
+        {
+          "operator_id": "airbnb:511689935",
+          "operator_name": "Joachim",
+          "unit_count": 67,
+          "similarity": 0.4175
+        },
+        {
+          "operator_id": "airbnb:146020503",
+          "operator_name": "Denys",
+          "unit_count": 16,
+          "similarity": 0.413
+        },
+        {
+          "operator_id": "airbnb:151274765",
+          "operator_name": "Jimmys",
+          "unit_count": 19,
+          "similarity": 0.3956
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:466598000",
+      "operator_name": "Muhammad",
+      "unit_count": 37,
+      "similar": [
+        {
+          "operator_id": "airbnb:540236834",
+          "operator_name": "Host-It",
+          "unit_count": 34,
+          "similarity": 0.5138
+        },
+        {
+          "operator_id": "airbnb:675182",
+          "operator_name": "Stephanie",
+          "unit_count": 14,
+          "similarity": 0.4342
+        },
+        {
+          "operator_id": "airbnb:594507559",
+          "operator_name": "Souhad",
+          "unit_count": 32,
+          "similarity": 0.4021
+        },
+        {
+          "operator_id": "airbnb:4331202",
+          "operator_name": "Florian",
+          "unit_count": 45,
+          "similarity": 0.3899
+        },
+        {
+          "operator_id": "airbnb:383835177",
+          "operator_name": "Avío",
+          "unit_count": 40,
+          "similarity": 0.3662
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:418270816",
+      "operator_name": "Limehome",
+      "unit_count": 36,
+      "similar": [
+        {
+          "operator_id": "airbnb:311151517",
+          "operator_name": "Ali",
+          "unit_count": 17,
+          "similarity": 0.3953
+        },
+        {
+          "operator_id": "airbnb:151869337",
+          "operator_name": "Fahmee And Seb And Marc",
+          "unit_count": 55,
+          "similarity": 0.3393
+        },
+        {
+          "operator_id": "airbnb:35508371",
+          "operator_name": "Markus",
+          "unit_count": 14,
+          "similarity": 0.334
+        },
+        {
+          "operator_id": "airbnb:300246929",
+          "operator_name": "Christian",
+          "unit_count": 27,
+          "similarity": 0.3225
+        },
+        {
+          "operator_id": "airbnb:66040140",
+          "operator_name": "Sascha & Marina",
+          "unit_count": 34,
+          "similarity": 0.2913
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:235195974",
+      "operator_name": "Jonathan & Kimi",
+      "unit_count": 36,
+      "similar": [
+        {
+          "operator_id": "airbnb:152433712",
+          "operator_name": "Christopher",
+          "unit_count": 28,
+          "similarity": 0.4272
+        },
+        {
+          "operator_id": "airbnb:493008351",
+          "operator_name": "Ebubekir",
+          "unit_count": 16,
+          "similarity": 0.4072
+        },
+        {
+          "operator_id": "airbnb:675064870",
+          "operator_name": "Ilian",
+          "unit_count": 24,
+          "similarity": 0.3985
+        },
+        {
+          "operator_id": "airbnb:547677118",
+          "operator_name": "Daniel",
+          "unit_count": 125,
+          "similarity": 0.381
+        },
+        {
+          "operator_id": "airbnb:15935294",
+          "operator_name": "Vienna Residence",
+          "unit_count": 222,
+          "similarity": 0.3756
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:66040140",
+      "operator_name": "Sascha & Marina",
+      "unit_count": 34,
+      "similar": [
+        {
+          "operator_id": "airbnb:548869588",
+          "operator_name": "Zoder",
+          "unit_count": 21,
+          "similarity": 0.5096
+        },
+        {
+          "operator_id": "airbnb:682285627",
+          "operator_name": "Souhad",
+          "unit_count": 31,
+          "similarity": 0.4931
+        },
+        {
+          "operator_id": "airbnb:189895939",
+          "operator_name": "Dmytro",
+          "unit_count": 13,
+          "similarity": 0.4179
+        },
+        {
+          "operator_id": "airbnb:227232876",
+          "operator_name": "Arthur",
+          "unit_count": 22,
+          "similarity": 0.3951
+        },
+        {
+          "operator_id": "airbnb:16038716",
+          "operator_name": "Bridget",
+          "unit_count": 16,
+          "similarity": 0.3827
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:540236834",
+      "operator_name": "Host-It",
+      "unit_count": 34,
+      "similar": [
+        {
+          "operator_id": "airbnb:466598000",
+          "operator_name": "Muhammad",
+          "unit_count": 37,
+          "similarity": 0.5138
+        },
+        {
+          "operator_id": "airbnb:156404033",
+          "operator_name": "Souhad",
+          "unit_count": 77,
+          "similarity": 0.5068
+        },
+        {
+          "operator_id": "airbnb:594507559",
+          "operator_name": "Souhad",
+          "unit_count": 32,
+          "similarity": 0.4326
+        },
+        {
+          "operator_id": "airbnb:116849625",
+          "operator_name": "Diana",
+          "unit_count": 15,
+          "similarity": 0.4314
+        },
+        {
+          "operator_id": "airbnb:383835177",
+          "operator_name": "Avío",
+          "unit_count": 40,
+          "similarity": 0.4133
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:518644",
+      "operator_name": "Michael",
+      "unit_count": 33,
+      "similar": [
+        {
+          "operator_id": "airbnb:530403818",
+          "operator_name": "Matthaeus",
+          "unit_count": 19,
+          "similarity": 0.4222
+        },
+        {
+          "operator_id": "airbnb:695246045",
+          "operator_name": "josef's home",
+          "unit_count": 24,
+          "similarity": 0.4097
+        },
+        {
+          "operator_id": "airbnb:15935294",
+          "operator_name": "Vienna Residence",
+          "unit_count": 222,
+          "similarity": 0.4003
+        },
+        {
+          "operator_id": "airbnb:8632750",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 50,
+          "similarity": 0.3929
+        },
+        {
+          "operator_id": "airbnb:551661125",
+          "operator_name": "Manuel",
+          "unit_count": 19,
+          "similarity": 0.3527
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:594507559",
+      "operator_name": "Souhad",
+      "unit_count": 32,
+      "similar": [
+        {
+          "operator_id": "airbnb:54741385",
+          "operator_name": "Self-Check-IN",
+          "unit_count": 26,
+          "similarity": 0.4365
+        },
+        {
+          "operator_id": "airbnb:540236834",
+          "operator_name": "Host-It",
+          "unit_count": 34,
+          "similarity": 0.4326
+        },
+        {
+          "operator_id": "airbnb:156404033",
+          "operator_name": "Souhad",
+          "unit_count": 77,
+          "similarity": 0.4275
+        },
+        {
+          "operator_id": "airbnb:106634851",
+          "operator_name": "Michael",
+          "unit_count": 70,
+          "similarity": 0.4244
+        },
+        {
+          "operator_id": "airbnb:466598000",
+          "operator_name": "Muhammad",
+          "unit_count": 37,
+          "similarity": 0.4021
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:682285627",
+      "operator_name": "Souhad",
+      "unit_count": 31,
+      "similar": [
+        {
+          "operator_id": "airbnb:66040140",
+          "operator_name": "Sascha & Marina",
+          "unit_count": 34,
+          "similarity": 0.4931
+        },
+        {
+          "operator_id": "airbnb:546955734",
+          "operator_name": "Alexander",
+          "unit_count": 14,
+          "similarity": 0.451
+        },
+        {
+          "operator_id": "airbnb:129960877",
+          "operator_name": "Mary & Kiki",
+          "unit_count": 43,
+          "similarity": 0.3969
+        },
+        {
+          "operator_id": "airbnb:222345303",
+          "operator_name": "Daria",
+          "unit_count": 119,
+          "similarity": 0.3822
+        },
+        {
+          "operator_id": "airbnb:156404033",
+          "operator_name": "Souhad",
+          "unit_count": 77,
+          "similarity": 0.3726
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:97275819",
+      "operator_name": "Raphael",
+      "unit_count": 31,
+      "similar": [
+        {
+          "operator_id": "airbnb:129960877",
+          "operator_name": "Mary & Kiki",
+          "unit_count": 43,
+          "similarity": 0.4229
+        },
+        {
+          "operator_id": "airbnb:5874520",
+          "operator_name": "AdInfinitum Philip Bea Sophia",
+          "unit_count": 53,
+          "similarity": 0.3788
+        },
+        {
+          "operator_id": "airbnb:593098879",
+          "operator_name": "Ali",
+          "unit_count": 115,
+          "similarity": 0.3545
+        },
+        {
+          "operator_id": "airbnb:351699321",
+          "operator_name": "Dina",
+          "unit_count": 15,
+          "similarity": 0.3409
+        },
+        {
+          "operator_id": "airbnb:100351711",
+          "operator_name": "Claudia",
+          "unit_count": 15,
+          "similarity": 0.3214
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:560447677",
+      "operator_name": "Simin",
+      "unit_count": 31,
+      "similar": [
+        {
+          "operator_id": "airbnb:175131",
+          "operator_name": "Ingela",
+          "unit_count": 14,
+          "similarity": 0.4243
+        },
+        {
+          "operator_id": "airbnb:222345303",
+          "operator_name": "Daria",
+          "unit_count": 119,
+          "similarity": 0.4107
+        },
+        {
+          "operator_id": "airbnb:1643928",
+          "operator_name": "Harry",
+          "unit_count": 44,
+          "similarity": 0.3997
+        },
+        {
+          "operator_id": "airbnb:50945012",
+          "operator_name": "Easy Flat TEAM",
+          "unit_count": 62,
+          "similarity": 0.3912
+        },
+        {
+          "operator_id": "airbnb:1108400",
+          "operator_name": "Dan",
+          "unit_count": 16,
+          "similarity": 0.37
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:9158703",
+      "operator_name": "Isabelle",
+      "unit_count": 31,
+      "similar": [
+        {
+          "operator_id": "airbnb:385064248",
+          "operator_name": "Blueground",
+          "unit_count": 396,
+          "similarity": 0.4926
+        },
+        {
+          "operator_id": "airbnb:33262990",
+          "operator_name": "Susanne",
+          "unit_count": 14,
+          "similarity": 0.4807
+        },
+        {
+          "operator_id": "airbnb:468133069",
+          "operator_name": "Victor",
+          "unit_count": 14,
+          "similarity": 0.444
+        },
+        {
+          "operator_id": "airbnb:53178880",
+          "operator_name": "Markus",
+          "unit_count": 23,
+          "similarity": 0.3961
+        },
+        {
+          "operator_id": "airbnb:27775775",
+          "operator_name": "Rene",
+          "unit_count": 64,
+          "similarity": 0.394
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:504997811",
+      "operator_name": "Zeljko",
+      "unit_count": 30,
+      "similar": [
+        {
+          "operator_id": "airbnb:493008351",
+          "operator_name": "Ebubekir",
+          "unit_count": 16,
+          "similarity": 0.529
+        },
+        {
+          "operator_id": "airbnb:519070229",
+          "operator_name": "Dr. Andre Justin",
+          "unit_count": 20,
+          "similarity": 0.4879
+        },
+        {
+          "operator_id": "airbnb:483943564",
+          "operator_name": "Fabian",
+          "unit_count": 21,
+          "similarity": 0.4249
+        },
+        {
+          "operator_id": "airbnb:156404033",
+          "operator_name": "Souhad",
+          "unit_count": 77,
+          "similarity": 0.4209
+        },
+        {
+          "operator_id": "airbnb:141076697",
+          "operator_name": "Andriy",
+          "unit_count": 27,
+          "similarity": 0.4189
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:516360514",
+      "operator_name": "Paulina & Attila",
+      "unit_count": 29,
+      "similar": [
+        {
+          "operator_id": "airbnb:547677118",
+          "operator_name": "Daniel",
+          "unit_count": 125,
+          "similarity": 0.5047
+        },
+        {
+          "operator_id": "airbnb:175131",
+          "operator_name": "Ingela",
+          "unit_count": 14,
+          "similarity": 0.4273
+        },
+        {
+          "operator_id": "airbnb:493008351",
+          "operator_name": "Ebubekir",
+          "unit_count": 16,
+          "similarity": 0.385
+        },
+        {
+          "operator_id": "airbnb:540236834",
+          "operator_name": "Host-It",
+          "unit_count": 34,
+          "similarity": 0.3653
+        },
+        {
+          "operator_id": "airbnb:468133069",
+          "operator_name": "Victor",
+          "unit_count": 14,
+          "similarity": 0.3635
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:559988321",
+      "operator_name": "josef's home",
+      "unit_count": 29,
+      "similar": [
+        {
+          "operator_id": "airbnb:351699321",
+          "operator_name": "Dina",
+          "unit_count": 15,
+          "similarity": 0.4197
+        },
+        {
+          "operator_id": "airbnb:116849625",
+          "operator_name": "Diana",
+          "unit_count": 15,
+          "similarity": 0.4175
+        },
+        {
+          "operator_id": "airbnb:548869588",
+          "operator_name": "Zoder",
+          "unit_count": 21,
+          "similarity": 0.3964
+        },
+        {
+          "operator_id": "airbnb:7147147",
+          "operator_name": "Emmanuel",
+          "unit_count": 24,
+          "similarity": 0.3941
+        },
+        {
+          "operator_id": "airbnb:530403818",
+          "operator_name": "Matthaeus",
+          "unit_count": 19,
+          "similarity": 0.3749
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:152433712",
+      "operator_name": "Christopher",
+      "unit_count": 28,
+      "similar": [
+        {
+          "operator_id": "airbnb:571632714",
+          "operator_name": "Gunther",
+          "unit_count": 17,
+          "similarity": 0.4278
+        },
+        {
+          "operator_id": "airbnb:235195974",
+          "operator_name": "Jonathan & Kimi",
+          "unit_count": 36,
+          "similarity": 0.4272
+        },
+        {
+          "operator_id": "airbnb:4331202",
+          "operator_name": "Florian",
+          "unit_count": 45,
+          "similarity": 0.4055
+        },
+        {
+          "operator_id": "airbnb:547677118",
+          "operator_name": "Daniel",
+          "unit_count": 125,
+          "similarity": 0.352
+        },
+        {
+          "operator_id": "airbnb:593098879",
+          "operator_name": "Ali",
+          "unit_count": 115,
+          "similarity": 0.3406
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:300246929",
+      "operator_name": "Christian",
+      "unit_count": 27,
+      "similar": [
+        {
+          "operator_id": "airbnb:675064870",
+          "operator_name": "Ilian",
+          "unit_count": 24,
+          "similarity": 0.4142
+        },
+        {
+          "operator_id": "airbnb:100351711",
+          "operator_name": "Claudia",
+          "unit_count": 15,
+          "similarity": 0.3931
+        },
+        {
+          "operator_id": "airbnb:115915838",
+          "operator_name": "Edward",
+          "unit_count": 22,
+          "similarity": 0.374
+        },
+        {
+          "operator_id": "airbnb:657257173",
+          "operator_name": "Valentin",
+          "unit_count": 38,
+          "similarity": 0.3596
+        },
+        {
+          "operator_id": "airbnb:83109185",
+          "operator_name": "Katalin",
+          "unit_count": 24,
+          "similarity": 0.3387
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:407937258",
+      "operator_name": "Jay",
+      "unit_count": 27,
+      "similar": [
+        {
+          "operator_id": "airbnb:9403216",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 21,
+          "similarity": 0.4488
+        },
+        {
+          "operator_id": "airbnb:71074913",
+          "operator_name": "Albi",
+          "unit_count": 20,
+          "similarity": 0.4233
+        },
+        {
+          "operator_id": "airbnb:4331202",
+          "operator_name": "Florian",
+          "unit_count": 45,
+          "similarity": 0.4043
+        },
+        {
+          "operator_id": "airbnb:460889236",
+          "operator_name": "Bakir",
+          "unit_count": 52,
+          "similarity": 0.3739
+        },
+        {
+          "operator_id": "airbnb:196356933",
+          "operator_name": "Tina",
+          "unit_count": 17,
+          "similarity": 0.3645
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:141076697",
+      "operator_name": "Andriy",
+      "unit_count": 27,
+      "similar": [
+        {
+          "operator_id": "airbnb:15935294",
+          "operator_name": "Vienna Residence",
+          "unit_count": 222,
+          "similarity": 0.4446
+        },
+        {
+          "operator_id": "airbnb:504997811",
+          "operator_name": "Zeljko",
+          "unit_count": 30,
+          "similarity": 0.4189
+        },
+        {
+          "operator_id": "airbnb:129960877",
+          "operator_name": "Mary & Kiki",
+          "unit_count": 43,
+          "similarity": 0.3498
+        },
+        {
+          "operator_id": "airbnb:675064870",
+          "operator_name": "Ilian",
+          "unit_count": 24,
+          "similarity": 0.3484
+        },
+        {
+          "operator_id": "airbnb:252955210",
+          "operator_name": "Victor",
+          "unit_count": 21,
+          "similarity": 0.3483
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:54741385",
+      "operator_name": "Self-Check-IN",
+      "unit_count": 26,
+      "similar": [
+        {
+          "operator_id": "airbnb:594507559",
+          "operator_name": "Souhad",
+          "unit_count": 32,
+          "similarity": 0.4365
+        },
+        {
+          "operator_id": "airbnb:13336646",
+          "operator_name": "Hotel Und",
+          "unit_count": 15,
+          "similarity": 0.3823
+        },
+        {
+          "operator_id": "airbnb:189895939",
+          "operator_name": "Dmytro",
+          "unit_count": 13,
+          "similarity": 0.3722
+        },
+        {
+          "operator_id": "airbnb:8632750",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 50,
+          "similarity": 0.3603
+        },
+        {
+          "operator_id": "airbnb:148542688",
+          "operator_name": "Mato",
+          "unit_count": 22,
+          "similarity": 0.3456
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:83109185",
+      "operator_name": "Katalin",
+      "unit_count": 24,
+      "similar": [
+        {
+          "operator_id": "airbnb:483943564",
+          "operator_name": "Fabian",
+          "unit_count": 21,
+          "similarity": 0.4513
+        },
+        {
+          "operator_id": "airbnb:473052793",
+          "operator_name": "Vera",
+          "unit_count": 23,
+          "similarity": 0.4056
+        },
+        {
+          "operator_id": "airbnb:551661125",
+          "operator_name": "Manuel",
+          "unit_count": 19,
+          "similarity": 0.3977
+        },
+        {
+          "operator_id": "airbnb:593098879",
+          "operator_name": "Ali",
+          "unit_count": 115,
+          "similarity": 0.3585
+        },
+        {
+          "operator_id": "airbnb:448227459",
+          "operator_name": "ApartmentVienna",
+          "unit_count": 14,
+          "similarity": 0.3481
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:7147147",
+      "operator_name": "Emmanuel",
+      "unit_count": 24,
+      "similar": [
+        {
+          "operator_id": "airbnb:53178880",
+          "operator_name": "Markus",
+          "unit_count": 23,
+          "similarity": 0.4804
+        },
+        {
+          "operator_id": "airbnb:222345303",
+          "operator_name": "Daria",
+          "unit_count": 119,
+          "similarity": 0.4735
+        },
+        {
+          "operator_id": "airbnb:559988321",
+          "operator_name": "josef's home",
+          "unit_count": 29,
+          "similarity": 0.3941
+        },
+        {
+          "operator_id": "airbnb:14070533",
+          "operator_name": "Prestige Apartments Sabrina",
+          "unit_count": 59,
+          "similarity": 0.3742
+        },
+        {
+          "operator_id": "airbnb:547677118",
+          "operator_name": "Daniel",
+          "unit_count": 125,
+          "similarity": 0.334
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:695246045",
+      "operator_name": "josef's home",
+      "unit_count": 24,
+      "similar": [
+        {
+          "operator_id": "airbnb:222345303",
+          "operator_name": "Daria",
+          "unit_count": 119,
+          "similarity": 0.505
+        },
+        {
+          "operator_id": "airbnb:588267462",
+          "operator_name": "Katalin Tünde",
+          "unit_count": 13,
+          "similarity": 0.427
+        },
+        {
+          "operator_id": "airbnb:14070533",
+          "operator_name": "Prestige Apartments Sabrina",
+          "unit_count": 59,
+          "similarity": 0.4239
+        },
+        {
+          "operator_id": "airbnb:518644",
+          "operator_name": "Michael",
+          "unit_count": 33,
+          "similarity": 0.4097
+        },
+        {
+          "operator_id": "airbnb:460889236",
+          "operator_name": "Bakir",
+          "unit_count": 52,
+          "similarity": 0.4017
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:675064870",
+      "operator_name": "Ilian",
+      "unit_count": 24,
+      "similar": [
+        {
+          "operator_id": "airbnb:115915838",
+          "operator_name": "Edward",
+          "unit_count": 22,
+          "similarity": 0.5062
+        },
+        {
+          "operator_id": "airbnb:678003291",
+          "operator_name": "Ali",
+          "unit_count": 18,
+          "similarity": 0.4224
+        },
+        {
+          "operator_id": "airbnb:300246929",
+          "operator_name": "Christian",
+          "unit_count": 27,
+          "similarity": 0.4142
+        },
+        {
+          "operator_id": "airbnb:235195974",
+          "operator_name": "Jonathan & Kimi",
+          "unit_count": 36,
+          "similarity": 0.3985
+        },
+        {
+          "operator_id": "airbnb:227232876",
+          "operator_name": "Arthur",
+          "unit_count": 22,
+          "similarity": 0.3781
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:47034279",
+      "operator_name": "Eva & Friends",
+      "unit_count": 24,
+      "similar": [
+        {
+          "operator_id": "airbnb:657257173",
+          "operator_name": "Valentin",
+          "unit_count": 38,
+          "similarity": 0.4423
+        },
+        {
+          "operator_id": "airbnb:157500977",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 15,
+          "similarity": 0.4252
+        },
+        {
+          "operator_id": "airbnb:129960877",
+          "operator_name": "Mary & Kiki",
+          "unit_count": 43,
+          "similarity": 0.4005
+        },
+        {
+          "operator_id": "airbnb:682285627",
+          "operator_name": "Souhad",
+          "unit_count": 31,
+          "similarity": 0.3597
+        },
+        {
+          "operator_id": "airbnb:9403216",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 21,
+          "similarity": 0.3367
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:480282551",
+      "operator_name": "Hermine",
+      "unit_count": 23,
+      "similar": [
+        {
+          "operator_id": "airbnb:657257173",
+          "operator_name": "Valentin",
+          "unit_count": 38,
+          "similarity": 0.4298
+        },
+        {
+          "operator_id": "airbnb:1547126",
+          "operator_name": "Anna & Vladan",
+          "unit_count": 56,
+          "similarity": 0.3835
+        },
+        {
+          "operator_id": "airbnb:351699321",
+          "operator_name": "Dina",
+          "unit_count": 15,
+          "similarity": 0.3809
+        },
+        {
+          "operator_id": "airbnb:662259902",
+          "operator_name": "Majde",
+          "unit_count": 15,
+          "similarity": 0.3594
+        },
+        {
+          "operator_id": "airbnb:4042594",
+          "operator_name": "Wiltrud",
+          "unit_count": 14,
+          "similarity": 0.3126
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:53178880",
+      "operator_name": "Markus",
+      "unit_count": 23,
+      "similar": [
+        {
+          "operator_id": "airbnb:530403818",
+          "operator_name": "Matthaeus",
+          "unit_count": 19,
+          "similarity": 0.5059
+        },
+        {
+          "operator_id": "airbnb:7147147",
+          "operator_name": "Emmanuel",
+          "unit_count": 24,
+          "similarity": 0.4804
+        },
+        {
+          "operator_id": "airbnb:227232876",
+          "operator_name": "Arthur",
+          "unit_count": 22,
+          "similarity": 0.4407
+        },
+        {
+          "operator_id": "airbnb:196356933",
+          "operator_name": "Tina",
+          "unit_count": 17,
+          "similarity": 0.4207
+        },
+        {
+          "operator_id": "airbnb:511689935",
+          "operator_name": "Joachim",
+          "unit_count": 67,
+          "similarity": 0.4101
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:473052793",
+      "operator_name": "Vera",
+      "unit_count": 23,
+      "similar": [
+        {
+          "operator_id": "airbnb:546955734",
+          "operator_name": "Alexander",
+          "unit_count": 14,
+          "similarity": 0.4776
+        },
+        {
+          "operator_id": "airbnb:83109185",
+          "operator_name": "Katalin",
+          "unit_count": 24,
+          "similarity": 0.4056
+        },
+        {
+          "operator_id": "airbnb:288328438",
+          "operator_name": "Tetiana",
+          "unit_count": 16,
+          "similarity": 0.3626
+        },
+        {
+          "operator_id": "airbnb:594507559",
+          "operator_name": "Souhad",
+          "unit_count": 32,
+          "similarity": 0.362
+        },
+        {
+          "operator_id": "airbnb:571632714",
+          "operator_name": "Gunther",
+          "unit_count": 17,
+          "similarity": 0.3553
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:503019853",
+      "operator_name": "Rustam",
+      "unit_count": 22,
+      "similar": [
+        {
+          "operator_id": "airbnb:2418146",
+          "operator_name": "Gisella",
+          "unit_count": 15,
+          "similarity": 0.3924
+        },
+        {
+          "operator_id": "airbnb:571632714",
+          "operator_name": "Gunther",
+          "unit_count": 17,
+          "similarity": 0.3723
+        },
+        {
+          "operator_id": "airbnb:222345303",
+          "operator_name": "Daria",
+          "unit_count": 119,
+          "similarity": 0.372
+        },
+        {
+          "operator_id": "airbnb:148542688",
+          "operator_name": "Mato",
+          "unit_count": 22,
+          "similarity": 0.3438
+        },
+        {
+          "operator_id": "airbnb:4331202",
+          "operator_name": "Florian",
+          "unit_count": 45,
+          "similarity": 0.3277
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:148542688",
+      "operator_name": "Mato",
+      "unit_count": 22,
+      "similar": [
+        {
+          "operator_id": "airbnb:530403818",
+          "operator_name": "Matthaeus",
+          "unit_count": 19,
+          "similarity": 0.4576
+        },
+        {
+          "operator_id": "airbnb:100351711",
+          "operator_name": "Claudia",
+          "unit_count": 15,
+          "similarity": 0.378
+        },
+        {
+          "operator_id": "airbnb:13336646",
+          "operator_name": "Hotel Und",
+          "unit_count": 15,
+          "similarity": 0.3763
+        },
+        {
+          "operator_id": "airbnb:54741385",
+          "operator_name": "Self-Check-IN",
+          "unit_count": 26,
+          "similarity": 0.3456
+        },
+        {
+          "operator_id": "airbnb:519070229",
+          "operator_name": "Dr. Andre Justin",
+          "unit_count": 20,
+          "similarity": 0.3454
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:227232876",
+      "operator_name": "Arthur",
+      "unit_count": 22,
+      "similar": [
+        {
+          "operator_id": "airbnb:551661125",
+          "operator_name": "Manuel",
+          "unit_count": 19,
+          "similarity": 0.6051
+        },
+        {
+          "operator_id": "airbnb:50945012",
+          "operator_name": "Easy Flat TEAM",
+          "unit_count": 62,
+          "similarity": 0.492
+        },
+        {
+          "operator_id": "airbnb:519070229",
+          "operator_name": "Dr. Andre Justin",
+          "unit_count": 20,
+          "similarity": 0.4701
+        },
+        {
+          "operator_id": "airbnb:53178880",
+          "operator_name": "Markus",
+          "unit_count": 23,
+          "similarity": 0.4407
+        },
+        {
+          "operator_id": "airbnb:566831684",
+          "operator_name": "Mario",
+          "unit_count": 102,
+          "similarity": 0.3961
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:92979273",
+      "operator_name": "Birgit",
+      "unit_count": 22,
+      "similar": [
+        {
+          "operator_id": "airbnb:481918816",
+          "operator_name": "Ofir",
+          "unit_count": 45,
+          "similarity": 0.3851
+        },
+        {
+          "operator_id": "airbnb:592040638",
+          "operator_name": "Saad Rashid",
+          "unit_count": 16,
+          "similarity": 0.3451
+        },
+        {
+          "operator_id": "airbnb:71074913",
+          "operator_name": "Albi",
+          "unit_count": 20,
+          "similarity": 0.3313
+        },
+        {
+          "operator_id": "airbnb:151869337",
+          "operator_name": "Fahmee And Seb And Marc",
+          "unit_count": 55,
+          "similarity": 0.3308
+        },
+        {
+          "operator_id": "airbnb:51562386",
+          "operator_name": "Karim",
+          "unit_count": 21,
+          "similarity": 0.3116
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:523634144",
+      "operator_name": "Karin",
+      "unit_count": 22,
+      "similar": [
+        {
+          "operator_id": "airbnb:54441651",
+          "operator_name": "Vienna Stay Apartments",
+          "unit_count": 43,
+          "similarity": 0.331
+        },
+        {
+          "operator_id": "airbnb:7147147",
+          "operator_name": "Emmanuel",
+          "unit_count": 24,
+          "similarity": 0.3208
+        },
+        {
+          "operator_id": "airbnb:100351711",
+          "operator_name": "Claudia",
+          "unit_count": 15,
+          "similarity": 0.3206
+        },
+        {
+          "operator_id": "airbnb:227232876",
+          "operator_name": "Arthur",
+          "unit_count": 22,
+          "similarity": 0.3189
+        },
+        {
+          "operator_id": "airbnb:462546700",
+          "operator_name": "Teodor",
+          "unit_count": 14,
+          "similarity": 0.316
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:115915838",
+      "operator_name": "Edward",
+      "unit_count": 22,
+      "similar": [
+        {
+          "operator_id": "airbnb:675064870",
+          "operator_name": "Ilian",
+          "unit_count": 24,
+          "similarity": 0.5062
+        },
+        {
+          "operator_id": "airbnb:678003291",
+          "operator_name": "Ali",
+          "unit_count": 18,
+          "similarity": 0.4251
+        },
+        {
+          "operator_id": "airbnb:71074913",
+          "operator_name": "Albi",
+          "unit_count": 20,
+          "similarity": 0.4217
+        },
+        {
+          "operator_id": "airbnb:116849625",
+          "operator_name": "Diana",
+          "unit_count": 15,
+          "similarity": 0.4027
+        },
+        {
+          "operator_id": "airbnb:27775775",
+          "operator_name": "Rene",
+          "unit_count": 64,
+          "similarity": 0.3757
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:9403216",
+      "operator_name": "Ting Hsuan",
+      "unit_count": 21,
+      "similar": [
+        {
+          "operator_id": "airbnb:8632750",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 50,
+          "similarity": 0.4498
+        },
+        {
+          "operator_id": "airbnb:407937258",
+          "operator_name": "Jay",
+          "unit_count": 27,
+          "similarity": 0.4488
+        },
+        {
+          "operator_id": "airbnb:27775775",
+          "operator_name": "Rene",
+          "unit_count": 64,
+          "similarity": 0.4181
+        },
+        {
+          "operator_id": "airbnb:53178880",
+          "operator_name": "Markus",
+          "unit_count": 23,
+          "similarity": 0.4033
+        },
+        {
+          "operator_id": "airbnb:222345303",
+          "operator_name": "Daria",
+          "unit_count": 119,
+          "similarity": 0.3881
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:577476357",
+      "operator_name": "Pavel",
+      "unit_count": 21,
+      "similar": [
+        {
+          "operator_id": "airbnb:511689935",
+          "operator_name": "Joachim",
+          "unit_count": 67,
+          "similarity": 0.4349
+        },
+        {
+          "operator_id": "airbnb:1108400",
+          "operator_name": "Dan",
+          "unit_count": 16,
+          "similarity": 0.415
+        },
+        {
+          "operator_id": "airbnb:27775775",
+          "operator_name": "Rene",
+          "unit_count": 64,
+          "similarity": 0.3433
+        },
+        {
+          "operator_id": "airbnb:551661125",
+          "operator_name": "Manuel",
+          "unit_count": 19,
+          "similarity": 0.3418
+        },
+        {
+          "operator_id": "airbnb:196356933",
+          "operator_name": "Tina",
+          "unit_count": 17,
+          "similarity": 0.3197
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:483943564",
+      "operator_name": "Fabian",
+      "unit_count": 21,
+      "similar": [
+        {
+          "operator_id": "airbnb:83109185",
+          "operator_name": "Katalin",
+          "unit_count": 24,
+          "similarity": 0.4513
+        },
+        {
+          "operator_id": "airbnb:504997811",
+          "operator_name": "Zeljko",
+          "unit_count": 30,
+          "similarity": 0.4249
+        },
+        {
+          "operator_id": "airbnb:551661125",
+          "operator_name": "Manuel",
+          "unit_count": 19,
+          "similarity": 0.4205
+        },
+        {
+          "operator_id": "airbnb:33262990",
+          "operator_name": "Susanne",
+          "unit_count": 14,
+          "similarity": 0.4049
+        },
+        {
+          "operator_id": "airbnb:156404033",
+          "operator_name": "Souhad",
+          "unit_count": 77,
+          "similarity": 0.3621
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:252955210",
+      "operator_name": "Victor",
+      "unit_count": 21,
+      "similar": [
+        {
+          "operator_id": "airbnb:385064248",
+          "operator_name": "Blueground",
+          "unit_count": 396,
+          "similarity": 0.4746
+        },
+        {
+          "operator_id": "airbnb:50945012",
+          "operator_name": "Easy Flat TEAM",
+          "unit_count": 62,
+          "similarity": 0.4418
+        },
+        {
+          "operator_id": "airbnb:1547126",
+          "operator_name": "Anna & Vladan",
+          "unit_count": 56,
+          "similarity": 0.4257
+        },
+        {
+          "operator_id": "airbnb:662259902",
+          "operator_name": "Majde",
+          "unit_count": 15,
+          "similarity": 0.4247
+        },
+        {
+          "operator_id": "airbnb:551661125",
+          "operator_name": "Manuel",
+          "unit_count": 19,
+          "similarity": 0.3632
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:51562386",
+      "operator_name": "Karim",
+      "unit_count": 21,
+      "similar": [
+        {
+          "operator_id": "airbnb:33262990",
+          "operator_name": "Susanne",
+          "unit_count": 14,
+          "similarity": 0.3888
+        },
+        {
+          "operator_id": "airbnb:27775775",
+          "operator_name": "Rene",
+          "unit_count": 64,
+          "similarity": 0.3716
+        },
+        {
+          "operator_id": "airbnb:462546700",
+          "operator_name": "Teodor",
+          "unit_count": 14,
+          "similarity": 0.3374
+        },
+        {
+          "operator_id": "airbnb:157500977",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 15,
+          "similarity": 0.3324
+        },
+        {
+          "operator_id": "airbnb:519070229",
+          "operator_name": "Dr. Andre Justin",
+          "unit_count": 20,
+          "similarity": 0.3249
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:548869588",
+      "operator_name": "Zoder",
+      "unit_count": 21,
+      "similar": [
+        {
+          "operator_id": "airbnb:66040140",
+          "operator_name": "Sascha & Marina",
+          "unit_count": 34,
+          "similarity": 0.5096
+        },
+        {
+          "operator_id": "airbnb:222345303",
+          "operator_name": "Daria",
+          "unit_count": 119,
+          "similarity": 0.4617
+        },
+        {
+          "operator_id": "airbnb:146020503",
+          "operator_name": "Denys",
+          "unit_count": 16,
+          "similarity": 0.427
+        },
+        {
+          "operator_id": "airbnb:559988321",
+          "operator_name": "josef's home",
+          "unit_count": 29,
+          "similarity": 0.3964
+        },
+        {
+          "operator_id": "airbnb:682285627",
+          "operator_name": "Souhad",
+          "unit_count": 31,
+          "similarity": 0.36
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:519070229",
+      "operator_name": "Dr. Andre Justin",
+      "unit_count": 20,
+      "similar": [
+        {
+          "operator_id": "airbnb:50945012",
+          "operator_name": "Easy Flat TEAM",
+          "unit_count": 62,
+          "similarity": 0.4924
+        },
+        {
+          "operator_id": "airbnb:504997811",
+          "operator_name": "Zeljko",
+          "unit_count": 30,
+          "similarity": 0.4879
+        },
+        {
+          "operator_id": "airbnb:227232876",
+          "operator_name": "Arthur",
+          "unit_count": 22,
+          "similarity": 0.4701
+        },
+        {
+          "operator_id": "airbnb:540236834",
+          "operator_name": "Host-It",
+          "unit_count": 34,
+          "similarity": 0.3801
+        },
+        {
+          "operator_id": "airbnb:33262990",
+          "operator_name": "Susanne",
+          "unit_count": 14,
+          "similarity": 0.366
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:71074913",
+      "operator_name": "Albi",
+      "unit_count": 20,
+      "similar": [
+        {
+          "operator_id": "airbnb:593098879",
+          "operator_name": "Ali",
+          "unit_count": 115,
+          "similarity": 0.4464
+        },
+        {
+          "operator_id": "airbnb:407937258",
+          "operator_name": "Jay",
+          "unit_count": 27,
+          "similarity": 0.4233
+        },
+        {
+          "operator_id": "airbnb:115915838",
+          "operator_name": "Edward",
+          "unit_count": 22,
+          "similarity": 0.4217
+        },
+        {
+          "operator_id": "airbnb:116849625",
+          "operator_name": "Diana",
+          "unit_count": 15,
+          "similarity": 0.4121
+        },
+        {
+          "operator_id": "airbnb:189066567",
+          "operator_name": "Moe",
+          "unit_count": 17,
+          "similarity": 0.3557
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:549331758",
+      "operator_name": "Christine",
+      "unit_count": 19,
+      "similar": [
+        {
+          "operator_id": "airbnb:685495832",
+          "operator_name": "Pavel",
+          "unit_count": 15,
+          "similarity": 0.347
+        },
+        {
+          "operator_id": "airbnb:9158703",
+          "operator_name": "Isabelle",
+          "unit_count": 31,
+          "similarity": 0.3453
+        },
+        {
+          "operator_id": "airbnb:551661125",
+          "operator_name": "Manuel",
+          "unit_count": 19,
+          "similarity": 0.3443
+        },
+        {
+          "operator_id": "airbnb:407937258",
+          "operator_name": "Jay",
+          "unit_count": 27,
+          "similarity": 0.3338
+        },
+        {
+          "operator_id": "airbnb:50945012",
+          "operator_name": "Easy Flat TEAM",
+          "unit_count": 62,
+          "similarity": 0.3115
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:530403818",
+      "operator_name": "Matthaeus",
+      "unit_count": 19,
+      "similar": [
+        {
+          "operator_id": "airbnb:53178880",
+          "operator_name": "Markus",
+          "unit_count": 23,
+          "similarity": 0.5059
+        },
+        {
+          "operator_id": "airbnb:148542688",
+          "operator_name": "Mato",
+          "unit_count": 22,
+          "similarity": 0.4576
+        },
+        {
+          "operator_id": "airbnb:387803393",
+          "operator_name": "josef's home",
+          "unit_count": 16,
+          "similarity": 0.4553
+        },
+        {
+          "operator_id": "airbnb:367491211",
+          "operator_name": "Valbona",
+          "unit_count": 17,
+          "similarity": 0.4377
+        },
+        {
+          "operator_id": "airbnb:518644",
+          "operator_name": "Michael",
+          "unit_count": 33,
+          "similarity": 0.4222
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:551661125",
+      "operator_name": "Manuel",
+      "unit_count": 19,
+      "similar": [
+        {
+          "operator_id": "airbnb:227232876",
+          "operator_name": "Arthur",
+          "unit_count": 22,
+          "similarity": 0.6051
+        },
+        {
+          "operator_id": "airbnb:151274765",
+          "operator_name": "Jimmys",
+          "unit_count": 19,
+          "similarity": 0.4876
+        },
+        {
+          "operator_id": "airbnb:50945012",
+          "operator_name": "Easy Flat TEAM",
+          "unit_count": 62,
+          "similarity": 0.4301
+        },
+        {
+          "operator_id": "airbnb:483943564",
+          "operator_name": "Fabian",
+          "unit_count": 21,
+          "similarity": 0.4205
+        },
+        {
+          "operator_id": "airbnb:83109185",
+          "operator_name": "Katalin",
+          "unit_count": 24,
+          "similarity": 0.3977
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:22229400",
+      "operator_name": "Marko",
+      "unit_count": 19,
+      "similar": [
+        {
+          "operator_id": "airbnb:540236834",
+          "operator_name": "Host-It",
+          "unit_count": 34,
+          "similarity": 0.3886
+        },
+        {
+          "operator_id": "airbnb:4042594",
+          "operator_name": "Wiltrud",
+          "unit_count": 14,
+          "similarity": 0.3873
+        },
+        {
+          "operator_id": "airbnb:594507559",
+          "operator_name": "Souhad",
+          "unit_count": 32,
+          "similarity": 0.3298
+        },
+        {
+          "operator_id": "airbnb:468133069",
+          "operator_name": "Victor",
+          "unit_count": 14,
+          "similarity": 0.3261
+        },
+        {
+          "operator_id": "airbnb:16038716",
+          "operator_name": "Bridget",
+          "unit_count": 16,
+          "similarity": 0.3087
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:151274765",
+      "operator_name": "Jimmys",
+      "unit_count": 19,
+      "similar": [
+        {
+          "operator_id": "airbnb:551661125",
+          "operator_name": "Manuel",
+          "unit_count": 19,
+          "similarity": 0.4876
+        },
+        {
+          "operator_id": "airbnb:351699321",
+          "operator_name": "Dina",
+          "unit_count": 15,
+          "similarity": 0.4112
+        },
+        {
+          "operator_id": "airbnb:657257173",
+          "operator_name": "Valentin",
+          "unit_count": 38,
+          "similarity": 0.3956
+        },
+        {
+          "operator_id": "airbnb:157500977",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 15,
+          "similarity": 0.3864
+        },
+        {
+          "operator_id": "airbnb:27775775",
+          "operator_name": "Rene",
+          "unit_count": 64,
+          "similarity": 0.3845
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:474456233",
+      "operator_name": "Murat",
+      "unit_count": 18,
+      "similar": [
+        {
+          "operator_id": "airbnb:13336646",
+          "operator_name": "Hotel Und",
+          "unit_count": 15,
+          "similarity": 0.3945
+        },
+        {
+          "operator_id": "airbnb:540236834",
+          "operator_name": "Host-It",
+          "unit_count": 34,
+          "similarity": 0.3739
+        },
+        {
+          "operator_id": "airbnb:156404033",
+          "operator_name": "Souhad",
+          "unit_count": 77,
+          "similarity": 0.3653
+        },
+        {
+          "operator_id": "airbnb:593098879",
+          "operator_name": "Ali",
+          "unit_count": 115,
+          "similarity": 0.346
+        },
+        {
+          "operator_id": "airbnb:589598935",
+          "operator_name": "Saad Rashid",
+          "unit_count": 44,
+          "similarity": 0.3434
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:678003291",
+      "operator_name": "Ali",
+      "unit_count": 18,
+      "similar": [
+        {
+          "operator_id": "airbnb:115915838",
+          "operator_name": "Edward",
+          "unit_count": 22,
+          "similarity": 0.4251
+        },
+        {
+          "operator_id": "airbnb:675064870",
+          "operator_name": "Ilian",
+          "unit_count": 24,
+          "similarity": 0.4224
+        },
+        {
+          "operator_id": "airbnb:594507559",
+          "operator_name": "Souhad",
+          "unit_count": 32,
+          "similarity": 0.402
+        },
+        {
+          "operator_id": "airbnb:14070533",
+          "operator_name": "Prestige Apartments Sabrina",
+          "unit_count": 59,
+          "similarity": 0.4008
+        },
+        {
+          "operator_id": "airbnb:589598935",
+          "operator_name": "Saad Rashid",
+          "unit_count": 44,
+          "similarity": 0.3601
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:311151517",
+      "operator_name": "Ali",
+      "unit_count": 17,
+      "similar": [
+        {
+          "operator_id": "airbnb:418270816",
+          "operator_name": "Limehome",
+          "unit_count": 36,
+          "similarity": 0.3953
+        },
+        {
+          "operator_id": "airbnb:24704076",
+          "operator_name": "Wolfgang",
+          "unit_count": 14,
+          "similarity": 0.3897
+        },
+        {
+          "operator_id": "airbnb:493008351",
+          "operator_name": "Ebubekir",
+          "unit_count": 16,
+          "similarity": 0.3562
+        },
+        {
+          "operator_id": "airbnb:516360514",
+          "operator_name": "Paulina & Attila",
+          "unit_count": 29,
+          "similarity": 0.3486
+        },
+        {
+          "operator_id": "airbnb:15935294",
+          "operator_name": "Vienna Residence",
+          "unit_count": 222,
+          "similarity": 0.3436
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:571632714",
+      "operator_name": "Gunther",
+      "unit_count": 17,
+      "similar": [
+        {
+          "operator_id": "airbnb:571497431",
+          "operator_name": "Abdullah",
+          "unit_count": 14,
+          "similarity": 0.4917
+        },
+        {
+          "operator_id": "airbnb:493008351",
+          "operator_name": "Ebubekir",
+          "unit_count": 16,
+          "similarity": 0.4558
+        },
+        {
+          "operator_id": "airbnb:2418146",
+          "operator_name": "Gisella",
+          "unit_count": 15,
+          "similarity": 0.4282
+        },
+        {
+          "operator_id": "airbnb:152433712",
+          "operator_name": "Christopher",
+          "unit_count": 28,
+          "similarity": 0.4278
+        },
+        {
+          "operator_id": "airbnb:473779995",
+          "operator_name": "Merlinda",
+          "unit_count": 69,
+          "similarity": 0.3947
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:189066567",
+      "operator_name": "Moe",
+      "unit_count": 17,
+      "similar": [
+        {
+          "operator_id": "airbnb:1547126",
+          "operator_name": "Anna & Vladan",
+          "unit_count": 56,
+          "similarity": 0.401
+        },
+        {
+          "operator_id": "airbnb:24704076",
+          "operator_name": "Wolfgang",
+          "unit_count": 14,
+          "similarity": 0.3942
+        },
+        {
+          "operator_id": "airbnb:571497431",
+          "operator_name": "Abdullah",
+          "unit_count": 14,
+          "similarity": 0.388
+        },
+        {
+          "operator_id": "airbnb:5874520",
+          "operator_name": "AdInfinitum Philip Bea Sophia",
+          "unit_count": 53,
+          "similarity": 0.3706
+        },
+        {
+          "operator_id": "airbnb:153864304",
+          "operator_name": "Nadland Immoinvest",
+          "unit_count": 16,
+          "similarity": 0.3705
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:196356933",
+      "operator_name": "Tina",
+      "unit_count": 17,
+      "similar": [
+        {
+          "operator_id": "airbnb:53178880",
+          "operator_name": "Markus",
+          "unit_count": 23,
+          "similarity": 0.4207
+        },
+        {
+          "operator_id": "airbnb:511689935",
+          "operator_name": "Joachim",
+          "unit_count": 67,
+          "similarity": 0.3733
+        },
+        {
+          "operator_id": "airbnb:407937258",
+          "operator_name": "Jay",
+          "unit_count": 27,
+          "similarity": 0.3645
+        },
+        {
+          "operator_id": "airbnb:116849625",
+          "operator_name": "Diana",
+          "unit_count": 15,
+          "similarity": 0.3485
+        },
+        {
+          "operator_id": "airbnb:9158703",
+          "operator_name": "Isabelle",
+          "unit_count": 31,
+          "similarity": 0.3275
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:367491211",
+      "operator_name": "Valbona",
+      "unit_count": 17,
+      "similar": [
+        {
+          "operator_id": "airbnb:530403818",
+          "operator_name": "Matthaeus",
+          "unit_count": 19,
+          "similarity": 0.4377
+        },
+        {
+          "operator_id": "airbnb:387803393",
+          "operator_name": "josef's home",
+          "unit_count": 16,
+          "similarity": 0.4357
+        },
+        {
+          "operator_id": "airbnb:504997811",
+          "operator_name": "Zeljko",
+          "unit_count": 30,
+          "similarity": 0.3937
+        },
+        {
+          "operator_id": "airbnb:493008351",
+          "operator_name": "Ebubekir",
+          "unit_count": 16,
+          "similarity": 0.3909
+        },
+        {
+          "operator_id": "airbnb:15935294",
+          "operator_name": "Vienna Residence",
+          "unit_count": 222,
+          "similarity": 0.3175
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:308688308",
+      "operator_name": "Eva",
+      "unit_count": 16,
+      "similar": [
+        {
+          "operator_id": "airbnb:33262990",
+          "operator_name": "Susanne",
+          "unit_count": 14,
+          "similarity": 0.3918
+        },
+        {
+          "operator_id": "airbnb:4042594",
+          "operator_name": "Wiltrud",
+          "unit_count": 14,
+          "similarity": 0.2849
+        },
+        {
+          "operator_id": "airbnb:14070533",
+          "operator_name": "Prestige Apartments Sabrina",
+          "unit_count": 59,
+          "similarity": 0.2721
+        },
+        {
+          "operator_id": "airbnb:460889236",
+          "operator_name": "Bakir",
+          "unit_count": 52,
+          "similarity": 0.2534
+        },
+        {
+          "operator_id": "airbnb:559988321",
+          "operator_name": "josef's home",
+          "unit_count": 29,
+          "similarity": 0.2496
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:592040638",
+      "operator_name": "Saad Rashid",
+      "unit_count": 16,
+      "similar": [
+        {
+          "operator_id": "airbnb:675064870",
+          "operator_name": "Ilian",
+          "unit_count": 24,
+          "similarity": 0.3664
+        },
+        {
+          "operator_id": "airbnb:593098879",
+          "operator_name": "Ali",
+          "unit_count": 115,
+          "similarity": 0.3648
+        },
+        {
+          "operator_id": "airbnb:448227459",
+          "operator_name": "ApartmentVienna",
+          "unit_count": 14,
+          "similarity": 0.3459
+        },
+        {
+          "operator_id": "airbnb:92979273",
+          "operator_name": "Birgit",
+          "unit_count": 22,
+          "similarity": 0.3451
+        },
+        {
+          "operator_id": "airbnb:53178880",
+          "operator_name": "Markus",
+          "unit_count": 23,
+          "similarity": 0.3437
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:16038716",
+      "operator_name": "Bridget",
+      "unit_count": 16,
+      "similar": [
+        {
+          "operator_id": "airbnb:66040140",
+          "operator_name": "Sascha & Marina",
+          "unit_count": 34,
+          "similarity": 0.3827
+        },
+        {
+          "operator_id": "airbnb:13336646",
+          "operator_name": "Hotel Und",
+          "unit_count": 15,
+          "similarity": 0.3804
+        },
+        {
+          "operator_id": "airbnb:385064248",
+          "operator_name": "Blueground",
+          "unit_count": 396,
+          "similarity": 0.3604
+        },
+        {
+          "operator_id": "airbnb:116849625",
+          "operator_name": "Diana",
+          "unit_count": 15,
+          "similarity": 0.3336
+        },
+        {
+          "operator_id": "airbnb:100351711",
+          "operator_name": "Claudia",
+          "unit_count": 15,
+          "similarity": 0.3283
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:1853977",
+      "operator_name": "FeelGood Apartments",
+      "unit_count": 16,
+      "similar": [
+        {
+          "operator_id": "airbnb:27775775",
+          "operator_name": "Rene",
+          "unit_count": 64,
+          "similarity": 0.4136
+        },
+        {
+          "operator_id": "airbnb:493008351",
+          "operator_name": "Ebubekir",
+          "unit_count": 16,
+          "similarity": 0.401
+        },
+        {
+          "operator_id": "airbnb:106634851",
+          "operator_name": "Michael",
+          "unit_count": 70,
+          "similarity": 0.3866
+        },
+        {
+          "operator_id": "airbnb:385064248",
+          "operator_name": "Blueground",
+          "unit_count": 396,
+          "similarity": 0.3842
+        },
+        {
+          "operator_id": "airbnb:594507559",
+          "operator_name": "Souhad",
+          "unit_count": 32,
+          "similarity": 0.3827
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:153864304",
+      "operator_name": "Nadland Immoinvest",
+      "unit_count": 16,
+      "similar": [
+        {
+          "operator_id": "airbnb:189066567",
+          "operator_name": "Moe",
+          "unit_count": 17,
+          "similarity": 0.3705
+        },
+        {
+          "operator_id": "airbnb:71074913",
+          "operator_name": "Albi",
+          "unit_count": 20,
+          "similarity": 0.3359
+        },
+        {
+          "operator_id": "airbnb:548869588",
+          "operator_name": "Zoder",
+          "unit_count": 21,
+          "similarity": 0.3201
+        },
+        {
+          "operator_id": "airbnb:593098879",
+          "operator_name": "Ali",
+          "unit_count": 115,
+          "similarity": 0.3132
+        },
+        {
+          "operator_id": "airbnb:5874520",
+          "operator_name": "AdInfinitum Philip Bea Sophia",
+          "unit_count": 53,
+          "similarity": 0.3111
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:288328438",
+      "operator_name": "Tetiana",
+      "unit_count": 16,
+      "similar": [
+        {
+          "operator_id": "airbnb:743398",
+          "operator_name": "Team Richard",
+          "unit_count": 40,
+          "similarity": 0.3965
+        },
+        {
+          "operator_id": "airbnb:130740696",
+          "operator_name": "Ray & Armine",
+          "unit_count": 15,
+          "similarity": 0.3677
+        },
+        {
+          "operator_id": "airbnb:473052793",
+          "operator_name": "Vera",
+          "unit_count": 23,
+          "similarity": 0.3626
+        },
+        {
+          "operator_id": "airbnb:152433712",
+          "operator_name": "Christopher",
+          "unit_count": 28,
+          "similarity": 0.3102
+        },
+        {
+          "operator_id": "airbnb:485171868",
+          "operator_name": "Robert",
+          "unit_count": 14,
+          "similarity": 0.3081
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:493008351",
+      "operator_name": "Ebubekir",
+      "unit_count": 16,
+      "similar": [
+        {
+          "operator_id": "airbnb:504997811",
+          "operator_name": "Zeljko",
+          "unit_count": 30,
+          "similarity": 0.529
+        },
+        {
+          "operator_id": "airbnb:571632714",
+          "operator_name": "Gunther",
+          "unit_count": 17,
+          "similarity": 0.4558
+        },
+        {
+          "operator_id": "airbnb:235195974",
+          "operator_name": "Jonathan & Kimi",
+          "unit_count": 36,
+          "similarity": 0.4072
+        },
+        {
+          "operator_id": "airbnb:1853977",
+          "operator_name": "FeelGood Apartments",
+          "unit_count": 16,
+          "similarity": 0.401
+        },
+        {
+          "operator_id": "airbnb:367491211",
+          "operator_name": "Valbona",
+          "unit_count": 17,
+          "similarity": 0.3909
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:31271400",
+      "operator_name": "Parkview Residences",
+      "unit_count": 16,
+      "similar": [
+        {
+          "operator_id": "airbnb:4034068",
+          "operator_name": "Philipp",
+          "unit_count": 14,
+          "similarity": 0.3987
+        },
+        {
+          "operator_id": "airbnb:695246045",
+          "operator_name": "josef's home",
+          "unit_count": 24,
+          "similarity": 0.3986
+        },
+        {
+          "operator_id": "airbnb:571497431",
+          "operator_name": "Abdullah",
+          "unit_count": 14,
+          "similarity": 0.3489
+        },
+        {
+          "operator_id": "airbnb:559988321",
+          "operator_name": "josef's home",
+          "unit_count": 29,
+          "similarity": 0.3339
+        },
+        {
+          "operator_id": "airbnb:662259902",
+          "operator_name": "Majde",
+          "unit_count": 15,
+          "similarity": 0.3199
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:278892619",
+      "operator_name": "Judith",
+      "unit_count": 16,
+      "similar": [
+        {
+          "operator_id": "airbnb:530403818",
+          "operator_name": "Matthaeus",
+          "unit_count": 19,
+          "similarity": 0.3349
+        },
+        {
+          "operator_id": "airbnb:9403216",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 21,
+          "similarity": 0.3011
+        },
+        {
+          "operator_id": "airbnb:151274765",
+          "operator_name": "Jimmys",
+          "unit_count": 19,
+          "similarity": 0.2802
+        },
+        {
+          "operator_id": "airbnb:549331758",
+          "operator_name": "Christine",
+          "unit_count": 19,
+          "similarity": 0.2568
+        },
+        {
+          "operator_id": "airbnb:481918816",
+          "operator_name": "Ofir",
+          "unit_count": 45,
+          "similarity": 0.2365
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:270804594",
+      "operator_name": "Daniel F.",
+      "unit_count": 16,
+      "similar": [
+        {
+          "operator_id": "airbnb:257543717",
+          "operator_name": "Manuel",
+          "unit_count": 15,
+          "similarity": 0.5109
+        },
+        {
+          "operator_id": "airbnb:385064248",
+          "operator_name": "Blueground",
+          "unit_count": 396,
+          "similarity": 0.4047
+        },
+        {
+          "operator_id": "airbnb:593098879",
+          "operator_name": "Ali",
+          "unit_count": 115,
+          "similarity": 0.3532
+        },
+        {
+          "operator_id": "airbnb:222345303",
+          "operator_name": "Daria",
+          "unit_count": 119,
+          "similarity": 0.3464
+        },
+        {
+          "operator_id": "airbnb:54441651",
+          "operator_name": "Vienna Stay Apartments",
+          "unit_count": 43,
+          "similarity": 0.3314
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:146020503",
+      "operator_name": "Denys",
+      "unit_count": 16,
+      "similar": [
+        {
+          "operator_id": "airbnb:548869588",
+          "operator_name": "Zoder",
+          "unit_count": 21,
+          "similarity": 0.427
+        },
+        {
+          "operator_id": "airbnb:657257173",
+          "operator_name": "Valentin",
+          "unit_count": 38,
+          "similarity": 0.413
+        },
+        {
+          "operator_id": "airbnb:27775775",
+          "operator_name": "Rene",
+          "unit_count": 64,
+          "similarity": 0.3904
+        },
+        {
+          "operator_id": "airbnb:695246045",
+          "operator_name": "josef's home",
+          "unit_count": 24,
+          "similarity": 0.3604
+        },
+        {
+          "operator_id": "airbnb:511689935",
+          "operator_name": "Joachim",
+          "unit_count": 67,
+          "similarity": 0.3561
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:387803393",
+      "operator_name": "josef's home",
+      "unit_count": 16,
+      "similar": [
+        {
+          "operator_id": "airbnb:530403818",
+          "operator_name": "Matthaeus",
+          "unit_count": 19,
+          "similarity": 0.4553
+        },
+        {
+          "operator_id": "airbnb:367491211",
+          "operator_name": "Valbona",
+          "unit_count": 17,
+          "similarity": 0.4357
+        },
+        {
+          "operator_id": "airbnb:24704076",
+          "operator_name": "Wolfgang",
+          "unit_count": 14,
+          "similarity": 0.4011
+        },
+        {
+          "operator_id": "airbnb:5874520",
+          "operator_name": "AdInfinitum Philip Bea Sophia",
+          "unit_count": 53,
+          "similarity": 0.3243
+        },
+        {
+          "operator_id": "airbnb:7147147",
+          "operator_name": "Emmanuel",
+          "unit_count": 24,
+          "similarity": 0.3156
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:1108400",
+      "operator_name": "Dan",
+      "unit_count": 16,
+      "similar": [
+        {
+          "operator_id": "airbnb:577476357",
+          "operator_name": "Pavel",
+          "unit_count": 21,
+          "similarity": 0.415
+        },
+        {
+          "operator_id": "airbnb:460889236",
+          "operator_name": "Bakir",
+          "unit_count": 52,
+          "similarity": 0.4136
+        },
+        {
+          "operator_id": "airbnb:560447677",
+          "operator_name": "Simin",
+          "unit_count": 31,
+          "similarity": 0.37
+        },
+        {
+          "operator_id": "airbnb:466598000",
+          "operator_name": "Muhammad",
+          "unit_count": 37,
+          "similarity": 0.3445
+        },
+        {
+          "operator_id": "airbnb:1643928",
+          "operator_name": "Harry",
+          "unit_count": 44,
+          "similarity": 0.3256
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:130740696",
+      "operator_name": "Ray & Armine",
+      "unit_count": 15,
+      "similar": [
+        {
+          "operator_id": "airbnb:743398",
+          "operator_name": "Team Richard",
+          "unit_count": 40,
+          "similarity": 0.4445
+        },
+        {
+          "operator_id": "airbnb:288328438",
+          "operator_name": "Tetiana",
+          "unit_count": 16,
+          "similarity": 0.3677
+        },
+        {
+          "operator_id": "airbnb:227232876",
+          "operator_name": "Arthur",
+          "unit_count": 22,
+          "similarity": 0.3565
+        },
+        {
+          "operator_id": "airbnb:9719601",
+          "operator_name": "Christiana",
+          "unit_count": 15,
+          "similarity": 0.295
+        },
+        {
+          "operator_id": "airbnb:54741385",
+          "operator_name": "Self-Check-IN",
+          "unit_count": 26,
+          "similarity": 0.2934
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:157500977",
+      "operator_name": "Ting Hsuan",
+      "unit_count": 15,
+      "similar": [
+        {
+          "operator_id": "airbnb:47034279",
+          "operator_name": "Eva & Friends",
+          "unit_count": 24,
+          "similarity": 0.4252
+        },
+        {
+          "operator_id": "airbnb:5874520",
+          "operator_name": "AdInfinitum Philip Bea Sophia",
+          "unit_count": 53,
+          "similarity": 0.3953
+        },
+        {
+          "operator_id": "airbnb:151274765",
+          "operator_name": "Jimmys",
+          "unit_count": 19,
+          "similarity": 0.3864
+        },
+        {
+          "operator_id": "airbnb:551661125",
+          "operator_name": "Manuel",
+          "unit_count": 19,
+          "similarity": 0.3681
+        },
+        {
+          "operator_id": "airbnb:743398",
+          "operator_name": "Team Richard",
+          "unit_count": 40,
+          "similarity": 0.3633
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:2418146",
+      "operator_name": "Gisella",
+      "unit_count": 15,
+      "similar": [
+        {
+          "operator_id": "airbnb:589598935",
+          "operator_name": "Saad Rashid",
+          "unit_count": 44,
+          "similarity": 0.4843
+        },
+        {
+          "operator_id": "airbnb:571632714",
+          "operator_name": "Gunther",
+          "unit_count": 17,
+          "similarity": 0.4282
+        },
+        {
+          "operator_id": "airbnb:503019853",
+          "operator_name": "Rustam",
+          "unit_count": 22,
+          "similarity": 0.3924
+        },
+        {
+          "operator_id": "airbnb:462546700",
+          "operator_name": "Teodor",
+          "unit_count": 14,
+          "similarity": 0.3771
+        },
+        {
+          "operator_id": "airbnb:662259902",
+          "operator_name": "Majde",
+          "unit_count": 15,
+          "similarity": 0.3583
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:662259902",
+      "operator_name": "Majde",
+      "unit_count": 15,
+      "similar": [
+        {
+          "operator_id": "airbnb:252955210",
+          "operator_name": "Victor",
+          "unit_count": 21,
+          "similarity": 0.4247
+        },
+        {
+          "operator_id": "airbnb:480282551",
+          "operator_name": "Hermine",
+          "unit_count": 23,
+          "similarity": 0.3594
+        },
+        {
+          "operator_id": "airbnb:2418146",
+          "operator_name": "Gisella",
+          "unit_count": 15,
+          "similarity": 0.3583
+        },
+        {
+          "operator_id": "airbnb:695246045",
+          "operator_name": "josef's home",
+          "unit_count": 24,
+          "similarity": 0.3488
+        },
+        {
+          "operator_id": "airbnb:31271400",
+          "operator_name": "Parkview Residences",
+          "unit_count": 16,
+          "similarity": 0.3199
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:13336646",
+      "operator_name": "Hotel Und",
+      "unit_count": 15,
+      "similar": [
+        {
+          "operator_id": "airbnb:385064248",
+          "operator_name": "Blueground",
+          "unit_count": 396,
+          "similarity": 0.4875
+        },
+        {
+          "operator_id": "airbnb:116849625",
+          "operator_name": "Diana",
+          "unit_count": 15,
+          "similarity": 0.4146
+        },
+        {
+          "operator_id": "airbnb:474456233",
+          "operator_name": "Murat",
+          "unit_count": 18,
+          "similarity": 0.3945
+        },
+        {
+          "operator_id": "airbnb:589598935",
+          "operator_name": "Saad Rashid",
+          "unit_count": 44,
+          "similarity": 0.3864
+        },
+        {
+          "operator_id": "airbnb:54741385",
+          "operator_name": "Self-Check-IN",
+          "unit_count": 26,
+          "similarity": 0.3823
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:9719601",
+      "operator_name": "Christiana",
+      "unit_count": 15,
+      "similar": [
+        {
+          "operator_id": "airbnb:129960877",
+          "operator_name": "Mary & Kiki",
+          "unit_count": 43,
+          "similarity": 0.4122
+        },
+        {
+          "operator_id": "airbnb:50945012",
+          "operator_name": "Easy Flat TEAM",
+          "unit_count": 62,
+          "similarity": 0.3682
+        },
+        {
+          "operator_id": "airbnb:157500977",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 15,
+          "similarity": 0.3437
+        },
+        {
+          "operator_id": "airbnb:551661125",
+          "operator_name": "Manuel",
+          "unit_count": 19,
+          "similarity": 0.3382
+        },
+        {
+          "operator_id": "airbnb:560447677",
+          "operator_name": "Simin",
+          "unit_count": 31,
+          "similarity": 0.3326
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:100351711",
+      "operator_name": "Claudia",
+      "unit_count": 15,
+      "similar": [
+        {
+          "operator_id": "airbnb:24704076",
+          "operator_name": "Wolfgang",
+          "unit_count": 14,
+          "similarity": 0.4613
+        },
+        {
+          "operator_id": "airbnb:54441651",
+          "operator_name": "Vienna Stay Apartments",
+          "unit_count": 43,
+          "similarity": 0.4587
+        },
+        {
+          "operator_id": "airbnb:5874520",
+          "operator_name": "AdInfinitum Philip Bea Sophia",
+          "unit_count": 53,
+          "similarity": 0.4178
+        },
+        {
+          "operator_id": "airbnb:300246929",
+          "operator_name": "Christian",
+          "unit_count": 27,
+          "similarity": 0.3931
+        },
+        {
+          "operator_id": "airbnb:148542688",
+          "operator_name": "Mato",
+          "unit_count": 22,
+          "similarity": 0.378
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:351699321",
+      "operator_name": "Dina",
+      "unit_count": 15,
+      "similar": [
+        {
+          "operator_id": "airbnb:559988321",
+          "operator_name": "josef's home",
+          "unit_count": 29,
+          "similarity": 0.4197
+        },
+        {
+          "operator_id": "airbnb:151274765",
+          "operator_name": "Jimmys",
+          "unit_count": 19,
+          "similarity": 0.4112
+        },
+        {
+          "operator_id": "airbnb:480282551",
+          "operator_name": "Hermine",
+          "unit_count": 23,
+          "similarity": 0.3809
+        },
+        {
+          "operator_id": "airbnb:551661125",
+          "operator_name": "Manuel",
+          "unit_count": 19,
+          "similarity": 0.3731
+        },
+        {
+          "operator_id": "airbnb:227232876",
+          "operator_name": "Arthur",
+          "unit_count": 22,
+          "similarity": 0.3437
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:383107369",
+      "operator_name": "Superbude Wien Prater",
+      "unit_count": 15,
+      "similar": [
+        {
+          "operator_id": "airbnb:448227459",
+          "operator_name": "ApartmentVienna",
+          "unit_count": 14,
+          "similarity": 0.4228
+        },
+        {
+          "operator_id": "airbnb:460889236",
+          "operator_name": "Bakir",
+          "unit_count": 52,
+          "similarity": 0.3475
+        },
+        {
+          "operator_id": "airbnb:8632750",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 50,
+          "similarity": 0.3055
+        },
+        {
+          "operator_id": "airbnb:485171868",
+          "operator_name": "Robert",
+          "unit_count": 14,
+          "similarity": 0.3046
+        },
+        {
+          "operator_id": "airbnb:270804594",
+          "operator_name": "Daniel F.",
+          "unit_count": 16,
+          "similarity": 0.3031
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:685495832",
+      "operator_name": "Pavel",
+      "unit_count": 15,
+      "similar": [
+        {
+          "operator_id": "airbnb:4331202",
+          "operator_name": "Florian",
+          "unit_count": 45,
+          "similarity": 0.3581
+        },
+        {
+          "operator_id": "airbnb:473779995",
+          "operator_name": "Merlinda",
+          "unit_count": 69,
+          "similarity": 0.3578
+        },
+        {
+          "operator_id": "airbnb:549331758",
+          "operator_name": "Christine",
+          "unit_count": 19,
+          "similarity": 0.347
+        },
+        {
+          "operator_id": "airbnb:222345303",
+          "operator_name": "Daria",
+          "unit_count": 119,
+          "similarity": 0.3393
+        },
+        {
+          "operator_id": "airbnb:466598000",
+          "operator_name": "Muhammad",
+          "unit_count": 37,
+          "similarity": 0.3278
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:257543717",
+      "operator_name": "Manuel",
+      "unit_count": 15,
+      "similar": [
+        {
+          "operator_id": "airbnb:50945012",
+          "operator_name": "Easy Flat TEAM",
+          "unit_count": 62,
+          "similarity": 0.6182
+        },
+        {
+          "operator_id": "airbnb:270804594",
+          "operator_name": "Daniel F.",
+          "unit_count": 16,
+          "similarity": 0.5109
+        },
+        {
+          "operator_id": "airbnb:588267462",
+          "operator_name": "Katalin Tünde",
+          "unit_count": 13,
+          "similarity": 0.44
+        },
+        {
+          "operator_id": "airbnb:14070533",
+          "operator_name": "Prestige Apartments Sabrina",
+          "unit_count": 59,
+          "similarity": 0.4071
+        },
+        {
+          "operator_id": "airbnb:695246045",
+          "operator_name": "josef's home",
+          "unit_count": 24,
+          "similarity": 0.3895
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:116849625",
+      "operator_name": "Diana",
+      "unit_count": 15,
+      "similar": [
+        {
+          "operator_id": "airbnb:540236834",
+          "operator_name": "Host-It",
+          "unit_count": 34,
+          "similarity": 0.4314
+        },
+        {
+          "operator_id": "airbnb:559988321",
+          "operator_name": "josef's home",
+          "unit_count": 29,
+          "similarity": 0.4175
+        },
+        {
+          "operator_id": "airbnb:4034068",
+          "operator_name": "Philipp",
+          "unit_count": 14,
+          "similarity": 0.4166
+        },
+        {
+          "operator_id": "airbnb:13336646",
+          "operator_name": "Hotel Und",
+          "unit_count": 15,
+          "similarity": 0.4146
+        },
+        {
+          "operator_id": "airbnb:71074913",
+          "operator_name": "Albi",
+          "unit_count": 20,
+          "similarity": 0.4121
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:485171868",
+      "operator_name": "Robert",
+      "unit_count": 14,
+      "similar": [
+        {
+          "operator_id": "airbnb:466598000",
+          "operator_name": "Muhammad",
+          "unit_count": 37,
+          "similarity": 0.3405
+        },
+        {
+          "operator_id": "airbnb:566831684",
+          "operator_name": "Mario",
+          "unit_count": 102,
+          "similarity": 0.3195
+        },
+        {
+          "operator_id": "airbnb:547677118",
+          "operator_name": "Daniel",
+          "unit_count": 125,
+          "similarity": 0.3119
+        },
+        {
+          "operator_id": "airbnb:288328438",
+          "operator_name": "Tetiana",
+          "unit_count": 16,
+          "similarity": 0.3081
+        },
+        {
+          "operator_id": "airbnb:383107369",
+          "operator_name": "Superbude Wien Prater",
+          "unit_count": 15,
+          "similarity": 0.3046
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:462546700",
+      "operator_name": "Teodor",
+      "unit_count": 14,
+      "similar": [
+        {
+          "operator_id": "airbnb:227232876",
+          "operator_name": "Arthur",
+          "unit_count": 22,
+          "similarity": 0.3827
+        },
+        {
+          "operator_id": "airbnb:2418146",
+          "operator_name": "Gisella",
+          "unit_count": 15,
+          "similarity": 0.3771
+        },
+        {
+          "operator_id": "airbnb:682285627",
+          "operator_name": "Souhad",
+          "unit_count": 31,
+          "similarity": 0.3433
+        },
+        {
+          "operator_id": "airbnb:51562386",
+          "operator_name": "Karim",
+          "unit_count": 21,
+          "similarity": 0.3374
+        },
+        {
+          "operator_id": "airbnb:8632750",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 50,
+          "similarity": 0.3298
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:448227459",
+      "operator_name": "ApartmentVienna",
+      "unit_count": 14,
+      "similar": [
+        {
+          "operator_id": "airbnb:383107369",
+          "operator_name": "Superbude Wien Prater",
+          "unit_count": 15,
+          "similarity": 0.4228
+        },
+        {
+          "operator_id": "airbnb:222345303",
+          "operator_name": "Daria",
+          "unit_count": 119,
+          "similarity": 0.364
+        },
+        {
+          "operator_id": "airbnb:83109185",
+          "operator_name": "Katalin",
+          "unit_count": 24,
+          "similarity": 0.3481
+        },
+        {
+          "operator_id": "airbnb:592040638",
+          "operator_name": "Saad Rashid",
+          "unit_count": 16,
+          "similarity": 0.3459
+        },
+        {
+          "operator_id": "airbnb:460889236",
+          "operator_name": "Bakir",
+          "unit_count": 52,
+          "similarity": 0.3455
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:468133069",
+      "operator_name": "Victor",
+      "unit_count": 14,
+      "similar": [
+        {
+          "operator_id": "airbnb:9158703",
+          "operator_name": "Isabelle",
+          "unit_count": 31,
+          "similarity": 0.444
+        },
+        {
+          "operator_id": "airbnb:594507559",
+          "operator_name": "Souhad",
+          "unit_count": 32,
+          "similarity": 0.3979
+        },
+        {
+          "operator_id": "airbnb:516360514",
+          "operator_name": "Paulina & Attila",
+          "unit_count": 29,
+          "similarity": 0.3635
+        },
+        {
+          "operator_id": "airbnb:473052793",
+          "operator_name": "Vera",
+          "unit_count": 23,
+          "similarity": 0.3341
+        },
+        {
+          "operator_id": "airbnb:493008351",
+          "operator_name": "Ebubekir",
+          "unit_count": 16,
+          "similarity": 0.3269
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:24704076",
+      "operator_name": "Wolfgang",
+      "unit_count": 14,
+      "similar": [
+        {
+          "operator_id": "airbnb:100351711",
+          "operator_name": "Claudia",
+          "unit_count": 15,
+          "similarity": 0.4613
+        },
+        {
+          "operator_id": "airbnb:504997811",
+          "operator_name": "Zeljko",
+          "unit_count": 30,
+          "similarity": 0.4175
+        },
+        {
+          "operator_id": "airbnb:5874520",
+          "operator_name": "AdInfinitum Philip Bea Sophia",
+          "unit_count": 53,
+          "similarity": 0.4107
+        },
+        {
+          "operator_id": "airbnb:54441651",
+          "operator_name": "Vienna Stay Apartments",
+          "unit_count": 43,
+          "similarity": 0.4036
+        },
+        {
+          "operator_id": "airbnb:387803393",
+          "operator_name": "josef's home",
+          "unit_count": 16,
+          "similarity": 0.4011
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:675182",
+      "operator_name": "Stephanie",
+      "unit_count": 14,
+      "similar": [
+        {
+          "operator_id": "airbnb:466598000",
+          "operator_name": "Muhammad",
+          "unit_count": 37,
+          "similarity": 0.4342
+        },
+        {
+          "operator_id": "airbnb:106634851",
+          "operator_name": "Michael",
+          "unit_count": 70,
+          "similarity": 0.4042
+        },
+        {
+          "operator_id": "airbnb:460889236",
+          "operator_name": "Bakir",
+          "unit_count": 52,
+          "similarity": 0.3492
+        },
+        {
+          "operator_id": "airbnb:1853977",
+          "operator_name": "FeelGood Apartments",
+          "unit_count": 16,
+          "similarity": 0.3462
+        },
+        {
+          "operator_id": "airbnb:146020503",
+          "operator_name": "Denys",
+          "unit_count": 16,
+          "similarity": 0.3401
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:4034068",
+      "operator_name": "Philipp",
+      "unit_count": 14,
+      "similar": [
+        {
+          "operator_id": "airbnb:116849625",
+          "operator_name": "Diana",
+          "unit_count": 15,
+          "similarity": 0.4166
+        },
+        {
+          "operator_id": "airbnb:31271400",
+          "operator_name": "Parkview Residences",
+          "unit_count": 16,
+          "similarity": 0.3987
+        },
+        {
+          "operator_id": "airbnb:588267462",
+          "operator_name": "Katalin Tünde",
+          "unit_count": 13,
+          "similarity": 0.3663
+        },
+        {
+          "operator_id": "airbnb:566831684",
+          "operator_name": "Mario",
+          "unit_count": 102,
+          "similarity": 0.3259
+        },
+        {
+          "operator_id": "airbnb:695246045",
+          "operator_name": "josef's home",
+          "unit_count": 24,
+          "similarity": 0.283
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:4042594",
+      "operator_name": "Wiltrud",
+      "unit_count": 14,
+      "similar": [
+        {
+          "operator_id": "airbnb:22229400",
+          "operator_name": "Marko",
+          "unit_count": 19,
+          "similarity": 0.3873
+        },
+        {
+          "operator_id": "airbnb:480282551",
+          "operator_name": "Hermine",
+          "unit_count": 23,
+          "similarity": 0.3126
+        },
+        {
+          "operator_id": "airbnb:100351711",
+          "operator_name": "Claudia",
+          "unit_count": 15,
+          "similarity": 0.3093
+        },
+        {
+          "operator_id": "airbnb:407937258",
+          "operator_name": "Jay",
+          "unit_count": 27,
+          "similarity": 0.3058
+        },
+        {
+          "operator_id": "airbnb:460889236",
+          "operator_name": "Bakir",
+          "unit_count": 52,
+          "similarity": 0.2901
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:35508371",
+      "operator_name": "Markus",
+      "unit_count": 14,
+      "similar": [
+        {
+          "operator_id": "airbnb:743398",
+          "operator_name": "Team Richard",
+          "unit_count": 40,
+          "similarity": 0.4721
+        },
+        {
+          "operator_id": "airbnb:53178880",
+          "operator_name": "Markus",
+          "unit_count": 23,
+          "similarity": 0.3901
+        },
+        {
+          "operator_id": "airbnb:418270816",
+          "operator_name": "Limehome",
+          "unit_count": 36,
+          "similarity": 0.334
+        },
+        {
+          "operator_id": "airbnb:157500977",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 15,
+          "similarity": 0.3139
+        },
+        {
+          "operator_id": "airbnb:148542688",
+          "operator_name": "Mato",
+          "unit_count": 22,
+          "similarity": 0.3051
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:33262990",
+      "operator_name": "Susanne",
+      "unit_count": 14,
+      "similar": [
+        {
+          "operator_id": "airbnb:385064248",
+          "operator_name": "Blueground",
+          "unit_count": 396,
+          "similarity": 0.4807
+        },
+        {
+          "operator_id": "airbnb:9158703",
+          "operator_name": "Isabelle",
+          "unit_count": 31,
+          "similarity": 0.4807
+        },
+        {
+          "operator_id": "airbnb:483943564",
+          "operator_name": "Fabian",
+          "unit_count": 21,
+          "similarity": 0.4049
+        },
+        {
+          "operator_id": "airbnb:308688308",
+          "operator_name": "Eva",
+          "unit_count": 16,
+          "similarity": 0.3918
+        },
+        {
+          "operator_id": "airbnb:51562386",
+          "operator_name": "Karim",
+          "unit_count": 21,
+          "similarity": 0.3888
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:571497431",
+      "operator_name": "Abdullah",
+      "unit_count": 14,
+      "similar": [
+        {
+          "operator_id": "airbnb:571632714",
+          "operator_name": "Gunther",
+          "unit_count": 17,
+          "similarity": 0.4917
+        },
+        {
+          "operator_id": "airbnb:189066567",
+          "operator_name": "Moe",
+          "unit_count": 17,
+          "similarity": 0.388
+        },
+        {
+          "operator_id": "airbnb:100351711",
+          "operator_name": "Claudia",
+          "unit_count": 15,
+          "similarity": 0.3671
+        },
+        {
+          "operator_id": "airbnb:31271400",
+          "operator_name": "Parkview Residences",
+          "unit_count": 16,
+          "similarity": 0.3489
+        },
+        {
+          "operator_id": "airbnb:5874520",
+          "operator_name": "AdInfinitum Philip Bea Sophia",
+          "unit_count": 53,
+          "similarity": 0.3468
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:175131",
+      "operator_name": "Ingela",
+      "unit_count": 14,
+      "similar": [
+        {
+          "operator_id": "airbnb:15935294",
+          "operator_name": "Vienna Residence",
+          "unit_count": 222,
+          "similarity": 0.4733
+        },
+        {
+          "operator_id": "airbnb:511689935",
+          "operator_name": "Joachim",
+          "unit_count": 67,
+          "similarity": 0.4494
+        },
+        {
+          "operator_id": "airbnb:516360514",
+          "operator_name": "Paulina & Attila",
+          "unit_count": 29,
+          "similarity": 0.4273
+        },
+        {
+          "operator_id": "airbnb:560447677",
+          "operator_name": "Simin",
+          "unit_count": 31,
+          "similarity": 0.4243
+        },
+        {
+          "operator_id": "airbnb:547677118",
+          "operator_name": "Daniel",
+          "unit_count": 125,
+          "similarity": 0.4069
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:546955734",
+      "operator_name": "Alexander",
+      "unit_count": 14,
+      "similar": [
+        {
+          "operator_id": "airbnb:473052793",
+          "operator_name": "Vera",
+          "unit_count": 23,
+          "similarity": 0.4776
+        },
+        {
+          "operator_id": "airbnb:682285627",
+          "operator_name": "Souhad",
+          "unit_count": 31,
+          "similarity": 0.451
+        },
+        {
+          "operator_id": "airbnb:675064870",
+          "operator_name": "Ilian",
+          "unit_count": 24,
+          "similarity": 0.3531
+        },
+        {
+          "operator_id": "airbnb:9403216",
+          "operator_name": "Ting Hsuan",
+          "unit_count": 21,
+          "similarity": 0.3484
+        },
+        {
+          "operator_id": "airbnb:516360514",
+          "operator_name": "Paulina & Attila",
+          "unit_count": 29,
+          "similarity": 0.3453
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:588267462",
+      "operator_name": "Katalin Tünde",
+      "unit_count": 13,
+      "similar": [
+        {
+          "operator_id": "airbnb:14070533",
+          "operator_name": "Prestige Apartments Sabrina",
+          "unit_count": 59,
+          "similarity": 0.4483
+        },
+        {
+          "operator_id": "airbnb:257543717",
+          "operator_name": "Manuel",
+          "unit_count": 15,
+          "similarity": 0.44
+        },
+        {
+          "operator_id": "airbnb:695246045",
+          "operator_name": "josef's home",
+          "unit_count": 24,
+          "similarity": 0.427
+        },
+        {
+          "operator_id": "airbnb:4034068",
+          "operator_name": "Philipp",
+          "unit_count": 14,
+          "similarity": 0.3663
+        },
+        {
+          "operator_id": "airbnb:252955210",
+          "operator_name": "Victor",
+          "unit_count": 21,
+          "similarity": 0.3466
+        }
+      ]
+    },
+    {
+      "operator_id": "airbnb:189895939",
+      "operator_name": "Dmytro",
+      "unit_count": 13,
+      "similar": [
+        {
+          "operator_id": "airbnb:66040140",
+          "operator_name": "Sascha & Marina",
+          "unit_count": 34,
+          "similarity": 0.4179
+        },
+        {
+          "operator_id": "airbnb:54741385",
+          "operator_name": "Self-Check-IN",
+          "unit_count": 26,
+          "similarity": 0.3722
+        },
+        {
+          "operator_id": "airbnb:227232876",
+          "operator_name": "Arthur",
+          "unit_count": 22,
+          "similarity": 0.3171
+        },
+        {
+          "operator_id": "airbnb:2418146",
+          "operator_name": "Gisella",
+          "unit_count": 15,
+          "similarity": 0.3067
+        },
+        {
+          "operator_id": "airbnb:551661125",
+          "operator_name": "Manuel",
+          "unit_count": 19,
+          "similarity": 0.2959
+        }
+      ]
+    }
+  ]
+}

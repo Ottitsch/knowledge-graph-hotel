@@ -1,0 +1,19 @@
+rules:
+  - id: professional_operator
+    label: Professional operator
+    inferred_type: ProfessionalOperator
+    description: Operators with at least three accommodation units in the current dataset.
+    threshold: 3
+  - id: cross_district_operator
+    label: Cross-district operator
+    inferred_type: CrossDistrictOperator
+    description: Operators active in at least two Vienna districts.
+    threshold: 2
+  - id: multi_source_confirmed_establishment
+    label: Multi-source confirmed establishment
+    inferred_type: MultiSourceConfirmedEstablishment
+    description: Establishments merged from multiple public sources with strong merge confidence.
+  - id: likely_chain_affiliated_operator
+    label: Likely chain affiliated operator
+    inferred_type: LikelyChainAffiliatedOperator
+    description: Operators connected to at least one establishment with a detected hotel-chain affiliation.

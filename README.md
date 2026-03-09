@@ -4,6 +4,15 @@
 
 This project combines public accommodation data for Vienna into a knowledge graph focused on operator relationships, provenance, and data quality. The project is intentionally **not** a legal ownership graph. Its strongest contribution is an Airbnb-centered KG with cautious enrichment from OpenStreetMap, Wikidata, and the official Vienna accommodation registry.
 
+The current application also includes:
+
+- rule-based inferred facts
+- TransE knowledge graph embeddings
+- embedding-ranked candidate links
+- snapshot versioning and evolution reports
+- a safe natural-language query assistant
+- evidence panels for operators and candidate links
+
 ## Project Positioning
 
 - Airbnb provides the large listing-level view.
@@ -87,6 +96,13 @@ data.gv.at WFS         -> collect_datagv.py
                            |
                            +-> audit_quality.py
                            +-> validate_graph.py
+                           +-> materialize_rules.py
+                           +-> export_triples.py
+                           +-> train_embeddings.py
+                           +-> score_candidates.py
+                           +-> write_financial_comparison.py
+                           +-> version_snapshot.py
+                           +-> diff_snapshots.py
 ```
 
 ## Repository Structure
@@ -110,10 +126,19 @@ knowledge-graph-hotel/
     build_graph.py
     audit_quality.py
     validate_graph.py
+    materialize_rules.py
+    export_triples.py
+    train_embeddings.py
+    score_candidates.py
+    version_snapshot.py
+    diff_snapshots.py
+    write_financial_comparison.py
     run_pipeline.py
+    rules.yml
     queries.cypher
   webapp/
     app.py
+    query_templates.py
     frontend/
 ```
 
@@ -140,11 +165,23 @@ python src/run_pipeline.py
 # Skip Neo4j and only build RDF, reports, and validation outputs
 python src/run_pipeline.py --skip-neo4j
 
+# Faster rerun without embeddings
+python src/run_pipeline.py --skip-airbnb --skip-embeddings
+
+# Faster rerun without snapshots
+python src/run_pipeline.py --skip-airbnb --skip-snapshots
+
 # Individual steps
 python src/resolve_entities.py
 python src/build_graph.py
 python src/audit_quality.py
 python src/validate_graph.py
+python src/materialize_rules.py
+python src/export_triples.py
+python src/train_embeddings.py
+python src/score_candidates.py
+python src/version_snapshot.py
+python src/diff_snapshots.py
 ```
 
 ## Outputs
@@ -154,6 +191,11 @@ python src/validate_graph.py
 - SHACL shapes: `ontology/accommodation_operator_shapes.ttl`
 - Quality report: `reports/data_quality_report.md`
 - SHACL validation report: `reports/shacl_validation_report.txt`
+- Rule inference report: `reports/rule_inference_report.md`
+- Embedding report: `reports/embedding_report.md`
+- Candidate ranking: `reports/candidate_scores.csv`
+- Evolution report: `reports/evolution_report.md`
+- Financial KG comparison: `reports/financial_kg_comparison.md`
 
 ## Dashboard
 
@@ -170,6 +212,10 @@ The dashboard provides:
 - top operators and chain analysis
 - district analysis
 - quality and validation summary panel
+- reasoning lab with inferred facts and embedding suggestions
+- evolution tab with snapshot diffs
+- natural-language query assistant
+- evidence panels for operators and weak candidate links
 
 ## Scope Boundaries
 

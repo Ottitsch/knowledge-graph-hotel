@@ -35,6 +35,21 @@ Core stages:
 6. `build_graph.py`
 7. `audit_quality.py`
 8. `validate_graph.py`
+9. `materialize_rules.py`
+10. `export_triples.py`
+11. `train_embeddings.py`
+12. `score_candidates.py`
+13. `write_financial_comparison.py`
+14. `version_snapshot.py`
+15. `diff_snapshots.py`
+
+Useful flags:
+
+- `--skip-neo4j`
+- `--skip-airbnb`
+- `--skip-rules`
+- `--skip-embeddings`
+- `--skip-snapshots`
 
 ## 4. Review outputs
 
@@ -43,6 +58,11 @@ Core stages:
 - SHACL shapes: `ontology/accommodation_operator_shapes.ttl`
 - Quality report: `reports/data_quality_report.md`
 - SHACL report: `reports/shacl_validation_report.txt`
+- Rule report: `reports/rule_inference_report.md`
+- Embedding report: `reports/embedding_report.md`
+- Candidate scores: `reports/candidate_scores.csv`
+- Evolution report: `reports/evolution_report.md`
+- Financial KG comparison: `reports/financial_kg_comparison.md`
 
 ## 5. Run the webapp
 
@@ -57,3 +77,12 @@ cd webapp/frontend
 npm install
 npm run build
 ```
+
+Main dashboard areas:
+
+- `Graph Explorer`
+- `Analytics`
+- `Map`
+- `Reasoning Lab`
+- `Evolution`
+- `Query Assistant`

@@ -11,6 +11,12 @@ import TypePie from './components/charts/TypePie'
 import QualitySummary from './components/QualitySummary'
 import PropertyMap from './components/map/PropertyMap'
 import OperatorMap from './components/map/OperatorMap'
+import EvidencePanel from './components/explain/EvidencePanel'
+import ReasoningLab from './components/reasoning/ReasoningLab'
+import EvolutionSummary from './components/evolution/EvolutionSummary'
+import ChangeTable from './components/evolution/ChangeTable'
+import QueryAssistant from './components/assistant/QueryAssistant'
+import FinancialKGComparison from './components/case-studies/FinancialKGComparison'
 
 const fadeVariant = {
   initial: { opacity: 0, y: 12 },
@@ -63,28 +69,30 @@ function GraphTab({ selected, onForceGraphSelect }) {
         </Panel>
       </div>
 
-      <motion.div
-        className="glass flex flex-col gap-3 p-5"
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: 'easeOut' }}
-      >
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-white/50">
-          About this data
-        </h2>
-        <p className="text-xs leading-relaxed text-white/40">
-          The Airbnb operator data shown here is derived from an Inside Airbnb snapshot taken in September 2025.
-          Because Airbnb hosts can rename their profiles, transfer listings between accounts, or delist units at any time,
-          the operator names and listing counts displayed may no longer match what is currently shown on Airbnb.
-          For example, a host listed as "Daniel" in our data may now appear under a different name on the platform,
-          or may have fewer listings than recorded at the time of the snapshot.
-          Operators are linked by their unique Airbnb host ID rather than by name,
-          so units belonging to the same host are correctly grouped even when names appear inconsistent.
-          Data from other sources (data.gv.at, OpenStreetMap, Wikidata) may similarly reflect the state at the time of collection.
-          The force graph is an operator-centric projection of the KG rather than a raw rendering of every accommodation-unit node at once,
-          so the full unit layer is explored by clicking an operator.
-        </p>
-      </motion.div>
+      <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+        <Panel title="Evidence for selected operator">
+          <EvidencePanel operatorId={selected?.operatorId} />
+        </Panel>
+        <motion.div
+          className="glass flex flex-col gap-3 p-5"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+        >
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-white/50">
+            About this data
+          </h2>
+          <p className="text-xs leading-relaxed text-white/40">
+            The Airbnb operator data shown here is derived from an Inside Airbnb snapshot taken in September 2025.
+            Because Airbnb hosts can rename their profiles, transfer listings between accounts, or delist units at any time,
+            the operator names and listing counts displayed may no longer match what is currently shown on Airbnb.
+            Operators are linked by their unique Airbnb host ID rather than by name,
+            so units belonging to the same host are correctly grouped even when names appear inconsistent.
+            The force graph is an operator-centric projection of the KG rather than a raw rendering of every accommodation-unit node at once,
+            so the full unit layer is explored by clicking an operator.
+          </p>
+        </motion.div>
+      </div>
     </motion.div>
   )
 }
@@ -126,6 +134,9 @@ function AnalyticsTab({ onNavigate }) {
           </p>
         </div>
       </Panel>
+      <Panel title="Financial KG comparison" className="xl:col-span-3">
+        <FinancialKGComparison />
+      </Panel>
     </motion.div>
   )
 }
@@ -140,13 +151,98 @@ function MapTab() {
   )
 }
 
+function ReasoningTab({ selected, inspectedLink, onInspectLink }) {
+  return (
+    <motion.div {...fadeVariant} className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+      <Panel title="Reasoning lab - rules, embeddings, candidate links" className="xl:col-span-2">
+        <ReasoningLab
+          selectedOperatorId={selected?.operatorId}
+          selectedOperatorName={selected?.name}
+          onInspectLink={(row) =>
+            onInspectLink({
+              listingId: row.canonical_id,
+              establishmentId: row.candidate_establishment_id,
+            })
+          }
+        />
+      </Panel>
+      <Panel title="Evidence for selected operator">
+        <EvidencePanel operatorId={selected?.operatorId} />
+      </Panel>
+      <Panel title="Link evidence for inspected candidate">
+        <EvidencePanel link={inspectedLink} />
+      </Panel>
+    </motion.div>
+  )
+}
+
+function EvolutionTab() {
+  return (
+    <motion.div {...fadeVariant} className="flex flex-col gap-5">
+      <Panel title="Snapshot evolution summary">
+        <EvolutionSummary />
+      </Panel>
+      <Panel title="Latest snapshot changes">
+        <ChangeTable />
+      </Panel>
+    </motion.div>
+  )
+}
+
+function AssistantTab() {
+  return (
+    <motion.div {...fadeVariant}>
+      <Panel title="Natural language query interface to the knowledge graph">
+        <QueryAssistant />
+      </Panel>
+    </motion.div>
+  )
+}
+
 export default function App() {
   const [tab, setTab] = useState('graph')
   const [selected, setSelected] = useState(null)
+  const [inspectedLink, setInspectedLink] = useState(null)
 
   function navigateToGraph(name, type, operatorId) {
     setSelected({ name, type, operatorId })
     setTab('graph')
+  }
+
+  let activeTabView = null
+  switch (tab) {
+    case 'analytics':
+      activeTabView = <AnalyticsTab key="analytics" onNavigate={navigateToGraph} />
+      break
+    case 'map':
+      activeTabView = <MapTab key="map" />
+      break
+    case 'reasoning':
+      activeTabView = (
+        <ReasoningTab
+          key="reasoning"
+          selected={selected}
+          inspectedLink={inspectedLink}
+          onInspectLink={setInspectedLink}
+        />
+      )
+      break
+    case 'evolution':
+      activeTabView = <EvolutionTab key="evolution" />
+      break
+    case 'assistant':
+      activeTabView = <AssistantTab key="assistant" />
+      break
+    case 'graph':
+    default:
+      activeTabView = (
+        <GraphTab
+          key="graph"
+          selected={selected}
+          onForceGraphSelect={(name, type, operatorId) => setSelected({ name, type, operatorId })}
+        />
+      )
+      break
   }
 
   return (
@@ -164,19 +260,7 @@ export default function App() {
       </header>
 
       <main className="flex-1">
-        <AnimatePresence mode="wait">
-          {tab === 'graph' && (
-            <GraphTab
-              key="graph"
-              selected={selected}
-              onForceGraphSelect={(name, type, operatorId) => setSelected({ name, type, operatorId })}
-            />
-          )}
-          {tab === 'analytics' && (
-            <AnalyticsTab key="analytics" onNavigate={navigateToGraph} />
-          )}
-          {tab === 'map' && <MapTab key="map" />}
-        </AnimatePresence>
+        <AnimatePresence mode="wait">{activeTabView}</AnimatePresence>
       </main>
 
       <footer className="pb-2 text-center text-xs text-white/20">

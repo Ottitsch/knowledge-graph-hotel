@@ -22,32 +22,37 @@ export default function QualitySummary() {
   }
 
   const totals = data.totals || {}
-  const strongMatches = (data.listing_matches || []).find((row) => row.confidence === 'high')
-  const mediumMatches = (data.listing_matches || []).find((row) => row.confidence === 'medium')
-  const unlinked = (data.listing_matches || []).find((row) => row.confidence === 'unlinked')
-  const lowOperator = (data.operator_confidence || []).find((row) => row.confidence === 'low')
-  const overlap = data.source_overlap || {}
-  const overlapPct = overlap.establishments
-    ? `${((100 * overlap.multi_source_establishments) / overlap.establishments).toFixed(1)}%`
-    : '0.0%'
+  const listingMatches = data.listing_matches || {}
+  const linkedConfidence = listingMatches.linked_confidence || {}
+  const strongLinks = linkedConfidence.high || 0
+  const mediumLinks = linkedConfidence.medium || 0
+  const linkedTotal = listingMatches.linked ?? (strongLinks + mediumLinks)
+  const candidateOnly = listingMatches.candidate_only || 0
+  const noCandidate = listingMatches.no_candidate || 0
+  const unlinkedTotal = candidateOnly + noCandidate
+  const operatorConfidence = data.operator_identity_confidence || {}
+  const lowOperatorCount = operatorConfidence.low || 0
+  const overlap = data.multi_source_establishments || {}
+  const overlapPct = overlap.share_percent ? `${overlap.share_percent}%` : '0.0%'
+  const totalRows = totals.rows ?? totals.total ?? 0
 
   return (
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
-        <Stat label="Rows" value={totals.total || 0} hint={`${totals.listings || 0} listings`} />
+        <Stat label="Rows" value={totalRows} hint={`${totals.listings || 0} listings`} />
         <Stat
           label="Strong Listing Links"
-          value={(strongMatches?.count || 0) + (mediumMatches?.count || 0)}
-          hint={`${strongMatches?.count || 0} high / ${mediumMatches?.count || 0} medium`}
+          value={linkedTotal}
+          hint={`${strongLinks} high / ${mediumLinks} medium`}
         />
         <Stat
           label="Multi-source Establishments"
-          value={overlap.multi_source_establishments || 0}
+          value={overlap.rows || 0}
           hint={overlapPct}
         />
         <Stat
           label="Low-confidence Operators"
-          value={lowOperator?.count || 0}
+          value={lowOperatorCount}
           hint="Visible provenance, not hidden fallback"
         />
       </div>
@@ -56,7 +61,7 @@ export default function QualitySummary() {
         The graph distinguishes evidence-backed listing links from weak proximity-only cases.
         Unlinked listings include both genuinely isolated listings and nearby candidates that were
         intentionally kept out of the graph because the textual evidence was too weak.
-        Current unlinked listing count: {unlinked?.count || 0}.
+        Current unlinked listing count: {unlinkedTotal}.
       </div>
     </div>
   )
