@@ -6,7 +6,7 @@ This guide maps the portfolio learning outcomes (LOs) declared in the project on
 
 | LO | Description | Evidence |
 |---|---|---|
-| **LO5** | Design and implement architectures of a Knowledge Graph | `README.md` Pipeline section · `src/run_pipeline.py` · `src/build_graph.py` (dual Neo4j + RDF emission) |
+| **LO5** | Design and implement architectures of a Knowledge Graph | `docs/architecture.md` + `docs/architecture.png` (rendered diagram) · `README.md` Pipeline section · `src/run_pipeline.py` · `src/build_graph.py` (dual Neo4j + RDF emission) |
 | **LO7** | Apply a system to create a Knowledge Graph | Everything under `src/collect_*.py`, `src/resolve_entities.py`, `src/build_graph.py` · regenerable outputs in `data/`, `graph/`, `models/embeddings/`, `reports/` |
 | **LO11** | Apply a system to provide services through a Knowledge Graph | `webapp/app.py` Flask backend · `webapp/templates/index.html` and `webapp/frontend/` dashboard · `src/queries.cypher` · natural-language assistant in `webapp/query_templates.py` |
 
@@ -15,10 +15,10 @@ This guide maps the portfolio learning outcomes (LOs) declared in the project on
 | LO | Description | Evidence |
 |---|---|---|
 | **LO1** | Understand and apply Knowledge Graph Embeddings | `src/train_embeddings.py` (TransE, PyKEEN) · `src/score_candidates.py` · `reports/embedding_report.md` (metrics) · `reports/embedding_examples.md` (5 representations + 1 TP + 1 FP) |
-| **LO2** | Understand and apply logical knowledge in KGs | `ontology/accommodation_operator.owl` (OWL class hierarchy) · `ontology/accommodation_operator_shapes.ttl` (SHACL) · `src/rules.yml` (6 rules incl. recursive `operator_corporate_network`) · `src/materialize_rules.py` (forward chaining + union-find transitive closure) · `graph/inferred_facts.ttl` (newly derived edges) |
+| **LO2** | Understand and apply logical knowledge in KGs | `ontology/accommodation_operator.owl` (OWL class hierarchy) · `ontology/accommodation_operator_shapes.ttl` (SHACL) · `src/rules.yml` (6 rules incl. recursive `operator_corporate_network`) · `src/materialize_rules.py` (forward chaining + union-find transitive closure) · `graph/inferred_facts.ttl` (newly derived edges) · `reports/rule_inference_report.md` (5 rules in formal form) · `reports/rule_eval_corporate_sibling.md` (30-edge precision spot-check: strict 0.367 / loose 0.967) |
 | **LO4** | Compare different KG data models | `reports/data_model_comparison.md` (property graph vs RDF vs vectors, on the same facts) |
 | **LO6** | Describe and apply scalable reasoning methods | `reports/scalable_reasoning.md` (complexity + scaling levers per component) |
-| **LO8** | Apply a system to evolve a Knowledge Graph | `src/version_snapshot.py` · `src/diff_snapshots.py` · `data/snapshots/` (5 snapshots) · `reports/evolution_report.md` (non-zero `rule_fact_delta`) |
+| **LO8** | Apply a system to evolve a Knowledge Graph | `src/version_snapshot.py` · `src/diff_snapshots.py` · `data/snapshots/` (7 snapshots) · `reports/evolution_report.md` (current diff shows `rule_fact_delta = +256` after the `professional_operator` threshold was lowered from 4 to 3) |
 | **LO9** | Describe and design real-world applications of KGs | `README.md` Project Positioning and Data Sources sections · `reports/data_quality_report.md` |
 | **LO10** | Describe financial KG applications | `reports/financial_kg_comparison.md` |
 | **LO12** | Describe the connections between KGs, ML, and AI | `reports/ml_logic_interaction.md` |
@@ -56,7 +56,7 @@ At submission time, copy the files below into a flat ZIP using the template's fo
 |---|---|
 | `2 - construction/` | `src/collect_*.py`, `src/download_airbnb.py`, `src/resolve_entities.py`, `src/build_graph.py`, `src/audit_quality.py`, `src/validate_graph.py`, `src/common_paths.py`, `src/kg_utils.py`, `src/run_pipeline.py`, `requirements.txt`, the four small source files in `data/` (drop the 30 MB Airbnb CSV; link to it in the report instead), `ontology/`, `graph/vienna_accommodation_operator_kg.ttl`, plus a short `readme.md` pointing to `README.md` in the repo root |
 | `3 - ML/` | `src/export_triples.py`, `src/train_embeddings.py`, `src/score_candidates.py`, `models/embeddings/`, `reports/embedding_report.md`, `reports/embedding_examples.md`, `reports/candidate_scores.csv`, `reports/operator_similarity.json` |
-| `4 - logic/` | `src/rules.yml`, `src/materialize_rules.py`, `ontology/accommodation_operator_shapes.ttl`, `graph/inferred_facts.ttl`, `reports/rule_inference_report.md`, `reports/rule_inference_summary.json`, `reports/shacl_validation_report.txt` |
+| `4 - logic/` | `src/rules.yml`, `src/materialize_rules.py`, `ontology/accommodation_operator_shapes.ttl`, `graph/inferred_facts.ttl`, `reports/rule_inference_report.md`, `reports/rule_inference_summary.json`, `reports/rule_eval_corporate_sibling.md`, `reports/rule_eval_corporate_sibling.json`, `reports/shacl_validation_report.txt` |
 | `5 - reflection/` | `reports/data_model_comparison.md`, `reports/scalable_reasoning.md`, `reports/ml_logic_interaction.md`, `reports/financial_kg_comparison.md`, `reports/data_quality_report.md`, `reports/evolution_report.md`, `data/snapshots/` (a couple of snapshots is enough for evidence) |
 
 The Airbnb CSV is the only file likely to push the ZIP over typical mail/upload limits. It is publicly downloadable via `src/download_airbnb.py`, so the safest pattern is to omit it and link to `https://insideairbnb.com/get-the-data/` in the portfolio report.

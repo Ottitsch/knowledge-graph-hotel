@@ -309,7 +309,114 @@ def build_summary(df: pd.DataFrame, rules: dict[str, dict], facts: list[dict]) -
     }
 
 
-def build_markdown(summary: dict) -> str:
+RULE_FORMAL_FORMS: dict[str, dict[str, str]] = {
+    "professional_operator": {
+        "title": "R1. Professional operator",
+        "formal": (
+            "∀ o, n.  count{u | operatedBy(u, o)} ≥ N  ⇒  ProfessionalOperator(o)\n"
+            "with threshold N = 4."
+        ),
+        "kind": "Counting rule (forward chaining over operator groups). Adds a type only, no new edges.",
+    },
+    "cross_district_operator": {
+        "title": "R2. Cross-district operator",
+        "formal": (
+            "∀ o.  |{ d | ∃u. operatedBy(u, o) ∧ locatedIn(u, d) }| ≥ K\n"
+            "    ⇒  CrossDistrictOperator(o)\n"
+            "with threshold K = 2."
+        ),
+        "kind": "Aggregation rule (count distinct districts per operator).",
+    },
+    "multi_source_confirmed_establishment": {
+        "title": "R3. Multi-source confirmed establishment",
+        "formal": (
+            "∀ u.  granularity(u) = 'establishment' ∧ mergeConfidence(u) = 'strong'\n"
+            "    ⇒  MultiSourceConfirmedEstablishment(u)"
+        ),
+        "kind": "Conjunctive selection over the unified table (provenance-driven).",
+    },
+    "likely_chain_affiliated_operator": {
+        "title": "R4. Likely chain-affiliated operator",
+        "formal": (
+            "∀ o.  ∃ c.  ∃ u.  operatedBy(u, o) ∧ affiliatedWith(o, c)\n"
+            "    ⇒  LikelyChainAffiliatedOperator(o)"
+        ),
+        "kind": "Existential join across the operator/chain bipartite graph.",
+    },
+    "shared_chain_corporate_group": {
+        "title": "R5. Shared-chain corporate sibling  ★ new edge ★",
+        "formal": (
+            "∀ a, b, c.  a ≠ b ∧ affiliatedWith(a, c) ∧ affiliatedWith(b, c)\n"
+            "    ⇒  corporateSibling(a, b) ∧ corporateSibling(b, a)"
+        ),
+        "kind": (
+            "Pair-generation rule. Adds NEW edges (vaok:corporateSibling) into the "
+            "derived graph graph/inferred_facts.ttl. The symmetric counterpart is "
+            "asserted explicitly to keep SPARQL queries simple."
+        ),
+    },
+    "operator_corporate_network": {
+        "title": "R6. Operator corporate network  ★ recursive ★ ★ new node ★",
+        "formal": (
+            "Base:     ∀ a.   corporateSibling(a, a) ⇒ sameNetwork(a, a)\n"
+            "Step:     ∀ a, b, c.   sameNetwork(a, b) ∧ corporateSibling(b, c)\n"
+            "                       ⇒  sameNetwork(a, c)\n"
+            "Closure:  let C be a connected component under sameNetwork.\n"
+            "          create a fresh node nC of type OperatorNetwork\n"
+            "          ∀ x ∈ C.  memberOf(x, nC)"
+        ),
+        "kind": (
+            "Recursive rule (transitive closure over a symmetric relation), implemented "
+            "as union-find. Adds NEW nodes (OperatorNetwork) and NEW edges "
+            "(vaok:memberOf) into graph/inferred_facts.ttl."
+        ),
+    },
+}
+
+
+def _formal_rule_block(rules: dict[str, dict], rule_counts: dict[str, int]) -> list[str]:
+    lines = ["## Rules in formal form", "",
+             "Each rule is listed with its first-order shape and the number of facts it produced "
+             "on the current dataset. Two rules are marked specifically:",
+             "",
+             "- ★ **new edge** — R5 emits triples that did not exist in the asserted graph.",
+             "- ★ **recursive / new node** — R6 takes a transitive closure over the relation produced by R5 and creates a new node class.",
+             ""]
+    order = [
+        "professional_operator",
+        "cross_district_operator",
+        "multi_source_confirmed_establishment",
+        "likely_chain_affiliated_operator",
+        "shared_chain_corporate_group",
+        "operator_corporate_network",
+    ]
+    for rule_id in order:
+        if rule_id not in rules:
+            continue
+        meta = RULE_FORMAL_FORMS.get(rule_id)
+        if meta is None:
+            continue
+        count = rule_counts.get(rule_id, 0)
+        rule_def = rules[rule_id]
+        lines.extend([
+            f"### {meta['title']}",
+            "",
+            f"- **Rule id:** `{rule_id}`",
+            f"- **Description:** {rule_def['description'].strip()}",
+            f"- **Kind:** {meta['kind']}",
+            f"- **Facts produced on the current dataset:** {count}",
+            "",
+            "```",
+            meta["formal"],
+            "```",
+            "",
+        ])
+    return lines
+
+
+def build_markdown(summary: dict, rules: dict[str, dict] | None = None) -> str:
+    rules = rules or {}
+    facts_by_rule = summary.get("facts_by_rule", {})
     lines = [
         "# Rule Inference Report",
         "",
@@ -320,10 +427,16 @@ def build_markdown(summary: dict) -> str:
         f"- Operator-pair facts (new edges): {summary.get('operator_pair_fact_count', 0)}",
         f"- Network facts (recursive closure): {summary.get('network_fact_count', 0)}",
         "",
-        "## Facts by Type",
+        "Portfolio reference: this document supports **LO2 — understand and apply logical "
+        "knowledge in KGs** and is also the place where the **5 example rules** required "
+        "by the portfolio template are written out explicitly. The same rules are also "
+        "implemented as runnable SPARQL queries in `src/queries.sparql` (queries 2, 4, 5, 6).",
         "",
     ]
 
+    lines.extend(_formal_rule_block(rules, facts_by_rule))
+
+    lines.extend(["## Facts by Type", ""])
     for inferred_type, count in summary["facts_by_type"].items():
         lines.append(f"- `{inferred_type}`: {count}")
 
@@ -340,10 +453,16 @@ def build_markdown(summary: dict) -> str:
             "## Interpretation",
             "",
             "- These facts are inferred from explicit rules, not imported directly from the raw sources.",
-            "- The `CorporateSibling` and `OperatorNetwork` rules produce new edges and nodes in `graph/inferred_facts.ttl`,",
-            "  kept separate from `graph/vienna_accommodation_operator_kg.ttl` so asserted and inferred facts stay distinguishable.",
-            "- The `OperatorNetwork` rule is recursive: it computes the transitive closure over `corporateSibling` edges via union-find.",
-            "- This reasoning layer supports portfolio claims around symbolic reasoning, graph evolution, and explainable KG services.",
+            "- R5 (`shared_chain_corporate_group`) and R6 (`operator_corporate_network`) produce new edges and nodes",
+            "  in `graph/inferred_facts.ttl`, kept separate from `graph/vienna_accommodation_operator_kg.ttl` so",
+            "  asserted and inferred facts stay distinguishable.",
+            "- R6 is the recursive rule: it computes the transitive closure over the `corporateSibling`",
+            "  relation produced by R5 via union-find. This is also the closure exploited by the recursive",
+            "  property-path query in `src/queries.sparql` (query 4: `vaok:corporateSibling*`).",
+            "- The quantitative evaluation of R5 against a hand-labelled 30-edge gold sample is reported in",
+            "  `reports/rule_eval_corporate_sibling.md`.",
+            "- This reasoning layer supports portfolio claims around symbolic reasoning, graph evolution,",
+            "  and explainable KG services.",
             "",
         ]
     )
@@ -395,7 +514,7 @@ def main() -> None:
 
     write_json(RULE_SUMMARY_JSON, summary)
     write_json(RULE_FACTS_JSON, {"facts": facts})
-    RULE_REPORT_MD.write_text(build_markdown(summary), encoding="utf-8")
+    RULE_REPORT_MD.write_text(build_markdown(summary, rules), encoding="utf-8")
     inferred_triple_count = write_inferred_ttl(facts)
 
     print(f"Wrote {RULE_REPORT_MD}")

@@ -14,6 +14,7 @@ The current application also includes:
 - evidence panels for operators and candidate links
 
 For the LO → evidence mapping used in the course portfolio, see [`PORTFOLIO_GUIDE.md`](PORTFOLIO_GUIDE.md).
+For the system architecture (LO5) see [`docs/architecture.md`](docs/architecture.md) and the rendered diagram in [`docs/architecture.png`](docs/architecture.png).
 
 ## Project Positioning
 
@@ -279,3 +280,18 @@ g.parse("graph/inferred_facts.ttl", format="turtle")
 - Out of scope: legal ownership via Grundbuch or paid Firmenbuch lookups
 - Out of scope: Booking.com integration without a public data source
 - In scope: operator relationships, provenance, validation, and cautious entity resolution
+
+## Stable links
+
+These are the public, citable endpoints and projects used by this knowledge graph. They are the same links that go into the portfolio report as data-source citations.
+
+1. **Inside Airbnb — Vienna** (raw listings, primary backbone): https://insideairbnb.com/get-the-data/
+2. **OpenStreetMap project** (CC-BY-SA accommodation POIs): https://www.openstreetmap.org
+3. **OpenStreetMap Overpass API** (the actual endpoint we hit): https://overpass-api.de/
+4. **Wikidata** (notable hotels + operator / parent-org / brand links): https://www.wikidata.org
+5. **Wikidata Query Service** (the SPARQL endpoint we hit): https://query.wikidata.org/
+6. **Stadt Wien open data portal** (official Vienna accommodation registry layer `UNTERKUNFTOGD`): https://www.data.gv.at/
+7. **pySHACL** (SHACL validation engine used in `validate_graph.py`): https://github.com/RDFLib/pySHACL
+8. **PyKEEN** (TransE training in `train_embeddings.py`): https://pykeen.github.io/
+
+Architecture diagram source and renderer: see `docs/architecture.md`, `docs/architecture.dot`, `docs/architecture.png`.

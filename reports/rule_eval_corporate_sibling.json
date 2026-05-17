@@ -1,0 +1,56 @@
+{
+  "rule_id": "shared_chain_corporate_group",
+  "rule_label": "R5 — shared-chain corporate sibling",
+  "sample_size": 30,
+  "sampling": {
+    "seed": 7,
+    "strategy": "stratified by via_chain (up to 3 per chain), backfill from largest chains until 30",
+    "source_file": "reports/rule_inference_facts.json"
+  },
+  "labels": {
+    "TP": "two distinct operators that genuinely share a corporate parent",
+    "OK-brand-vs-property": "chain claim correct, but pair is hierarchical (parent vs property)",
+    "OK-coreferent": "same operator under different surface forms (entity-resolution duplicate)",
+    "FP": "chain attribution itself is wrong — sibling claim is factually incorrect"
+  },
+  "edges": [
+    {"edge_id": 1,  "via_chain": "AccorHotels",            "operator_a": "Ibis",                                                                      "operator_b": "Mercure Wien Westbahnhof",                                  "label": "TP"},
+    {"edge_id": 2,  "via_chain": "AccorHotels",            "operator_a": "Hotel Ibis Wien Messe",                                                     "operator_b": "Novotel",                                                   "label": "TP"},
+    {"edge_id": 3,  "via_chain": "AccorHotels",            "operator_a": "Mercure Raphael Hotel Wien",                                                "operator_b": "Novotel Wien City",                                         "label": "TP"},
+    {"edge_id": 4,  "via_chain": "Austria Trend Hotels",   "operator_a": "Austria Trend Hotel Anatol Wien",                                           "operator_b": "Austria Trend Hotel Schloss Wilhelminenberg",               "label": "TP"},
+    {"edge_id": 5,  "via_chain": "Austria Trend Hotels",   "operator_a": "Austria Trend Hotel Anatol Wien",                                           "operator_b": "Doppio - Austria Trend Hotels",                             "label": "TP"},
+    {"edge_id": 6,  "via_chain": "Austria Trend Hotels",   "operator_a": "Austria Trend",                                                             "operator_b": "Austria Trend Hotel Beim Theresianum Wien",                 "label": "OK-brand-vs-property"},
+    {"edge_id": 7,  "via_chain": "Best Western",           "operator_a": "Arcadia - Best Western Plus Hotel",                                         "operator_b": "Best Western Plus",                                         "label": "OK-brand-vs-property"},
+    {"edge_id": 8,  "via_chain": "Best Western",           "operator_a": "Best Western Plus",                                                         "operator_b": "Best Western Plus Hotel Arcadia",                           "label": "OK-brand-vs-property"},
+    {"edge_id": 9,  "via_chain": "Best Western",           "operator_a": "Arcadia - Best Western Plus Hotel",                                         "operator_b": "Best Western",                                              "label": "OK-brand-vs-property"},
+    {"edge_id": 10, "via_chain": "Hilton Hotels & Resorts","operator_a": "Double Tree by Hilton Vienna Schönbrunn",                                  "operator_b": "Hilton",                                                    "label": "OK-brand-vs-property"},
+    {"edge_id": 11, "via_chain": "Hilton Hotels & Resorts","operator_a": "Curio Collection",                                                          "operator_b": "Double Tree by Hilton Vienna Schönbrunn",                   "label": "TP"},
+    {"edge_id": 12, "via_chain": "Hilton Hotels & Resorts","operator_a": "Curio Collection",                                                          "operator_b": "Hilton",                                                    "label": "OK-brand-vs-property"},
+    {"edge_id": 13, "via_chain": "IHG Hotels & Resorts",   "operator_a": "Holiday Inn - the niu Franz Vienna",                                        "operator_b": "InterContinental",                                          "label": "FP", "note": "the niu is Novum Hospitality, not IHG"},
+    {"edge_id": 14, "via_chain": "IHG Hotels & Resorts",   "operator_a": "Holiday Inn",                                                               "operator_b": "Holiday Inn Vienna - South",                                "label": "OK-brand-vs-property"},
+    {"edge_id": 15, "via_chain": "IHG Hotels & Resorts",   "operator_a": "Holiday Inn",                                                               "operator_b": "InterContinental Vienna",                                   "label": "TP"},
+    {"edge_id": 16, "via_chain": "Marriott International", "operator_a": "Courtyard by Marriott Vienna Prater/Messe",                                 "operator_b": "Renaissance Vienna Schönbrunn Hotel",                       "label": "TP"},
+    {"edge_id": 17, "via_chain": "Marriott International", "operator_a": "Four Points Flex by Sheraton Vienna Hauptbahnhof",                          "operator_b": "Marriott",                                                  "label": "OK-brand-vs-property"},
+    {"edge_id": 18, "via_chain": "Marriott International", "operator_a": "Courtyard by Marriott Vienna Prater/Messe",                                 "operator_b": "Renaissance Wien Hotel",                                    "label": "TP"},
+    {"edge_id": 19, "via_chain": "Meininger Hotels",       "operator_a": "Meininger",                                                                 "operator_b": "Meininger Hotel Group",                                     "label": "OK-coreferent"},
+    {"edge_id": 20, "via_chain": "Motel One",              "operator_a": "Motel One Austria GmbH",                                                    "operator_b": "Motel One Wien-Donau City",                                 "label": "OK-brand-vs-property"},
+    {"edge_id": 21, "via_chain": "Motel One",              "operator_a": "Motel One",                                                                 "operator_b": "Motel One Wien-Donau City",                                 "label": "OK-brand-vs-property"},
+    {"edge_id": 22, "via_chain": "Motel One",              "operator_a": "Motel One",                                                                 "operator_b": "Motel One Wien-Hauptbahnhof",                               "label": "OK-brand-vs-property"},
+    {"edge_id": 23, "via_chain": "NH Hotels",              "operator_a": "NH Wien Belvedere",                                                         "operator_b": "NH Wien City",                                              "label": "TP"},
+    {"edge_id": 24, "via_chain": "NH Hotels",              "operator_a": "nh Hotel",                                                                  "operator_b": "NH Wien Belvedere",                                         "label": "OK-brand-vs-property"},
+    {"edge_id": 25, "via_chain": "NH Hotels",              "operator_a": "NH Hotels",                                                                 "operator_b": "NH Wien Belvedere",                                         "label": "OK-brand-vs-property"},
+    {"edge_id": 26, "via_chain": "Park Hyatt",             "operator_a": "Hyatt",                                                                     "operator_b": "Lindner Hotel Vienna Am Belvedere, part of JdV by Hyatt",   "label": "OK-brand-vs-property"},
+    {"edge_id": 27, "via_chain": "Park Hyatt",             "operator_a": "Hyatt",                                                                     "operator_b": "Hyatt Hotels Corporation",                                  "label": "OK-coreferent"},
+    {"edge_id": 28, "via_chain": "Park Hyatt",             "operator_a": "Hyatt Hotels Corporation",                                                  "operator_b": "Lindner Hotel Vienna Am Belvedere, part of JdV by Hyatt",   "label": "OK-brand-vs-property"},
+    {"edge_id": 29, "via_chain": "Radisson Hotel Group",   "operator_a": "Prize by Radisson, Wien-City",                                              "operator_b": "Radisson RED",                                              "label": "TP"},
+    {"edge_id": 30, "via_chain": "Radisson Hotel Group",   "operator_a": "Hotel Rathauspark Wien, a Member of Radisson Individuals",                  "operator_b": "Radisson Blu",                                              "label": "TP"}
+  ],
+  "aggregate": {
+    "TP": 11,
+    "OK-brand-vs-property": 16,
+    "OK-coreferent": 2,
+    "FP": 1,
+    "strict_precision": 0.367,
+    "loose_precision": 0.967
+  }
+}
