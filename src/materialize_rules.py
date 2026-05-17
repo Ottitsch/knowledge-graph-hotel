@@ -6,17 +6,21 @@ Reads:  data/properties_unified.csv
 Writes: reports/rule_inference_report.md
         reports/rule_inference_summary.json
         reports/rule_inference_facts.json
+        graph/inferred_facts.ttl
 """
 
 from __future__ import annotations
 
-from collections import Counter
+from collections import Counter, defaultdict
+from itertools import combinations
 from pathlib import Path
 
 import pandas as pd
 import yaml
+from rdflib import Graph, Literal, Namespace, RDF, RDFS, URIRef
 
 from common_paths import (
+    GRAPH_DIR,
     RULES_FILE,
     RULE_FACTS_JSON,
     RULE_REPORT_MD,
@@ -26,7 +30,10 @@ from common_paths import (
     utc_timestamp,
     write_json,
 )
-from kg_utils import operator_key_from_row
+from kg_utils import operator_key_from_row, slugify
+
+VAOK = Namespace("http://example.org/vienna-accommodation-operator-kg/")
+INFERRED_TTL = GRAPH_DIR / "inferred_facts.ttl"
 
 
 def _non_empty(series: pd.Series) -> pd.Series:
@@ -67,6 +74,44 @@ def _operator_groups(df: pd.DataFrame) -> pd.DataFrame:
         .reset_index()
     )
     return grouped
+
+
+def _chain_to_operator_map(operator_groups: pd.DataFrame) -> dict[str, list[dict]]:
+    """For each chain, collect the operators affiliated with it."""
+    chain_to_operators: dict[str, list[dict]] = defaultdict(list)
+    for _, row in operator_groups.iterrows():
+        for chain in row["chains"]:
+            if not chain:
+                continue
+            chain_to_operators[chain].append(
+                {
+                    "operator_key": row["operator_key"],
+                    "operator_name": row["operator_name"],
+                }
+            )
+    return chain_to_operators
+
+
+class _UnionFind:
+    """Plain union-find for recursive transitive closure over corporateSibling edges."""
+
+    def __init__(self) -> None:
+        self.parent: dict[str, str] = {}
+
+    def find(self, key: str) -> str:
+        if key not in self.parent:
+            self.parent[key] = key
+            return key
+        while self.parent[key] != key:
+            self.parent[key] = self.parent[self.parent[key]]
+            key = self.parent[key]
+        return key
+
+    def union(self, a: str, b: str) -> None:
+        root_a = self.find(a)
+        root_b = self.find(b)
+        if root_a != root_b:
+            self.parent[root_b] = root_a
 
 
 def build_rule_facts(df: pd.DataFrame, rules: dict[str, dict]) -> list[dict]:
@@ -156,6 +201,81 @@ def build_rule_facts(df: pd.DataFrame, rules: dict[str, dict]) -> list[dict]:
             }
         )
 
+    # ──────────────────────────────────────────────────────────────
+    # New: corporate sibling pairs derived from shared chain affiliation.
+    # This rule materializes NEW edges in the inferred RDF graph.
+    # ──────────────────────────────────────────────────────────────
+    sibling_rule = rules["shared_chain_corporate_group"]
+    chain_to_operators = _chain_to_operator_map(operator_groups)
+    sibling_pairs_seen: set[tuple[str, str]] = set()
+    for chain, members in chain_to_operators.items():
+        if len(members) < 2:
+            continue
+        for a, b in combinations(sorted(members, key=lambda m: m["operator_key"]), 2):
+            pair_key = (a["operator_key"], b["operator_key"])
+            if pair_key in sibling_pairs_seen:
+                continue
+            sibling_pairs_seen.add(pair_key)
+            facts.append(
+                {
+                    "fact_id": f"{sibling_rule['id']}::{pair_key[0]}::{pair_key[1]}::{slugify(chain)}",
+                    "rule_id": sibling_rule["id"],
+                    "rule_label": sibling_rule["label"],
+                    "inferred_type": sibling_rule["inferred_type"],
+                    "entity_type": "operator_pair",
+                    "entity_id": f"{pair_key[0]}|{pair_key[1]}",
+                    "entity_label": f"{a['operator_name']} ↔ {b['operator_name']}",
+                    "evidence": {
+                        "via_chain": chain,
+                        "operator_a": a["operator_name"],
+                        "operator_b": b["operator_name"],
+                    },
+                    "description": sibling_rule["description"],
+                }
+            )
+
+    # ──────────────────────────────────────────────────────────────
+    # New (recursive): connected components over corporateSibling edges.
+    # Implemented as union-find — the recursive closure of a symmetric relation.
+    # Each component becomes an OperatorNetwork node with member operators.
+    # ──────────────────────────────────────────────────────────────
+    network_rule = rules["operator_corporate_network"]
+    operator_names: dict[str, str] = {
+        row["operator_key"]: row["operator_name"] for _, row in operator_groups.iterrows()
+    }
+    uf = _UnionFind()
+    for a, b in sibling_pairs_seen:
+        uf.union(a, b)
+
+    component_members: dict[str, list[str]] = defaultdict(list)
+    for member in uf.parent:
+        component_members[uf.find(member)].append(member)
+
+    for component_id in sorted(component_members):
+        members = sorted(component_members[component_id])
+        if len(members) < 2:
+            continue
+        network_slug = f"network_{slugify(component_id)}"
+        facts.append(
+            {
+                "fact_id": f"{network_rule['id']}::{network_slug}",
+                "rule_id": network_rule["id"],
+                "rule_label": network_rule["label"],
+                "inferred_type": network_rule["inferred_type"],
+                "entity_type": "network",
+                "entity_id": network_slug,
+                "entity_label": f"Network of {len(members)} operators",
+                "evidence": {
+                    "member_count": len(members),
+                    "members": [
+                        {"operator_key": key, "operator_name": operator_names.get(key, key)}
+                        for key in members
+                    ],
+                },
+                "description": network_rule["description"],
+            }
+        )
+
     facts.sort(key=lambda fact: (fact["inferred_type"], fact["entity_label"]))
     return facts
 
@@ -165,6 +285,8 @@ def build_summary(df: pd.DataFrame, rules: dict[str, dict], facts: list[dict]) -
     rule_counts = Counter(fact["rule_id"] for fact in facts)
     operator_facts = [fact for fact in facts if fact["entity_type"] == "operator"]
     unit_facts = [fact for fact in facts if fact["entity_type"] == "unit"]
+    pair_facts = [fact for fact in facts if fact["entity_type"] == "operator_pair"]
+    network_facts = [fact for fact in facts if fact["entity_type"] == "network"]
 
     return {
         "generated_at": utc_timestamp(),
@@ -173,6 +295,8 @@ def build_summary(df: pd.DataFrame, rules: dict[str, dict], facts: list[dict]) -
         "fact_count": len(facts),
         "operator_fact_count": len(operator_facts),
         "unit_fact_count": len(unit_facts),
+        "operator_pair_fact_count": len(pair_facts),
+        "network_fact_count": len(network_facts),
         "facts_by_type": dict(sorted(type_counts.items())),
         "facts_by_rule": dict(sorted(rule_counts.items())),
         "facts": facts,
@@ -187,6 +311,8 @@ def build_markdown(summary: dict) -> str:
         f"- Input rows: {summary['input_rows']}",
         f"- Rules applied: {summary['rule_count']}",
         f"- Total inferred facts: {summary['fact_count']}",
+        f"- Operator-pair facts (new edges): {summary.get('operator_pair_fact_count', 0)}",
+        f"- Network facts (recursive closure): {summary.get('network_fact_count', 0)}",
         "",
         "## Facts by Type",
         "",
@@ -208,12 +334,45 @@ def build_markdown(summary: dict) -> str:
             "## Interpretation",
             "",
             "- These facts are inferred from explicit rules, not imported directly from the raw sources.",
-            "- They are kept separate from asserted graph facts so the application can explain the difference.",
+            "- The `CorporateSibling` and `OperatorNetwork` rules produce new edges and nodes in `graph/inferred_facts.ttl`,",
+            "  kept separate from `graph/vienna_accommodation_operator_kg.ttl` so asserted and inferred facts stay distinguishable.",
+            "- The `OperatorNetwork` rule is recursive: it computes the transitive closure over `corporateSibling` edges via union-find.",
             "- This reasoning layer supports portfolio claims around symbolic reasoning, graph evolution, and explainable KG services.",
             "",
         ]
     )
     return "\n".join(lines)
+
+
+def write_inferred_ttl(facts: list[dict]) -> int:
+    """Emit corporate-sibling edges and operator-network nodes into an RDF graph."""
+    GRAPH_DIR.mkdir(parents=True, exist_ok=True)
+    graph = Graph()
+    graph.bind("vaok", VAOK)
+    triple_count = 0
+
+    for fact in facts:
+        if fact["inferred_type"] == "CorporateSibling":
+            a_key, b_key = fact["entity_id"].split("|", 1)
+            op_a = VAOK[f"operator/{slugify(a_key)}"]
+            op_b = VAOK[f"operator/{slugify(b_key)}"]
+            graph.add((op_a, VAOK.corporateSibling, op_b))
+            graph.add((op_b, VAOK.corporateSibling, op_a))
+            triple_count += 2
+
+        elif fact["inferred_type"] == "OperatorNetwork":
+            network_uri = VAOK[f"operatorNetwork/{fact['entity_id']}"]
+            graph.add((network_uri, RDF.type, VAOK.OperatorNetwork))
+            graph.add((network_uri, RDFS.label, Literal(fact["entity_label"])))
+            triple_count += 2
+            for member in fact["evidence"]["members"]:
+                key = member["operator_key"]
+                op_uri = VAOK[f"operator/{slugify(key)}"]
+                graph.add((op_uri, VAOK.memberOf, network_uri))
+                triple_count += 1
+
+    graph.serialize(destination=str(INFERRED_TTL), format="turtle")
+    return triple_count
 
 
 def main() -> None:
@@ -231,10 +390,12 @@ def main() -> None:
     write_json(RULE_SUMMARY_JSON, summary)
     write_json(RULE_FACTS_JSON, {"facts": facts})
     RULE_REPORT_MD.write_text(build_markdown(summary), encoding="utf-8")
+    inferred_triple_count = write_inferred_ttl(facts)
 
     print(f"Wrote {RULE_REPORT_MD}")
     print(f"Wrote {RULE_SUMMARY_JSON}")
     print(f"Wrote {RULE_FACTS_JSON}")
+    print(f"Wrote {INFERRED_TTL} ({inferred_triple_count} triples)")
     print(f"Inferred facts: {summary['fact_count']}")
 
 

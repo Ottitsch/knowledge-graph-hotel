@@ -1,0 +1,854 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vaok: <http://example.org/vienna-accommodation-operator-kg/> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namemeininger> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namemeininger_hotel_group> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namemeininger> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namemeininger_hotel_group> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namemeininger> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namemeininger> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namethe_ritz_carlton> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namethe_ritz_carlton_vienna> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namethe_ritz_carlton> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namethe_ritz_carlton_vienna> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namethe_ritz_carlton> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namethe_ritz_carlton> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namecurio_collection> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namedouble_tree_by_hilton_vienna_schönbrunn>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehilton> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namecurio_collection> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namedouble_tree_by_hilton_vienna_schönbrunn> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namecurio_collection>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehilton> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namecurio_collection> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namehilton> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namecurio_collection>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namedouble_tree_by_hilton_vienna_schönbrunn> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namecurio_collection> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namehyatt> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namehyatt_hotels_corporation>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namelindner_hotel_vienna_am_belvedere_part_of_jdv_by_hyatt> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namehyatt> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namehyatt_hotels_corporation> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namehyatt>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namelindner_hotel_vienna_am_belvedere_part_of_jdv_by_hyatt> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namehyatt> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namelindner_hotel_vienna_am_belvedere_part_of_jdv_by_hyatt> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namehyatt>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehyatt_hotels_corporation> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namehyatt> .
+
+<http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namemeininger> a vaok:OperatorNetwork ;
+    rdfs:label "Network of 2 operators" .
+
+<http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namethe_ritz_carlton> a vaok:OperatorNetwork ;
+    rdfs:label "Network of 2 operators" .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namemotel_one> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namemotel_one_austria_gmbh>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemotel_one_wien_donau_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemotel_one_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namemotel_one> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namemotel_one_austria_gmbh> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namemotel_one>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemotel_one_wien_donau_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemotel_one_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namemotel_one> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namemotel_one_wien_donau_city> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namemotel_one>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemotel_one_austria_gmbh>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemotel_one_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namemotel_one> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namemotel_one_wien_hauptbahnhof> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namemotel_one>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemotel_one_austria_gmbh>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemotel_one_wien_donau_city> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namemotel_one> .
+
+<http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namecurio_collection> a vaok:OperatorNetwork ;
+    rdfs:label "Network of 3 operators" .
+
+<http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namehyatt> a vaok:OperatorNetwork ;
+    rdfs:label "Network of 3 operators" .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namearcadia_best_western_plus_hotel> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namebest_western>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namebest_western_plus>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namebest_western_plus_hotel_arcadia>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameplaza_hotelgroup> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namebest_western> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namebest_western> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namearcadia_best_western_plus_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namebest_western_plus>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namebest_western_plus_hotel_arcadia>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameplaza_hotelgroup> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namebest_western> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namebest_western_plus> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namearcadia_best_western_plus_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namebest_western>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namebest_western_plus_hotel_arcadia>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameplaza_hotelgroup> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namebest_western> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namebest_western_plus_hotel_arcadia> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namearcadia_best_western_plus_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namebest_western>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namebest_western_plus>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameplaza_hotelgroup> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namebest_western> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameholiday_inn> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameholiday_inn_the_niu_franz_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameholiday_inn_vienna_south>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameintercontinental>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameintercontinental_vienna> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameholiday_inn> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameholiday_inn_the_niu_franz_vienna> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameholiday_inn>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameholiday_inn_vienna_south>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameintercontinental>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameintercontinental_vienna> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameholiday_inn> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameholiday_inn_vienna_south> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameholiday_inn>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameholiday_inn_the_niu_franz_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameintercontinental>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameintercontinental_vienna> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameholiday_inn> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameintercontinental> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameholiday_inn>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameholiday_inn_the_niu_franz_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameholiday_inn_vienna_south>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameintercontinental_vienna> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameholiday_inn> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameintercontinental_vienna> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameholiday_inn>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameholiday_inn_the_niu_franz_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameholiday_inn_vienna_south>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameintercontinental> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameholiday_inn> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namenh> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namenh_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenh_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenh_wien_belvedere>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenh_wien_city> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenh_wien_belvedere> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namenh_hotel> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namenh>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenh_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenh_wien_belvedere>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenh_wien_city> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenh_wien_belvedere> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namenh_wien_belvedere> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namenh>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenh_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenh_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenh_wien_city> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenh_wien_belvedere> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namenh_wien_city> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namenh>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenh_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenh_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenh_wien_belvedere> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenh_wien_belvedere> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameplaza_hotelgroup> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namearcadia_best_western_plus_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namebest_western>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namebest_western_plus>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namebest_western_plus_hotel_arcadia> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namebest_western> .
+
+<http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namemotel_one> a vaok:OperatorNetwork ;
+    rdfs:label "Network of 4 operators" .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namenh_hotels> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namenh>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenh_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenh_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenh_wien_belvedere>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenh_wien_city> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenh_wien_belvedere> .
+
+<http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namebest_western> a vaok:OperatorNetwork ;
+    rdfs:label "Network of 5 operators" .
+
+<http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameholiday_inn> a vaok:OperatorNetwork ;
+    rdfs:label "Network of 5 operators" .
+
+<http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenh_wien_belvedere> a vaok:OperatorNetwork ;
+    rdfs:label "Network of 5 operators" .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard_by_marriott_vienna_pratermesse>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namefour_points_flex_by_sheraton_vienna_hauptbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international_inc>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_vienna_schönbrunn_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_wien_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namevienna_marriott_hotel> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namecourtyard_by_marriott_vienna_pratermesse> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard_by_marriott_vienna_pratermesse> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namefour_points_flex_by_sheraton_vienna_hauptbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international_inc>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_vienna_schönbrunn_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_wien_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namevienna_marriott_hotel> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namecourtyard_by_marriott_vienna_pratermesse> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namefour_points_flex_by_sheraton_vienna_hauptbahnhof> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard_by_marriott_vienna_pratermesse>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international_inc>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_vienna_schönbrunn_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_wien_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namevienna_marriott_hotel> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namecourtyard_by_marriott_vienna_pratermesse> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namehotel_rathauspark_wien_a_member_of_radisson_individuals> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameprize_by_radisson_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_das_triest_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_park_royal_palace_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_boutiquehotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_red> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameprize_by_radisson_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namemarriott> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard_by_marriott_vienna_pratermesse>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namefour_points_flex_by_sheraton_vienna_hauptbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international_inc>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_vienna_schönbrunn_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_wien_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namevienna_marriott_hotel> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namecourtyard_by_marriott_vienna_pratermesse> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard_by_marriott_vienna_pratermesse>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namefour_points_flex_by_sheraton_vienna_hauptbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international_inc>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_vienna_schönbrunn_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_wien_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namevienna_marriott_hotel> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namecourtyard_by_marriott_vienna_pratermesse> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international_inc> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard_by_marriott_vienna_pratermesse>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namefour_points_flex_by_sheraton_vienna_hauptbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_vienna_schönbrunn_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_wien_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namevienna_marriott_hotel> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namecourtyard_by_marriott_vienna_pratermesse> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameprize_by_radisson_wien_city> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_rathauspark_wien_a_member_of_radisson_individuals>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_das_triest_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_park_royal_palace_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_boutiquehotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_red> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameprize_by_radisson_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameradisson> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_rathauspark_wien_a_member_of_radisson_individuals>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameprize_by_radisson_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_das_triest_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_park_royal_palace_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_boutiquehotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_red> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameprize_by_radisson_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_rathauspark_wien_a_member_of_radisson_individuals>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameprize_by_radisson_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_das_triest_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_park_royal_palace_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_boutiquehotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_red> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameprize_by_radisson_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_das_triest_hotel_vienna> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_rathauspark_wien_a_member_of_radisson_individuals>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameprize_by_radisson_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_park_royal_palace_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_boutiquehotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_red> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameprize_by_radisson_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_park_royal_palace_hotel_vienna> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_rathauspark_wien_a_member_of_radisson_individuals>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameprize_by_radisson_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_das_triest_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_boutiquehotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_red> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameprize_by_radisson_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_boutiquehotel> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_rathauspark_wien_a_member_of_radisson_individuals>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameprize_by_radisson_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_das_triest_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_park_royal_palace_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_red> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameprize_by_radisson_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_vienna> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_rathauspark_wien_a_member_of_radisson_individuals>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameprize_by_radisson_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_das_triest_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_park_royal_palace_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_boutiquehotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_red> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameprize_by_radisson_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_red> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_rathauspark_wien_a_member_of_radisson_individuals>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameprize_by_radisson_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_das_triest_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_park_royal_palace_hotel_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_boutiquehotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameradisson_blu_style_hotel_vienna> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameprize_by_radisson_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_vienna_schönbrunn_hotel> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard_by_marriott_vienna_pratermesse>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namefour_points_flex_by_sheraton_vienna_hauptbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international_inc>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_wien_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namevienna_marriott_hotel> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namecourtyard_by_marriott_vienna_pratermesse> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_wien_hotel> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard_by_marriott_vienna_pratermesse>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namefour_points_flex_by_sheraton_vienna_hauptbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international_inc>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_vienna_schönbrunn_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namevienna_marriott_hotel> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namecourtyard_by_marriott_vienna_pratermesse> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namevienna_marriott_hotel> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namecourtyard_by_marriott_vienna_pratermesse>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namefour_points_flex_by_sheraton_vienna_hauptbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemarriott_international_inc>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_vienna_schönbrunn_hotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namerenaissance_wien_hotel> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namecourtyard_by_marriott_vienna_pratermesse> .
+
+<http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namecourtyard_by_marriott_vienna_pratermesse> a vaok:OperatorNetwork ;
+    rdfs:label "Network of 9 operators" .
+
+<http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameprize_by_radisson_wien_city> a vaok:OperatorNetwork ;
+    rdfs:label "Network of 9 operators" .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_beim_theresianum_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_bosei>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_rathauspark>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_savoyen_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_schloss_wilhelminenberg>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_parkhotel_schönbrunn_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namedoppio_austria_trend_hotels> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameaustria_trend_hotel_anatol> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_beim_theresianum_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_bosei>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_rathauspark>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_savoyen_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_schloss_wilhelminenberg>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_parkhotel_schönbrunn_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namedoppio_austria_trend_hotels> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameaustria_trend_hotel_anatol> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol_wien> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_beim_theresianum_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_bosei>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_rathauspark>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_savoyen_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_schloss_wilhelminenberg>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_parkhotel_schönbrunn_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namedoppio_austria_trend_hotels> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameaustria_trend_hotel_anatol> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_beim_theresianum_wien> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_bosei>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_rathauspark>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_savoyen_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_schloss_wilhelminenberg>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_parkhotel_schönbrunn_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namedoppio_austria_trend_hotels> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameaustria_trend_hotel_anatol> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_bosei> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_beim_theresianum_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_rathauspark>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_savoyen_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_schloss_wilhelminenberg>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_parkhotel_schönbrunn_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namedoppio_austria_trend_hotels> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameaustria_trend_hotel_anatol> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_beim_theresianum_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_bosei>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_rathauspark>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_savoyen_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_schloss_wilhelminenberg>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_parkhotel_schönbrunn_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namedoppio_austria_trend_hotels> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameaustria_trend_hotel_anatol> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio_wien> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_beim_theresianum_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_bosei>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_rathauspark>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_savoyen_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_schloss_wilhelminenberg>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_parkhotel_schönbrunn_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namedoppio_austria_trend_hotels> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameaustria_trend_hotel_anatol> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_rathauspark> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_beim_theresianum_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_bosei>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_savoyen_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_schloss_wilhelminenberg>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_parkhotel_schönbrunn_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namedoppio_austria_trend_hotels> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameaustria_trend_hotel_anatol> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_savoyen_vienna> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_beim_theresianum_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_bosei>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_rathauspark>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_schloss_wilhelminenberg>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_parkhotel_schönbrunn_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namedoppio_austria_trend_hotels> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameaustria_trend_hotel_anatol> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_schloss_wilhelminenberg> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_beim_theresianum_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_bosei>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_rathauspark>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_savoyen_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_parkhotel_schönbrunn_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namedoppio_austria_trend_hotels> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameaustria_trend_hotel_anatol> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotels> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_beim_theresianum_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_bosei>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_rathauspark>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_savoyen_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_schloss_wilhelminenberg>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_parkhotel_schönbrunn_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namedoppio_austria_trend_hotels> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameaustria_trend_hotel_anatol> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_parkhotel_schönbrunn_vienna> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_beim_theresianum_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_bosei>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_rathauspark>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_savoyen_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_schloss_wilhelminenberg>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namedoppio_austria_trend_hotels> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameaustria_trend_hotel_anatol> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namedoppio_austria_trend_hotels> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_anatol_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_beim_theresianum_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_bosei>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_doppio_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_rathauspark>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_savoyen_vienna>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotel_schloss_wilhelminenberg>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaustria_trend_parkhotel_schönbrunn_vienna> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameaustria_trend_hotel_anatol> .
+
+<http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_nameaustria_trend_hotel_anatol> a vaok:OperatorNetwork ;
+    rdfs:label "Network of 13 operators" .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameaccor> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameibis> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namenovotel> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_hauptbahnhof> vaok:corporateSibling <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameaccor_hotels>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_ibis_wien_messe>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namehotel_novotel_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_budget_wien_st_marx>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_styles>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/nameibis_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_grand_hotel_biedermeier_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_raphael_hotel_wien>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namemercure_wien_westbahnhof>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_suites_wien_city_donau>,
+        <http://example.org/vienna-accommodation-operator-kg/operator/namenovotel_wien_city> ;
+    vaok:memberOf <http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> .
+
+<http://example.org/vienna-accommodation-operator-kg/operatorNetwork/network_namenovotel_wien_city> a vaok:OperatorNetwork ;
+    rdfs:label "Network of 17 operators" .
+

@@ -17,3 +17,18 @@ rules:
     label: Likely chain affiliated operator
     inferred_type: LikelyChainAffiliatedOperator
     description: Operators connected to at least one establishment with a detected hotel-chain affiliation.
+  - id: shared_chain_corporate_group
+    label: Shared chain corporate group
+    inferred_type: CorporateSibling
+    description: >
+      For every chain, every pair of operators affiliated with that chain is asserted as a
+      corporate sibling pair (vaok:corporateSibling). This rule emits new edges into the
+      derived graph graph/inferred_facts.ttl, separate from asserted facts.
+  - id: operator_corporate_network
+    label: Operator corporate network
+    inferred_type: OperatorNetwork
+    description: >
+      Recursive rule. Treats vaok:corporateSibling as a transitive, symmetric relation and
+      computes the connected components over it. Each component becomes a new OperatorNetwork
+      node, and each member operator is linked via vaok:memberOf. Recursion is bounded by the
+      size of the operator-chain bipartite graph.
