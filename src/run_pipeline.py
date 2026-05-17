@@ -22,9 +22,10 @@ PROJECT_DIR = os.path.join(SRC_DIR, "..")
 
 
 def run(script: str, description: str) -> bool:
+    # `script` is now a relative path inside src/ (e.g. "collect/collect_osm.py").
     path = os.path.join(SRC_DIR, script)
     print(f"\n{'=' * 60}", flush=True)
-    print(f"STEP: {description}", flush=True)
+    print(f"STEP: {description} ({script})", flush=True)
     print(f"{'=' * 60}", flush=True)
     result = subprocess.run([sys.executable, "-u", path], cwd=PROJECT_DIR)
     if result.returncode != 0:
@@ -57,50 +58,50 @@ def main():
     args = parser.parse_args()
 
     steps = [
-        ("collect_datagv.py", "Fetch data.gv.at Vienna accommodations"),
-        ("collect_osm.py", "Fetch OSM accommodation POIs via Overpass"),
-        ("collect_wikidata.py", "Fetch Wikidata accommodation and operator enrichment"),
+        ("collect/collect_datagv.py", "Fetch data.gv.at Vienna accommodations"),
+        ("collect/collect_osm.py", "Fetch OSM accommodation POIs via Overpass"),
+        ("collect/collect_wikidata.py", "Fetch Wikidata accommodation and operator enrichment"),
     ]
 
     if not args.skip_airbnb:
-        steps.append(("download_airbnb.py", "Download Inside Airbnb Vienna listings"))
+        steps.append(("collect/download_airbnb.py", "Download Inside Airbnb Vienna listings"))
 
     steps += [
         (
-            "resolve_entities.py",
+            "construct/resolve_entities.py",
             "Resolve entities, normalize districts, and classify listing-establishment matches",
         ),
-        ("build_graph.py", "Build Knowledge Graph (Neo4j and RDF Turtle)"),
-        ("audit_quality.py", "Generate data quality audit report"),
-        ("validate_graph.py", "Validate RDF export with SHACL"),
+        ("construct/build_graph.py", "Build Knowledge Graph (Neo4j and RDF Turtle)"),
+        ("audit/audit_quality.py", "Generate data quality audit report"),
+        ("audit/validate_graph.py", "Validate RDF export with SHACL"),
     ]
 
     if not args.skip_rules:
-        steps.append(("materialize_rules.py", "Generate rule-based inferred facts and reports"))
+        steps.append(("construct/materialize_rules.py", "Generate rule-based inferred facts and reports"))
 
     if not args.skip_embeddings:
         steps.extend(
             [
-                ("export_triples.py", "Export labeled triples for embedding training"),
-                ("train_embeddings.py", "Train KG embeddings and write metrics"),
-                ("score_candidates.py", "Score weak candidate links and operator similarity"),
+                ("construct/export_triples.py", "Export labeled triples for embedding training"),
+                ("learn/train_embeddings.py", "Train KG embeddings and write metrics"),
+                ("learn/score_candidates.py", "Score weak candidate links and operator similarity"),
             ]
         )
 
-    steps.append(("write_financial_comparison.py", "Write comparative financial KG case-study report"))
+    steps.append(("audit/write_financial_comparison.py", "Write comparative financial KG case-study report"))
 
     if not args.skip_snapshots:
         steps.extend(
             [
-                ("version_snapshot.py", "Version the current pipeline outputs as a snapshot"),
-                ("diff_snapshots.py", "Compare the latest two snapshots"),
+                ("evolve/version_snapshot.py", "Version the current pipeline outputs as a snapshot"),
+                ("evolve/diff_snapshots.py", "Compare the latest two snapshots"),
             ]
         )
 
     if args.with_optional:
         steps.append(
             (
-                "optional_collect_firmenbuch.py",
+                "collect/optional_collect_firmenbuch.py",
                 "Optional: record operator names for future Firmenbuch enrichment",
             )
         )
@@ -128,7 +129,7 @@ def main():
     print("  2. Run Cypher queries from src/queries.cypher")
     print("  3. View RDF graph: graph/vienna_accommodation_operator_kg.ttl")
     print("  4. Open ontology: ontology/accommodation_operator.owl (in Protege)")
-    print("  5. Review reports: reports/data_quality_report.md and reports/shacl_validation_report.txt")
+    print("  5. Review reports: reports/quality/data_quality_report.md and reports/quality/shacl_validation_report.txt")
     print("  6. Review reasoning, embedding, and evolution reports in reports/")
     print("  7. Run the dashboard: python webapp/app.py")
 

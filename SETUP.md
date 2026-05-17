@@ -57,15 +57,15 @@ Useful flags:
 - RDF graph (rule-inferred): `graph/inferred_facts.ttl`
 - Ontology: `ontology/accommodation_operator.owl`
 - SHACL shapes: `ontology/accommodation_operator_shapes.ttl`
-- Quality report: `reports/data_quality_report.md`
-- SHACL report: `reports/shacl_validation_report.txt`
-- Rule report: `reports/rule_inference_report.md`
-- Embedding report: `reports/embedding_report.md`
-- Embedding worked examples: `reports/embedding_examples.md`
-- Candidate scores: `reports/candidate_scores.csv`
-- Evolution report: `reports/evolution_report.md`
-- Reflection notes (LO4 / LO6 / LO12): `reports/data_model_comparison.md`, `reports/scalable_reasoning.md`, `reports/ml_logic_interaction.md`
-- Financial KG comparison (LO10): `reports/financial_kg_comparison.md`
+- Quality report: `reports/quality/data_quality_report.md`
+- SHACL report: `reports/quality/shacl_validation_report.txt`
+- Rule report: `reports/logic/rule_inference_report.md`
+- Embedding report: `reports/ml/embedding_report.md`
+- Embedding worked examples: `reports/ml/embedding_examples.md`
+- Candidate scores: `reports/ml/candidate_scores.csv`
+- Evolution report: `reports/evolution/evolution_report.md`
+- Reflection notes (LO4 / LO6 / LO12): `reports/reflection/data_model_comparison.md`, `reports/reflection/scalable_reasoning.md`, `reports/reflection/ml_logic_interaction.md`
+- Financial KG comparison (LO10): `reports/reflection/financial_kg_comparison.md`
 - Example Cypher queries: `src/queries.cypher`
 - Example SPARQL queries: `src/queries.sparql`
 

@@ -54,7 +54,7 @@ For the system architecture (LO5) see [`docs/architecture.md`](docs/architecture
 
 ### Rule-inferred edges (separate graph)
 
-The rule engine in `src/materialize_rules.py` derives additional edges from the asserted graph and writes them to `graph/inferred_facts.ttl`. They are kept apart so asserted and inferred facts stay distinguishable:
+The rule engine in `src/construct/materialize_rules.py` derives additional edges from the asserted graph and writes them to `graph/inferred_facts.ttl`. They are kept apart so asserted and inferred facts stay distinguishable:
 
 - `(Operator)-[:corporateSibling]->(Operator)` — operators sharing a hotel chain (`shared_chain_corporate_group` rule).
 - `(Operator)-[:memberOf]->(OperatorNetwork)` — connected components over `corporateSibling`, the recursive `operator_corporate_network` rule.
@@ -88,31 +88,31 @@ This keeps the KG usable without overstating uncertain matches.
 ## Pipeline
 
 ```text
-Inside Airbnb CSV      -> download_airbnb.py
-OSM Overpass API       -> collect_osm.py
-Wikidata SPARQL        -> collect_wikidata.py
-data.gv.at WFS         -> collect_datagv.py
-                           |
-                           v
-                    resolve_entities.py
-                    - merge establishments
-                    - classify operator evidence
-                    - separate strong listing links from weak candidates
-                           |
-                           v
-                    build_graph.py
-                    - Neo4j graph
-                    - RDF Turtle export
-                           |
-                           +-> audit_quality.py
-                           +-> validate_graph.py
-                           +-> materialize_rules.py
-                           +-> export_triples.py
-                           +-> train_embeddings.py
-                           +-> score_candidates.py
-                           +-> write_financial_comparison.py
-                           +-> version_snapshot.py
-                           +-> diff_snapshots.py
+Inside Airbnb CSV      -> src/collect/download_airbnb.py
+OSM Overpass API       -> src/collect/collect_osm.py
+Wikidata SPARQL        -> src/collect/collect_wikidata.py
+data.gv.at WFS         -> src/collect/collect_datagv.py
+                            |
+                            v
+                     src/construct/resolve_entities.py
+                     - merge establishments
+                     - classify operator evidence
+                     - separate strong listing links from weak candidates
+                            |
+                            v
+                     src/construct/build_graph.py
+                     - Neo4j graph
+                     - RDF Turtle export
+                            |
+                            +-> src/audit/audit_quality.py
+                            +-> src/audit/validate_graph.py
+                            +-> src/construct/materialize_rules.py
+                            +-> src/construct/export_triples.py
+                            +-> src/learn/train_embeddings.py
+                            +-> src/learn/score_candidates.py
+                            +-> src/audit/write_financial_comparison.py
+                            +-> src/evolve/version_snapshot.py
+                            +-> src/evolve/diff_snapshots.py
 ```
 
 ## Repository Structure
@@ -125,8 +125,14 @@ knowledge-graph-hotel/
   requirements.txt                     python dependencies
   .env.example                         template for neo4j credentials
 
+  docs/                                LO5 architecture
+    architecture.md                    written architecture + design rationale
+    architecture.png                   rendered diagram
+    architecture.dot                   graphviz source
+    render_architecture.py             regenerator
+
   data/                                raw and unified datasets
-    inside_airbnb_listings.csv         (downloadable; see download_airbnb.py)
+    inside_airbnb_listings.csv         (downloadable; see src/collect/download_airbnb.py)
     osm_hotels.json
     wikidata_hotels.json
     datagv_accommodations.csv
@@ -144,34 +150,23 @@ knowledge-graph-hotel/
   models/
     embeddings/                        TransE artifacts (matrix + mappings)
 
-  reports/
-    data_quality_report.md             generated quality audit
-    shacl_validation_report.txt        SHACL validation output
-    rule_inference_report.md           rule materializer output
-    embedding_report.md                training metrics
-    embedding_examples.md              5 representations + 1 TP + 1 FP
-    candidate_scores.csv               weak candidate ranking
-    operator_similarity.json           top-k similar operators per operator
-    evolution_report.md                snapshot diff
-    financial_kg_comparison.md         LO10 reflection
-    data_model_comparison.md           LO4 reflection
-    scalable_reasoning.md              LO6 reflection
-    ml_logic_interaction.md            LO12 reflection
+  reports/                             grouped by topic — see reports/README.md
+    quality/                           data_quality_report.md, shacl_validation_report.{txt,ttl}, quality_summary.json
+    logic/                             rule_inference_*.{md,json}, rule_eval_corporate_sibling.{md,json}
+    ml/                                embedding_*.{md,json}, candidate_scores.csv, operator_similarity.json
+    evolution/                         evolution_*.{md,json}
+    reflection/                        data_model_comparison.md, scalable_reasoning.md, ml_logic_interaction.md, financial_kg_comparison.md
 
-  src/
-    collect_datagv.py  collect_osm.py  collect_wikidata.py
-    download_airbnb.py
-    resolve_entities.py     entity resolution and listing-establishment matching
-    build_graph.py          Neo4j and RDF export
-    audit_quality.py
-    validate_graph.py       SHACL validator runner
-    materialize_rules.py    forward chaining + recursive transitive closure
-    export_triples.py
-    train_embeddings.py     TransE via PyKEEN
-    score_candidates.py
-    version_snapshot.py  diff_snapshots.py
-    write_financial_comparison.py
-    run_pipeline.py
+  src/                                 grouped by pipeline stage — see src/README.md
+    run_pipeline.py                    orchestrator
+    common_paths.py  kg_utils.py       shared utilities
+    rules.yml                          rule definitions
+    queries.cypher  queries.sparql     example queries
+    collect/                           download_airbnb · collect_{osm,wikidata,datagv} · optional_collect_firmenbuch
+    construct/                         resolve_entities · build_graph · export_triples · materialize_rules
+    learn/                             train_embeddings · score_candidates
+    audit/                             audit_quality · validate_graph · write_financial_comparison
+    evolve/                            version_snapshot · diff_snapshots
     rules.yml               six rule definitions, two of which emit new RDF
     queries.cypher          example Neo4j queries
     queries.sparql          example SPARQL queries incl. recursive property path
@@ -213,16 +208,16 @@ python src/run_pipeline.py --skip-airbnb --skip-embeddings
 python src/run_pipeline.py --skip-airbnb --skip-snapshots
 
 # Individual steps
-python src/resolve_entities.py
-python src/build_graph.py
-python src/audit_quality.py
-python src/validate_graph.py
-python src/materialize_rules.py
-python src/export_triples.py
-python src/train_embeddings.py
-python src/score_candidates.py
-python src/version_snapshot.py
-python src/diff_snapshots.py
+python src/construct/resolve_entities.py
+python src/construct/build_graph.py
+python src/audit/audit_quality.py
+python src/audit/validate_graph.py
+python src/construct/materialize_rules.py
+python src/construct/export_triples.py
+python src/learn/train_embeddings.py
+python src/learn/score_candidates.py
+python src/evolve/version_snapshot.py
+python src/evolve/diff_snapshots.py
 ```
 
 ## Outputs
@@ -231,17 +226,17 @@ python src/diff_snapshots.py
 - RDF export (rule-inferred, kept separate): `graph/inferred_facts.ttl`
 - Ontology: `ontology/accommodation_operator.owl`
 - SHACL shapes: `ontology/accommodation_operator_shapes.ttl`
-- Quality report: `reports/data_quality_report.md`
-- SHACL validation report: `reports/shacl_validation_report.txt`
-- Rule inference report: `reports/rule_inference_report.md`
-- Embedding report: `reports/embedding_report.md`
-- Embedding worked examples (5 + TP + FP): `reports/embedding_examples.md`
-- Candidate ranking: `reports/candidate_scores.csv`
-- Evolution report: `reports/evolution_report.md`
-- Financial KG comparison (LO10): `reports/financial_kg_comparison.md`
-- Data model comparison (LO4): `reports/data_model_comparison.md`
-- Scalable reasoning notes (LO6): `reports/scalable_reasoning.md`
-- ML / logic interaction (LO12): `reports/ml_logic_interaction.md`
+- Quality report: `reports/quality/data_quality_report.md`
+- SHACL validation report: `reports/quality/shacl_validation_report.txt`
+- Rule inference report: `reports/logic/rule_inference_report.md`
+- Embedding report: `reports/ml/embedding_report.md`
+- Embedding worked examples (5 + TP + FP): `reports/ml/embedding_examples.md`
+- Candidate ranking: `reports/ml/candidate_scores.csv`
+- Evolution report: `reports/evolution/evolution_report.md`
+- Financial KG comparison (LO10): `reports/reflection/financial_kg_comparison.md`
+- Data model comparison (LO4): `reports/reflection/data_model_comparison.md`
+- Scalable reasoning notes (LO6): `reports/reflection/scalable_reasoning.md`
+- ML / logic interaction (LO12): `reports/reflection/ml_logic_interaction.md`
 
 ## Dashboard
 

@@ -17,9 +17,9 @@ The Vienna Accommodation Operator KG is built as a four-layer pipeline that sepa
 
 Three cross-cutting concerns sit alongside the four main layers:
 
-- **Quality** — `audit_quality.py` and `validate_graph.py` (SHACL via pyshacl) produce `reports/data_quality_report.md` and `reports/shacl_validation_report.txt`. They run on the resolved table and the asserted graph respectively.
-- **Evolution** — `version_snapshot.py` writes `data/snapshots/<timestamp>/` with copies of the unified CSV, rule summary, embedding metrics, candidate scores, and RDF graph. `diff_snapshots.py` produces `reports/evolution_report.md` from the last two snapshots. This is the LO8 mechanism.
-- **Scoring / ranking** — `score_candidates.py` reuses the trained TransE embedding to rank weak listing↔establishment candidates and operator↔operator similarities. The output is **never** added to the asserted graph: it is exposed only as a ranked list (`reports/candidate_scores.csv`) for human review.
+- **Quality** — `audit_quality.py` and `validate_graph.py` (SHACL via pyshacl) produce `reports/quality/data_quality_report.md` and `reports/quality/shacl_validation_report.txt`. They run on the resolved table and the asserted graph respectively.
+- **Evolution** — `version_snapshot.py` writes `data/snapshots/<timestamp>/` with copies of the unified CSV, rule summary, embedding metrics, candidate scores, and RDF graph. `diff_snapshots.py` produces `reports/evolution/evolution_report.md` from the last two snapshots. This is the LO8 mechanism.
+- **Scoring / ranking** — `score_candidates.py` reuses the trained TransE embedding to rank weak listing↔establishment candidates and operator↔operator similarities. The output is **never** added to the asserted graph: it is exposed only as a ranked list (`reports/ml/candidate_scores.csv`) for human review.
 
 ## Regenerating the diagram
 
