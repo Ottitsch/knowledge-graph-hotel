@@ -25,7 +25,7 @@ Each rule is listed with its first-order shape and the number of facts it produc
 
 ```
 ∀ o, n.  count{u | operatedBy(u, o)} ≥ N  ⇒  ProfessionalOperator(o)
-with threshold N = 4.
+with threshold N = 3.
 ```
 
 ### R2. Cross-district operator

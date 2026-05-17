@@ -167,9 +167,6 @@ knowledge-graph-hotel/
     learn/                             train_embeddings · score_candidates
     audit/                             audit_quality · validate_graph · write_financial_comparison
     evolve/                            version_snapshot · diff_snapshots
-    rules.yml               six rule definitions, two of which emit new RDF
-    queries.cypher          example Neo4j queries
-    queries.sparql          example SPARQL queries incl. recursive property path
 
   webapp/
     app.py                  Flask backend

@@ -45,7 +45,7 @@ Source: Inside Airbnb `listings.csv`.
 For each Airbnb row, `src/construct/resolve_entities.py` (`load_airbnb`, ~L482–L510)
 renames `host_id → host_id`, `host_name → operator_name`, and tags
 `operator_name_source = "airbnb_host"`. Rows with the same `host_id` collapse
-into a single `Operator` node in `src/build_graph.py`, with
+into a single `Operator` node in `src/construct/build_graph.py`, with
 `operator_identity_confidence = "high"` because the host id is a stable
 platform identifier (see the `OPERATOR_EVIDENCE_LEVELS` table around
 `src/construct/resolve_entities.py:L165`).
