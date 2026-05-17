@@ -49,6 +49,13 @@ The current application also includes:
 
 `LISTING_OF` is only created for evidence-backed listing-to-establishment matches.
 
+### Rule-inferred edges (separate graph)
+
+The rule engine in `src/materialize_rules.py` derives additional edges from the asserted graph and writes them to `graph/inferred_facts.ttl`. They are kept apart so asserted and inferred facts stay distinguishable:
+
+- `(Operator)-[:corporateSibling]->(Operator)` — operators sharing a hotel chain (`shared_chain_corporate_group` rule).
+- `(Operator)-[:memberOf]->(OperatorNetwork)` — connected components over `corporateSibling`, the recursive `operator_corporate_network` rule.
+
 ## Quality and Provenance Design
 
 Each accommodation unit stores provenance and quality metadata:
@@ -186,16 +193,21 @@ python src/diff_snapshots.py
 
 ## Outputs
 
-- RDF export: `graph/vienna_accommodation_operator_kg.ttl`
+- RDF export (asserted): `graph/vienna_accommodation_operator_kg.ttl`
+- RDF export (rule-inferred, kept separate): `graph/inferred_facts.ttl`
 - Ontology: `ontology/accommodation_operator.owl`
 - SHACL shapes: `ontology/accommodation_operator_shapes.ttl`
 - Quality report: `reports/data_quality_report.md`
 - SHACL validation report: `reports/shacl_validation_report.txt`
 - Rule inference report: `reports/rule_inference_report.md`
 - Embedding report: `reports/embedding_report.md`
+- Embedding worked examples (5 + TP + FP): `reports/embedding_examples.md`
 - Candidate ranking: `reports/candidate_scores.csv`
 - Evolution report: `reports/evolution_report.md`
-- Financial KG comparison: `reports/financial_kg_comparison.md`
+- Financial KG comparison (LO10): `reports/financial_kg_comparison.md`
+- Data model comparison (LO4): `reports/data_model_comparison.md`
+- Scalable reasoning notes (LO6): `reports/scalable_reasoning.md`
+- ML / logic interaction (LO12): `reports/ml_logic_interaction.md`
 
 ## Dashboard
 

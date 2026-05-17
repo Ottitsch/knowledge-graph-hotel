@@ -31,9 +31,11 @@
 
 ## Training Loss
 
+- Per-epoch losses were not captured by the PyKEEN version used for the current artifact; the next training run with the updated `train_embeddings.py` will record them.
 
 ## Interpretation
 
 - This report documents a real KG embedding model trained on the exported triples.
 - The embeddings are used as suggestions for weak listing-establishment candidates and similar operators.
 - Suggested links remain separate from asserted graph facts.
+- Concrete worked examples — 5 representations, 1 true positive, 1 false positive — are in `reports/embedding_examples.md`.

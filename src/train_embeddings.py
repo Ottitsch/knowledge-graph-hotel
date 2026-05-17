@@ -64,8 +64,14 @@ def build_report(metrics: dict, losses: list[float]) -> str:
         lines.append(f"- `{key}`: {metrics['evaluation_metrics'][key]:.6f}")
 
     lines.extend(["", "## Training Loss", ""])
-    for idx, loss in enumerate(losses[-10:], start=max(len(losses) - 9, 1)):
-        lines.append(f"- epoch {idx}: {float(loss):.6f}")
+    if losses:
+        for idx, loss in enumerate(losses[-10:], start=max(len(losses) - 9, 1)):
+            lines.append(f"- epoch {idx}: {float(loss):.6f}")
+    else:
+        lines.append(
+            "- Per-epoch losses were not captured by the current PyKEEN version; rerun with a newer"
+            " release or hook the training loop to record them."
+        )
 
     lines.extend(
         [
@@ -128,7 +134,18 @@ def main() -> None:
     }
     write_json(EMBEDDING_MAPPINGS_JSON, mappings)
 
-    losses = [float(loss) for loss in getattr(result.training_loop, "losses", [])]
+    # PyKEEN exposes per-epoch losses on the training loop, but the attribute name
+    # differs by version. Try the documented sources in order, falling back to the
+    # pipeline result's losses attribute. Empty losses are harmless but signal a
+    # version mismatch worth investigating.
+    losses_source = (
+        getattr(result.training_loop, "losses", None)
+        or getattr(result, "losses", None)
+        or []
+    )
+    losses = [float(loss) for loss in losses_source]
+    if not losses:
+        print("WARN: no per-epoch losses captured; check PyKEEN version", flush=True)
     metrics = {
         "generated_at": utc_timestamp(),
         "model": "TransE",
