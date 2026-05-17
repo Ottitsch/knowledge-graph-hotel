@@ -247,12 +247,18 @@ def build_rule_facts(df: pd.DataFrame, rules: dict[str, dict]) -> list[dict]:
     for a, b in sibling_pairs_seen:
         uf.union(a, b)
 
-    component_members: dict[str, list[str]] = defaultdict(list)
+    # Group members by union-find root, then re-key each component by the
+    # lexicographically smallest member so the network slug is deterministic
+    # across runs (the union-find root depends on iteration order).
+    by_root: dict[str, list[str]] = defaultdict(list)
     for member in uf.parent:
-        component_members[uf.find(member)].append(member)
+        by_root[uf.find(member)].append(member)
+    component_members: dict[str, list[str]] = {
+        sorted(members)[0]: sorted(members) for members in by_root.values()
+    }
 
     for component_id in sorted(component_members):
-        members = sorted(component_members[component_id])
+        members = component_members[component_id]
         if len(members) < 2:
             continue
         network_slug = f"network_{slugify(component_id)}"

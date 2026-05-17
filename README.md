@@ -6,12 +6,14 @@ This project combines public accommodation data for Vienna into a knowledge grap
 
 The current application also includes:
 
-- rule-based inferred facts
+- rule-based inferred facts (including a recursive corporate-network rule)
 - TransE knowledge graph embeddings
 - embedding-ranked candidate links
 - snapshot versioning and evolution reports
 - a safe natural-language query assistant
 - evidence panels for operators and candidate links
+
+For the LO → evidence mapping used in the course portfolio, see [`PORTFOLIO_GUIDE.md`](PORTFOLIO_GUIDE.md).
 
 ## Project Positioning
 
@@ -116,37 +118,68 @@ data.gv.at WFS         -> collect_datagv.py
 
 ```text
 knowledge-graph-hotel/
-  data/                                raw and processed datasets
-  graph/                               generated RDF export
+  PORTFOLIO_GUIDE.md                   LO -> evidence mapping for the course portfolio
+  README.md                            this file
+  SETUP.md                             step-by-step setup notes
+  requirements.txt                     python dependencies
+  .env.example                         template for neo4j credentials
+
+  data/                                raw and unified datasets
+    inside_airbnb_listings.csv         (downloadable; see download_airbnb.py)
+    osm_hotels.json
+    wikidata_hotels.json
+    datagv_accommodations.csv
+    properties_unified.csv             unified source-of-truth table
+    snapshots/                         timestamped pipeline outputs (LO8)
+
+  graph/
+    vienna_accommodation_operator_kg.ttl   asserted RDF graph (~17 MB)
+    inferred_facts.ttl                     rule-derived RDF (kept separate)
+
   ontology/
-    accommodation_operator.owl         ontology
+    accommodation_operator.owl         OWL class hierarchy
     accommodation_operator_shapes.ttl  SHACL shapes
+
+  models/
+    embeddings/                        TransE artifacts (matrix + mappings)
+
   reports/
-    data_quality_report.md             generated quality report
-    shacl_validation_report.txt        generated SHACL validation output
+    data_quality_report.md             generated quality audit
+    shacl_validation_report.txt        SHACL validation output
+    rule_inference_report.md           rule materializer output
+    embedding_report.md                training metrics
+    embedding_examples.md              5 representations + 1 TP + 1 FP
+    candidate_scores.csv               weak candidate ranking
+    operator_similarity.json           top-k similar operators per operator
+    evolution_report.md                snapshot diff
+    financial_kg_comparison.md         LO10 reflection
+    data_model_comparison.md           LO4 reflection
+    scalable_reasoning.md              LO6 reflection
+    ml_logic_interaction.md            LO12 reflection
+
   src/
-    collect_datagv.py
-    collect_osm.py
-    collect_wikidata.py
+    collect_datagv.py  collect_osm.py  collect_wikidata.py
     download_airbnb.py
-    resolve_entities.py
-    build_graph.py
+    resolve_entities.py     entity resolution and listing-establishment matching
+    build_graph.py          Neo4j and RDF export
     audit_quality.py
-    validate_graph.py
-    materialize_rules.py
+    validate_graph.py       SHACL validator runner
+    materialize_rules.py    forward chaining + recursive transitive closure
     export_triples.py
-    train_embeddings.py
+    train_embeddings.py     TransE via PyKEEN
     score_candidates.py
-    version_snapshot.py
-    diff_snapshots.py
+    version_snapshot.py  diff_snapshots.py
     write_financial_comparison.py
     run_pipeline.py
-    rules.yml
-    queries.cypher
+    rules.yml               six rule definitions, two of which emit new RDF
+    queries.cypher          example Neo4j queries
+    queries.sparql          example SPARQL queries incl. recursive property path
+
   webapp/
-    app.py
-    query_templates.py
-    frontend/
+    app.py                  Flask backend
+    query_templates.py      natural-language assistant query templates
+    templates/              minimal server-rendered fallback
+    frontend/               Vite/React/Tailwind dashboard
 ```
 
 ## Setup
@@ -228,6 +261,18 @@ The dashboard provides:
 - evolution tab with snapshot diffs
 - natural-language query assistant
 - evidence panels for operators and weak candidate links
+
+## Querying the inferred graph
+
+The inferred RDF is shipped as a separate file so asserted and inferred triples stay distinguishable. To run a SPARQL query that exploits the recursive `corporateSibling` closure (see `src/queries.sparql`), load both graphs:
+
+```python
+from rdflib import Graph
+g = Graph()
+g.parse("graph/vienna_accommodation_operator_kg.ttl", format="turtle")
+g.parse("graph/inferred_facts.ttl", format="turtle")
+# ~300k triples, then run any of the queries in src/queries.sparql
+```
 
 ## Scope Boundaries
 

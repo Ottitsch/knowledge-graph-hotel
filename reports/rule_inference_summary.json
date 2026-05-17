@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-17T08:05:24+00:00",
+  "generated_at": "2026-05-17T08:27:21+00:00",
   "input_rows": 15011,
   "rule_count": 6,
   "fact_count": 1896,
@@ -21699,12 +21699,12 @@
       "description": "Establishments merged from multiple public sources with strong merge confidence."
     },
     {
-      "fact_id": "operator_corporate_network::network_nameaustria_trend_hotel_anatol",
+      "fact_id": "operator_corporate_network::network_nameaustria_trend",
       "rule_id": "operator_corporate_network",
       "rule_label": "Operator corporate network",
       "inferred_type": "OperatorNetwork",
       "entity_type": "network",
-      "entity_id": "network_nameaustria_trend_hotel_anatol",
+      "entity_id": "network_nameaustria_trend",
       "entity_label": "Network of 13 operators",
       "evidence": {
         "member_count": 13,
@@ -21766,12 +21766,12 @@
       "description": "Recursive rule. Treats vaok:corporateSibling as a transitive, symmetric relation and computes the connected components over it. Each component becomes a new OperatorNetwork node, and each member operator is linked via vaok:memberOf. Recursion is bounded by the size of the operator-chain bipartite graph.\n"
     },
     {
-      "fact_id": "operator_corporate_network::network_namenovotel_wien_city",
+      "fact_id": "operator_corporate_network::network_nameaccor",
       "rule_id": "operator_corporate_network",
       "rule_label": "Operator corporate network",
       "inferred_type": "OperatorNetwork",
       "entity_type": "network",
-      "entity_id": "network_namenovotel_wien_city",
+      "entity_id": "network_nameaccor",
       "entity_label": "Network of 17 operators",
       "evidence": {
         "member_count": 17,
@@ -21980,12 +21980,12 @@
       "description": "Recursive rule. Treats vaok:corporateSibling as a transitive, symmetric relation and computes the connected components over it. Each component becomes a new OperatorNetwork node, and each member operator is linked via vaok:memberOf. Recursion is bounded by the size of the operator-chain bipartite graph.\n"
     },
     {
-      "fact_id": "operator_corporate_network::network_namebest_western",
+      "fact_id": "operator_corporate_network::network_namearcadia_best_western_plus_hotel",
       "rule_id": "operator_corporate_network",
       "rule_label": "Operator corporate network",
       "inferred_type": "OperatorNetwork",
       "entity_type": "network",
-      "entity_id": "network_namebest_western",
+      "entity_id": "network_namearcadia_best_western_plus_hotel",
       "entity_label": "Network of 5 operators",
       "evidence": {
         "member_count": 5,
@@ -22050,12 +22050,12 @@
       "description": "Recursive rule. Treats vaok:corporateSibling as a transitive, symmetric relation and computes the connected components over it. Each component becomes a new OperatorNetwork node, and each member operator is linked via vaok:memberOf. Recursion is bounded by the size of the operator-chain bipartite graph.\n"
     },
     {
-      "fact_id": "operator_corporate_network::network_namenh_wien_belvedere",
+      "fact_id": "operator_corporate_network::network_namenh",
       "rule_id": "operator_corporate_network",
       "rule_label": "Operator corporate network",
       "inferred_type": "OperatorNetwork",
       "entity_type": "network",
-      "entity_id": "network_namenh_wien_belvedere",
+      "entity_id": "network_namenh",
       "entity_label": "Network of 5 operators",
       "evidence": {
         "member_count": 5,
@@ -22085,12 +22085,12 @@
       "description": "Recursive rule. Treats vaok:corporateSibling as a transitive, symmetric relation and computes the connected components over it. Each component becomes a new OperatorNetwork node, and each member operator is linked via vaok:memberOf. Recursion is bounded by the size of the operator-chain bipartite graph.\n"
     },
     {
-      "fact_id": "operator_corporate_network::network_namecourtyard_by_marriott_vienna_pratermesse",
+      "fact_id": "operator_corporate_network::network_namecourtyard",
       "rule_id": "operator_corporate_network",
       "rule_label": "Operator corporate network",
       "inferred_type": "OperatorNetwork",
       "entity_type": "network",
-      "entity_id": "network_namecourtyard_by_marriott_vienna_pratermesse",
+      "entity_id": "network_namecourtyard",
       "entity_label": "Network of 9 operators",
       "evidence": {
         "member_count": 9,
@@ -22136,12 +22136,12 @@
       "description": "Recursive rule. Treats vaok:corporateSibling as a transitive, symmetric relation and computes the connected components over it. Each component becomes a new OperatorNetwork node, and each member operator is linked via vaok:memberOf. Recursion is bounded by the size of the operator-chain bipartite graph.\n"
     },
     {
-      "fact_id": "operator_corporate_network::network_nameprize_by_radisson_wien_city",
+      "fact_id": "operator_corporate_network::network_namehotel_rathauspark_wien_a_member_of_radisson_individuals",
       "rule_id": "operator_corporate_network",
       "rule_label": "Operator corporate network",
       "inferred_type": "OperatorNetwork",
       "entity_type": "network",
-      "entity_id": "network_nameprize_by_radisson_wien_city",
+      "entity_id": "network_namehotel_rathauspark_wien_a_member_of_radisson_individuals",
       "entity_label": "Network of 9 operators",
       "evidence": {
         "member_count": 9,

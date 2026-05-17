@@ -1,6 +1,6 @@
 # Rule Inference Report
 
-- Generated at: 2026-05-17T08:05:24+00:00
+- Generated at: 2026-05-17T08:27:21+00:00
 - Input rows: 15011
 - Rules applied: 6
 - Total inferred facts: 1896
