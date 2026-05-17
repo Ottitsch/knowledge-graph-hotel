@@ -1,6 +1,6 @@
-# Rule Evaluation — CorporateSibling (R5)
+# Rule Evaluation - CorporateSibling (R5)
 
-Portfolio reference: this document supports **LO2 — understand and apply logical knowledge in KGs** by providing a quantitative spot-check of the rule output, in addition to the formal rule definitions in `rule_inference_report.md`.
+Portfolio reference: this document supports **LO2 - understand and apply logical knowledge in KGs** by providing a quantitative spot-check of the rule output, in addition to the formal rule definitions in `rule_inference_report.md`.
 
 ## What is being evaluated
 
@@ -10,7 +10,7 @@ The rule under test is **R5 `shared_chain_corporate_group`** as defined in `src/
 
 R5 produced **331 `corporateSibling` facts** on the current dataset (see `reports/logic/rule_inference_summary.json`).
 
-We evaluate **precision** on a hand-labelled spot-check of **30 sampled edges**, drawn so that every hotel chain that produced at least one sibling pair contributes to the sample (stratified by chain, then back-filled from the largest chains). The sample is reproducible from `reports/logic/rule_inference_facts.json` with `random.seed(7)` — the exact selection is shown below.
+We evaluate **precision** on a hand-labelled spot-check of **30 sampled edges**, drawn so that every hotel chain that produced at least one sibling pair contributes to the sample (stratified by chain, then back-filled from the largest chains). The sample is reproducible from `reports/logic/rule_inference_facts.json` with `random.seed(7)` - the exact selection is shown below.
 
 We do **not** report a quantitative recall number: there is no public list of "all Vienna hotel corporate-sibling pairs" to compare against, and constructing one from public registers is out of scope per the one-pager. Instead, the *coverage* discussion at the end of this document lists every chain that contributed at least one sibling fact.
 
@@ -21,7 +21,7 @@ Each edge is labelled in one of four categories:
 | Label | Meaning |
 |---|---|
 | **TP** | Two **distinct** operators that genuinely share a corporate parent. This is the rule's intended output. |
-| **OK-coreferent** | The two operators are surface forms of effectively the same entity (e.g. `Hyatt` vs `Hyatt Hotels Corporation`, `Meininger` vs `Meininger Hotel Group`). The chain claim is correct, but the pair is not a useful sibling — it is an entity-resolution duplicate. |
+| **OK-coreferent** | The two operators are surface forms of effectively the same entity (e.g. `Hyatt` vs `Hyatt Hotels Corporation`, `Meininger` vs `Meininger Hotel Group`). The chain claim is correct, but the pair is not a useful sibling - it is an entity-resolution duplicate. |
 | **OK-brand-vs-property** | One side is a chain or sub-brand, the other is a specific property of that brand (e.g. `Hilton` vs `Double Tree by Hilton Vienna Schönbrunn`). The chain claim is correct, but the pair is hierarchical rather than sibling. |
 | **FP** | The chain attribution that fed the rule is wrong, so the resulting "sibling" edge is factually incorrect. |
 
@@ -43,7 +43,7 @@ The two non-TP "OK" categories are kept distinct because they represent **upstre
 | 10 | Hilton Hotels & Resorts | Double Tree by Hilton Vienna Schönbrunn | Hilton | OK-brand-vs-property | property vs parent |
 | 11 | Hilton Hotels & Resorts | Curio Collection | Double Tree by Hilton Vienna Schönbrunn | **TP** | distinct Hilton sub-brand vs property of another Hilton sub-brand |
 | 12 | Hilton Hotels & Resorts | Curio Collection | Hilton | OK-brand-vs-property | sub-brand vs parent |
-| 13 | IHG Hotels & Resorts | Holiday Inn - the niu Franz Vienna | InterContinental | **FP** | "the niu" is Novum Hospitality, not IHG — chain attribution wrong |
+| 13 | IHG Hotels & Resorts | Holiday Inn - the niu Franz Vienna | InterContinental | **FP** | "the niu" is Novum Hospitality, not IHG - chain attribution wrong |
 | 14 | IHG Hotels & Resorts | Holiday Inn | Holiday Inn Vienna - South | OK-brand-vs-property | brand vs property of same brand |
 | 15 | IHG Hotels & Resorts | Holiday Inn | InterContinental Vienna | **TP** | distinct IHG brands |
 | 16 | Marriott International | Courtyard by Marriott Vienna Prater/Messe | Renaissance Vienna Schönbrunn Hotel | **TP** | distinct Marriott properties under different sub-brands |
@@ -80,7 +80,7 @@ The two non-TP "OK" categories are kept distinct because they represent **upstre
 Both numbers are useful and they tell different stories:
 
 - **Loose precision** says the rule is doing its job: when it asserts that two operators share a chain, it is wrong only in the rare case (1 / 30 here) where the upstream chain attribution itself was wrong.
-- **Strict precision** says the rule's *intent* — "find genuine corporate siblings" — is diluted by upstream issues. ~53 % of the asserted edges are actually parent↔property pairs, not sibling pairs, and another ~7 % are pure entity-resolution duplicates.
+- **Strict precision** says the rule's *intent* - "find genuine corporate siblings" - is diluted by upstream issues. ~53 % of the asserted edges are actually parent↔property pairs, not sibling pairs, and another ~7 % are pure entity-resolution duplicates.
 
 ## What this tells us, concretely
 
@@ -90,7 +90,7 @@ Both numbers are useful and they tell different stories:
 
 ## Recall coverage
 
-We have no exhaustive ground truth, so quantitative recall is not reported. As a sanity check the rule's chain coverage is listed below — every chain that produced ≥ 1 sibling fact in the inferred set:
+We have no exhaustive ground truth, so quantitative recall is not reported. As a sanity check the rule's chain coverage is listed below - every chain that produced ≥ 1 sibling fact in the inferred set:
 
 | Chain | Sibling facts |
 |---|---:|
@@ -107,7 +107,7 @@ We have no exhaustive ground truth, so quantitative recall is not reported. As a
 | Meininger Hotels | 1 |
 | The Ritz-Carlton | 1 |
 
-All twelve major chains present in `hotel_chain` after entity resolution produced at least one sibling fact, and the largest chains produce the largest networks — which is consistent with what the recursive rule R6 then aggregates into 12 `OperatorNetwork` nodes.
+All twelve major chains present in `hotel_chain` after entity resolution produced at least one sibling fact, and the largest chains produce the largest networks - which is consistent with what the recursive rule R6 then aggregates into 12 `OperatorNetwork` nodes.
 
 ## Reproducing the sample
 

@@ -1,6 +1,6 @@
 # ML and Logic Interaction
 
-Portfolio reference: this document supports **LO12 — describe the connections between Knowledge Graphs (KGs), Machine Learning (ML) and Artificial Intelligence (AI)**, with concrete reference to this project.
+Portfolio reference: this document supports **LO12 - describe the connections between Knowledge Graphs (KGs), Machine Learning (ML) and Artificial Intelligence (AI)**, with concrete reference to this project.
 
 ## What sits where in the project
 
@@ -23,13 +23,13 @@ So the embedding is a **ranking oracle** for the symbolic layer; the symbolic la
 
 ## Concrete examples of the interaction
 
-- *Same chain operator pairs.* The symbolic rule `shared_chain_corporate_group` derives a `vaok:corporateSibling` edge between two operators because both are linked to the same hotel chain. The embedding similarity between those same two operators (cosine of their TransE vectors) gives an independent signal. When the embedding agrees with the rule, confidence in the cluster goes up. When it disagrees, that is a flag for the audit panel — for example, two operators tagged with the same chain in OSM but whose embeddings sit far apart probably have a chain-name collision rather than a real shared chain.
+- *Same chain operator pairs.* The symbolic rule `shared_chain_corporate_group` derives a `vaok:corporateSibling` edge between two operators because both are linked to the same hotel chain. The embedding similarity between those same two operators (cosine of their TransE vectors) gives an independent signal. When the embedding agrees with the rule, confidence in the cluster goes up. When it disagrees, that is a flag for the audit panel - for example, two operators tagged with the same chain in OSM but whose embeddings sit far apart probably have a chain-name collision rather than a real shared chain.
 - *Listing-establishment review.* Weak proximity-only candidates (~1k rows in `candidate_scores.csv`) cannot be asserted by the symbolic layer alone. The embedding ranks them. Rows with `embedding_suggestion = strong_review` are exactly the candidates a human curator should look at first. This is ML used to **prioritize** symbolic work, not replace it.
 - *Operator similarity for fraud-like patterns.* `operator_similarity.json` groups operators by embedding cosine. If three operators cluster tightly but only one of them carries an explicit chain affiliation, the embedding is suggesting that the other two might be unbranded co-operators. The symbolic rule does not infer this on its own, but it can be made explicit by adding a new rule "treat top-k embedding neighbors as candidate corporate siblings, subject to audit".
 
 ## Where they could be coupled more tightly
 
-- **Learn rule thresholds.** `professional_operator` currently uses a hand-picked `threshold: 3`. The right value is empirical — the embedding model already gives a continuous signal of operator "professionalness" via the spread of similar operators. A simple supervised model could pick the threshold that maximizes agreement with a curated set, instead of guessing.
+- **Learn rule thresholds.** `professional_operator` currently uses a hand-picked `threshold: 3`. The right value is empirical - the embedding model already gives a continuous signal of operator "professionalness" via the spread of similar operators. A simple supervised model could pick the threshold that maximizes agreement with a curated set, instead of guessing.
 - **Use logic to clean training data.** TransE was trained on all triples in the unified graph including rows with `operator_identity_confidence = low`. A logical filter ("only train on high/medium confidence operator edges") would likely improve evaluation hits@k for the questions the KG actually serves, at the cost of a smaller training set.
 - **Use ML to extend SHACL violations into suggestions.** Today SHACL just reports conformance. A trained classifier on past fixes could turn each violation into a suggested fix ("missing `granularity` → most likely `listing`, p=0.94") so the validator becomes an active helper instead of a passive checker.
 - **Replace TransE with a neuro-symbolic model.** Models like RuleN or NeuralLP can learn first-order rules directly from the graph. Adopting one would let the KG *discover* candidate rules rather than only apply hand-written ones, and the discovered rules would be reviewable in the same form as `rules.yml`.

@@ -1,6 +1,6 @@
 # Data Model Comparison
 
-Portfolio reference: this document supports **LO4 — compare different Knowledge Graph data models from the database, semantic web, machine learning and data science communities**.
+Portfolio reference: this document supports **LO4 - compare different Knowledge Graph data models from the database, semantic web, machine learning and data science communities**.
 
 ## What this project uses
 
@@ -12,7 +12,7 @@ The Vienna Accommodation Operator KG stores the same facts in three representati
 | RDF / Turtle (semantic web) | `graph/vienna_accommodation_operator_kg.ttl` (~17 MB) | SHACL validation, portable export, ontology alignment |
 | Vector embeddings (TransE) | `models/embeddings/transe_embeddings.npz` | Similarity ranking, weak candidate scoring |
 
-A fourth representation — the **tabular CSV** `data/properties_unified.csv` — is the source of truth that all three are derived from. It is itself a data-science-community representation (rows + provenance columns), and is what `materialize_rules.py` reasons over directly.
+A fourth representation - the **tabular CSV** `data/properties_unified.csv` - is the source of truth that all three are derived from. It is itself a data-science-community representation (rows + provenance columns), and is what `materialize_rules.py` reasons over directly.
 
 ## Side-by-side comparison
 
@@ -46,7 +46,7 @@ The single fact "Airbnb listing X is operated by host Y" is encoded as:
 
 ### 2. Both vs vector embedding of the same operator
 
-The same operator is also a 48-dim vector at index `entity_to_id["operator/airbnb_385064248"]` in `transe_embeddings.npz`. The vector has no human-readable structure — it only supports geometric operations (cosine similarity, vector arithmetic). It cannot be queried by predicate name, but it can rank "which other operators are most like Blueground" in a way the symbolic graph cannot.
+The same operator is also a 48-dim vector at index `entity_to_id["operator/airbnb_385064248"]` in `transe_embeddings.npz`. The vector has no human-readable structure - it only supports geometric operations (cosine similarity, vector arithmetic). It cannot be queried by predicate name, but it can rank "which other operators are most like Blueground" in a way the symbolic graph cannot.
 
 ## Why all three coexist here
 

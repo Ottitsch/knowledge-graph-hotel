@@ -1,6 +1,6 @@
 # Architecture
 
-Portfolio reference: this document supports **LO5 — design and implement architectures of a Knowledge Graph**.
+Portfolio reference: this document supports **LO5 - design and implement architectures of a Knowledge Graph**.
 
 The Vienna Accommodation Operator KG is built as a four-layer pipeline that separates **acquisition**, **resolution**, **representation**, and **services**. Each layer has a single responsibility, writes deterministic artifacts to disk, and can be re-run in isolation. This is the design rationale behind every choice below: a reviewer or grader should be able to delete any intermediate artifact, rerun one step, and arrive at the same downstream output.
 
@@ -17,9 +17,9 @@ The Vienna Accommodation Operator KG is built as a four-layer pipeline that sepa
 
 Three cross-cutting concerns sit alongside the four main layers:
 
-- **Quality** — `audit_quality.py` and `validate_graph.py` (SHACL via pyshacl) produce `reports/quality/data_quality_report.md` and `reports/quality/shacl_validation_report.txt`. They run on the resolved table and the asserted graph respectively.
-- **Evolution** — `version_snapshot.py` writes `data/snapshots/<timestamp>/` with copies of the unified CSV, rule summary, embedding metrics, candidate scores, and RDF graph. `diff_snapshots.py` produces `reports/evolution/evolution_report.md` from the last two snapshots. This is the LO8 mechanism.
-- **Scoring / ranking** — `score_candidates.py` reuses the trained TransE embedding to rank weak listing↔establishment candidates and operator↔operator similarities. The output is **never** added to the asserted graph: it is exposed only as a ranked list (`reports/ml/candidate_scores.csv`) for human review.
+- **Quality** - `audit_quality.py` and `validate_graph.py` (SHACL via pyshacl) produce `reports/quality/data_quality_report.md` and `reports/quality/shacl_validation_report.txt`. They run on the resolved table and the asserted graph respectively.
+- **Evolution** - `version_snapshot.py` writes `data/snapshots/<timestamp>/` with copies of the unified CSV, rule summary, embedding metrics, candidate scores, and RDF graph. `diff_snapshots.py` produces `reports/evolution/evolution_report.md` from the last two snapshots. This is the LO8 mechanism.
+- **Scoring / ranking** - `score_candidates.py` reuses the trained TransE embedding to rank weak listing↔establishment candidates and operator↔operator similarities. The output is **never** added to the asserted graph: it is exposed only as a ranked list (`reports/ml/candidate_scores.csv`) for human review.
 
 ## Regenerating the diagram
 

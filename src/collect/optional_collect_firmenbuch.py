@@ -1,5 +1,5 @@
 """
-OPTIONAL / FUTURE WORK — Austrian Firmenbuch (company registry) enrichment.
+OPTIONAL / FUTURE WORK - Austrian Firmenbuch (company registry) enrichment.
 
 This script is NOT part of the default pipeline. It is kept here for future use
 when a free or institutional API becomes available.

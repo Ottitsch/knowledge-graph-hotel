@@ -111,7 +111,7 @@ def main():
     df.to_csv(OUTPUT_FILE, index=False, encoding="utf-8")
     print(f"Saved {len(df)} rows to {OUTPUT_FILE}")
     if len(df) < 10:
-        print("WARNING: Very few results — check WFS endpoint availability.", file=sys.stderr)
+        print("WARNING: Very few results - check WFS endpoint availability.", file=sys.stderr)
 
 
 if __name__ == "__main__":

@@ -102,7 +102,7 @@ def main():
         json.dump(normalized, f, ensure_ascii=False, indent=2)
     print(f"Saved {len(normalized)} OSM records to {OUTPUT_FILE}")
     if len(normalized) < 50:
-        print("WARNING: Fewer than 50 results — Overpass may be rate-limiting or query needs adjustment.", file=sys.stderr)
+        print("WARNING: Fewer than 50 results - Overpass may be rate-limiting or query needs adjustment.", file=sys.stderr)
 
 
 if __name__ == "__main__":

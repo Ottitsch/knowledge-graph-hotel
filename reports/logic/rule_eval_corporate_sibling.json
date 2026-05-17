@@ -1,6 +1,6 @@
 {
   "rule_id": "shared_chain_corporate_group",
-  "rule_label": "R5 — shared-chain corporate sibling",
+  "rule_label": "R5 - shared-chain corporate sibling",
   "sample_size": 30,
   "sampling": {
     "seed": 7,
@@ -11,7 +11,7 @@
     "TP": "two distinct operators that genuinely share a corporate parent",
     "OK-brand-vs-property": "chain claim correct, but pair is hierarchical (parent vs property)",
     "OK-coreferent": "same operator under different surface forms (entity-resolution duplicate)",
-    "FP": "chain attribution itself is wrong — sibling claim is factually incorrect"
+    "FP": "chain attribution itself is wrong - sibling claim is factually incorrect"
   },
   "edges": [
     {"edge_id": 1,  "via_chain": "AccorHotels",            "operator_a": "Ibis",                                                                      "operator_b": "Mercure Wien Westbahnhof",                                  "label": "TP"},

@@ -1,10 +1,10 @@
-# SPARQL Queries — Vienna Accommodation Operator KG
+# SPARQL Queries - Vienna Accommodation Operator KG
 #
 # These queries run over the asserted graph (graph/vienna_accommodation_operator_kg.ttl)
 # and, where indicated, the rule-inferred graph (graph/inferred_facts.ttl).
 #
-# They support LO2 by giving concrete logical examples — including a recursive
-# property-path query — alongside the rule definitions in src/rules.yml and the
+# They support LO2 by giving concrete logical examples - including a recursive
+# property-path query - alongside the rule definitions in src/rules.yml and the
 # SHACL shapes in ontology/accommodation_operator_shapes.ttl.
 #
 # Run with:
@@ -56,7 +56,7 @@ WHERE {
 ORDER BY ?confidence ?listingName
 LIMIT 25
 
-### 4. RECURSIVE — operators reachable via corporate-sibling closure.
+### 4. RECURSIVE - operators reachable via corporate-sibling closure.
 # Uses SPARQL 1.1 property paths to traverse vaok:corporateSibling* transitively.
 # This query requires graph/inferred_facts.ttl to be loaded alongside the asserted graph.
 # Pick any seed operator (here: anyone affiliated with the Marriott chain) and
@@ -86,7 +86,7 @@ WHERE {
 GROUP BY ?network ?networkLabel
 ORDER BY ?networkLabel
 
-### 6. Provenance audit — establishments confirmed by multiple public sources.
+### 6. Provenance audit - establishments confirmed by multiple public sources.
 
 SELECT ?unitName (COUNT(DISTINCT ?source) AS ?sourceCount)
 WHERE {

@@ -3,7 +3,7 @@ Build the Vienna Accommodation Operator Knowledge Graph.
 
 Reads: data/properties_unified.csv, data/wikidata_hotels.json
 Writes:
-  - Neo4j graph (via bolt driver) — requires running Neo4j instance
+  - Neo4j graph (via bolt driver) - requires running Neo4j instance
   - graph/vienna_accommodation_operator_kg.ttl (RDF Turtle)
 
 Environment variables (optional, for Neo4j):
@@ -83,7 +83,7 @@ def build_neo4j(df: pd.DataFrame, wikidata: list):
     try:
         from neo4j import GraphDatabase
     except ImportError:
-        print("  neo4j driver not installed — skipping Neo4j ingestion")
+        print("  neo4j driver not installed - skipping Neo4j ingestion")
         print("  Install with: pip install neo4j")
         return
 

@@ -1,4 +1,4 @@
-# Portfolio supplement — service statement and construction examples
+# Portfolio supplement - service statement and construction examples
 
 This file gathers two short pieces that the portfolio report needs but that
 are not written up as a single doc anywhere else in the repo:
@@ -8,7 +8,7 @@ are not written up as a single doc anywhere else in the repo:
 2. **three concrete construction examples** of how particular nodes and
    edges are built from the source datasets (Portfolio section 2.3).
 
-Both are intentionally short — the portfolio body can lift these directly.
+Both are intentionally short - the portfolio body can lift these directly.
 
 ---
 
@@ -97,7 +97,7 @@ A second, **recursive** rule (`operator_corporate_network`) then computes
 the transitive closure of `corporateSibling` via union-find: each connected
 component becomes an `OperatorNetwork` node and every member operator is
 linked via `memberOf`. The same closure can be queried directly with the
-SPARQL 1.1 property path `vaok:corporateSibling*` — see query `### 4` in
+SPARQL 1.1 property path `vaok:corporateSibling*` - see query `### 4` in
 `src/queries.sparql`.
 
 Result (TTL fragment):

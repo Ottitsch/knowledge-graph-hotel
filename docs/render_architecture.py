@@ -1,5 +1,5 @@
 """
-Style B — top-down graphviz with simplified flow.
+Style B - top-down graphviz with simplified flow.
 
 One vertical pipeline. Only main data-flow arrows. Cross-cutting collapsed into a
 single annotated block on the side.
@@ -24,10 +24,10 @@ DOT = r"""digraph KGArchitectureB {
     node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11, margin="0.22,0.12"];
     edge [color="#374151", arrowsize=0.8, penwidth=1.4];
 
-    title [label="Vienna Accommodation Operator KG — Architecture (TB)",
+    title [label="Vienna Accommodation Operator KG - Architecture (TB)",
            shape=plain, fontsize=15, fontcolor="#111827"];
 
-    // Tier 1 — sources
+    // Tier 1 - sources
     subgraph cluster_acq {
         label="1. Acquisition";
         fontcolor="#1d4ed8"; color="#1d4ed8"; style="rounded";
@@ -39,13 +39,13 @@ DOT = r"""digraph KGArchitectureB {
         dg  [label="data.gv.at\nWFS",                         fillcolor="#dbeafe", color="#1d4ed8"];
     }
 
-    // Tier 2 — resolution single funnel
+    // Tier 2 - resolution single funnel
     resolve [label="resolve_entities.py\nnormalise · geo-match · merge\noperator-evidence (high/med/low)",
              fillcolor="#dcfce7", color="#15803d", fontsize=11];
     unified [label="properties_unified.csv\n~15k rows · one per unit",
              fillcolor="#fef3c7", color="#a16207", shape=cylinder, fontsize=11];
 
-    // Tier 3 — three representation outputs side-by-side
+    // Tier 3 - three representation outputs side-by-side
     subgraph cluster_rep {
         label="3. Representation";
         fontcolor="#6d28d9"; color="#6d28d9"; style="rounded";
@@ -56,12 +56,12 @@ DOT = r"""digraph KGArchitectureB {
         emb    [label="TransE embeddings\n22k × 48",                        fillcolor="#ede9fe", color="#6d28d9"];
     }
 
-    // Tier 4 — services
+    // Tier 4 - services
     services [label="Flask API + React dashboard\nSPARQL · Cypher · NL assistant",
               fillcolor="#fee2e2", color="#b91c1c", fontsize=12];
 
     // Cross-cutting node (single block)
-    cross [label="Cross-cutting\n· audit_quality / validate_graph (SHACL)\n· version_snapshot / diff_snapshots (LO8)\n· score_candidates — TransE ranking (NOT asserted)",
+    cross [label="Cross-cutting\n· audit_quality / validate_graph (SHACL)\n· version_snapshot / diff_snapshots (LO8)\n· score_candidates - TransE ranking (NOT asserted)",
            shape=note, fillcolor="#f3f4f6", color="#4b5563", fontsize=10];
 
     title -> ab [style=invis];

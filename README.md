@@ -56,8 +56,8 @@ For the system architecture (LO5) see [`docs/architecture.md`](docs/architecture
 
 The rule engine in `src/construct/materialize_rules.py` derives additional edges from the asserted graph and writes them to `graph/inferred_facts.ttl`. They are kept apart so asserted and inferred facts stay distinguishable:
 
-- `(Operator)-[:corporateSibling]->(Operator)` — operators sharing a hotel chain (`shared_chain_corporate_group` rule).
-- `(Operator)-[:memberOf]->(OperatorNetwork)` — connected components over `corporateSibling`, the recursive `operator_corporate_network` rule.
+- `(Operator)-[:corporateSibling]->(Operator)` - operators sharing a hotel chain (`shared_chain_corporate_group` rule).
+- `(Operator)-[:memberOf]->(OperatorNetwork)` - connected components over `corporateSibling`, the recursive `operator_corporate_network` rule.
 
 ## Quality and Provenance Design
 
@@ -150,14 +150,14 @@ knowledge-graph-hotel/
   models/
     embeddings/                        TransE artifacts (matrix + mappings)
 
-  reports/                             grouped by topic — see reports/README.md
+  reports/                             grouped by topic - see reports/README.md
     quality/                           data_quality_report.md, shacl_validation_report.{txt,ttl}, quality_summary.json
     logic/                             rule_inference_*.{md,json}, rule_eval_corporate_sibling.{md,json}
     ml/                                embedding_*.{md,json}, candidate_scores.csv, operator_similarity.json
     evolution/                         evolution_*.{md,json}
     reflection/                        data_model_comparison.md, scalable_reasoning.md, ml_logic_interaction.md, financial_kg_comparison.md
 
-  src/                                 grouped by pipeline stage — see src/README.md
+  src/                                 grouped by pipeline stage - see src/README.md
     run_pipeline.py                    orchestrator
     common_paths.py  kg_utils.py       shared utilities
     rules.yml                          rule definitions
@@ -277,7 +277,7 @@ g.parse("graph/inferred_facts.ttl", format="turtle")
 
 These are the public, citable endpoints and projects used by this knowledge graph. They are the same links that go into the portfolio report as data-source citations.
 
-1. **Inside Airbnb — Vienna** (raw listings, primary backbone): https://insideairbnb.com/get-the-data/
+1. **Inside Airbnb - Vienna** (raw listings, primary backbone): https://insideairbnb.com/get-the-data/
 2. **OpenStreetMap project** (CC-BY-SA accommodation POIs): https://www.openstreetmap.org
 3. **OpenStreetMap Overpass API** (the actual endpoint we hit): https://overpass-api.de/
 4. **Wikidata** (notable hotels + operator / parent-org / brand links): https://www.wikidata.org

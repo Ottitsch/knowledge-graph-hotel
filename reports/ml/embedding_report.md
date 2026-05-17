@@ -38,4 +38,4 @@
 - This report documents a real KG embedding model trained on the exported triples.
 - The embeddings are used as suggestions for weak listing-establishment candidates and similar operators.
 - Suggested links remain separate from asserted graph facts.
-- Concrete worked examples — 5 representations, 1 true positive, 1 false positive — are in `reports/ml/embedding_examples.md`.
+- Concrete worked examples - 5 representations, 1 true positive, 1 false positive - are in `reports/ml/embedding_examples.md`.

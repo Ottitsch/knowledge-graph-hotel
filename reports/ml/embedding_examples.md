@@ -1,6 +1,6 @@
 # Embedding Examples
 
-Portfolio reference: this document supports **LO1 — understand and apply Knowledge Graph Embeddings**.
+Portfolio reference: this document supports **LO1 - understand and apply Knowledge Graph Embeddings**.
 
 It complements `embedding_report.md` (training metrics) by giving the concrete examples the portfolio template asks for:
 **5 examples of how a particular type of node or edge is represented**, plus **1 true-positive example** of a predicted link that should be there, **1 false-positive example** of a predicted link that should not be there, and the worked TransE plausibility scores for each.
@@ -55,7 +55,7 @@ The 23 district nodes act as soft cluster centroids. Two units in the same distr
 - **Norm:** `0.9896` (relation vectors are *not* unit-norm under TransE)
 - **First six dims:** `[0.192, 0.027, 0.130, -0.226, 0.094, 0.150]`
 
-`operatedBy` is the single most-used relation in our triple file (`30 178 / 82 929` triples, ≈ 36 %). Its near-unit norm and the consistent distance gap observed in §1.1/§1.2 indicate that the model has actually shaped this relation rather than collapsing it to noise. Compare with `locatedIn`, whose norm is `1.2748` — the larger norm reflects the fact that `locatedIn` has to map ~15k unit vectors onto only 23 district vectors and therefore needs a longer translation.
+`operatedBy` is the single most-used relation in our triple file (`30 178 / 82 929` triples, ≈ 36 %). Its near-unit norm and the consistent distance gap observed in §1.1/§1.2 indicate that the model has actually shaped this relation rather than collapsing it to noise. Compare with `locatedIn`, whose norm is `1.2748` - the larger norm reflects the fact that `locatedIn` has to map ~15k unit vectors onto only 23 district vectors and therefore needs a longer translation.
 
 ### 1.5 Relation `affiliatedWith`
 
@@ -87,11 +87,11 @@ This is the relation that the logic-based layer reuses: `affiliatedWith` is the 
 
 **Pair flagged as similar:** `operator:airbnb:385064248` ("Blueground", 396 units) ↔ `operator:airbnb:151869337` ("Fahmee And Seb And Marc", 55 units)
 
-**Cosine similarity from `reports/ml/operator_similarity.json`:** **0.5453** — Blueground's top-1 most similar operator out of the 120-operator pool.
+**Cosine similarity from `reports/ml/operator_similarity.json`:** **0.5453** - Blueground's top-1 most similar operator out of the 120-operator pool.
 
 **Why this is a false positive:** "Blueground" is an internationally branded short-term-rental operator with central management. "Fahmee And Seb And Marc" is a personal-name Airbnb host. There is no public evidence they are operationally related. The embedding's similarity score is a **structural confound**: both operators have very high `unit_count`, both are observed exclusively in the `airbnb` source, and both spread their listings across multiple districts. TransE picks up that shared *structural profile* and treats it as identity.
 
-**What the symbolic layer does about it:** the `shared_chain_corporate_group` and `operator_corporate_network` rules in `materialize_rules.py` only link operators that share an explicit `hotel_chain` value. Since neither of these operators has any chain affiliation, the rule engine refuses to assert a `vaok:corporateSibling` edge — exactly the kind of safety net the LO12 reflection argues for, and exactly the case used to justify keeping the embedding signal **out** of the asserted graph (`graph/vienna_accommodation_operator_kg.ttl`).
+**What the symbolic layer does about it:** the `shared_chain_corporate_group` and `operator_corporate_network` rules in `materialize_rules.py` only link operators that share an explicit `hotel_chain` value. Since neither of these operators has any chain affiliation, the rule engine refuses to assert a `vaok:corporateSibling` edge - exactly the kind of safety net the LO12 reflection argues for, and exactly the case used to justify keeping the embedding signal **out** of the asserted graph (`graph/vienna_accommodation_operator_kg.ttl`).
 
 ## 4. How these examples flow through the pipeline
 
@@ -120,7 +120,7 @@ Headline metrics for this model (from `embedding_report.md`):
 - `both.optimistic.hits_at_10` = **0.261**
 - `both.optimistic.hits_at_1`  = **0.056**
 
-These numbers are deliberately modest. The model was trained for 6 epochs on CPU with `embedding_dim = 48`. The portfolio claim is **not** "this model is competitive on link prediction" — it is "the embedding is a useful ranking signal for weak candidate links that the symbolic layer cannot decide on its own". Each of the five representations above shows a positive→negative distance gap of `0.20–0.30`, which is what the candidate scorer turns into the ranked list in `reports/ml/candidate_scores.csv`. The TP/FP pair shows what that ranking gets right and what it gets wrong.
+These numbers are deliberately modest. The model was trained for 6 epochs on CPU with `embedding_dim = 48`. The portfolio claim is **not** "this model is competitive on link prediction" - it is "the embedding is a useful ranking signal for weak candidate links that the symbolic layer cannot decide on its own". Each of the five representations above shows a positive→negative distance gap of `0.20–0.30`, which is what the candidate scorer turns into the ranked list in `reports/ml/candidate_scores.csv`. The TP/FP pair shows what that ranking gets right and what it gets wrong.
 
 ## 6. Reproducing the distance numbers
 

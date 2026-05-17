@@ -1,6 +1,6 @@
 # Scalable Reasoning
 
-Portfolio reference: this document supports **LO6 — describe and apply scalable reasoning methods in Knowledge Graphs**, specifically as it applies to this project's rule engine and embedding pipeline.
+Portfolio reference: this document supports **LO6 - describe and apply scalable reasoning methods in Knowledge Graphs**, specifically as it applies to this project's rule engine and embedding pipeline.
 
 ## Reasoning components in this project
 
@@ -32,17 +32,17 @@ The rules in `src/rules.yml` are pure aggregations over the unified table:
 - `multi_source_confirmed_establishment`: filter rows where `merge_confidence = strong`.
 - `likely_chain_affiliated_operator`: filter rows where `hotel_chain` is non-empty.
 - `shared_chain_corporate_group` (added in this iteration): pairwise edges between operators sharing a chain.
-- `operator_corporate_network` (added in this iteration): connected components over `corporateSibling` edges — this is the recursive rule.
+- `operator_corporate_network` (added in this iteration): connected components over `corporateSibling` edges - this is the recursive rule.
 
 Pure-aggregation rules scale linearly in the number of rows (`O(n)`) with a constant factor set by pandas group-by performance. The recursive rule is bounded by the size of the largest connected component in the operator-chain graph; in this dataset chains are sparse (around 30 distinct chains, most with one operator), so the union-find computation is essentially linear in the number of chain-operator memberships.
 
 ### SHACL validation
 
-SHACL validation is shape-by-shape and node-by-node. Each shape's cost is `O(targets × constraints)`. For this graph the dominant shape is `AccommodationUnitShape`, evaluated over ~15k unit nodes with ~6 property constraints, so ~90k constraint checks. `pyshacl` handles this in seconds without inference enabled. If we turned on RDFS or OWL-RL inference closure, cost would grow with the size of the inferred closure — for this dataset that closure is small because we don't use deep hierarchies.
+SHACL validation is shape-by-shape and node-by-node. Each shape's cost is `O(targets × constraints)`. For this graph the dominant shape is `AccommodationUnitShape`, evaluated over ~15k unit nodes with ~6 property constraints, so ~90k constraint checks. `pyshacl` handles this in seconds without inference enabled. If we turned on RDFS or OWL-RL inference closure, cost would grow with the size of the inferred closure - for this dataset that closure is small because we don't use deep hierarchies.
 
 ### TransE training and scoring
 
-Training is the most expensive step. Cost per epoch is `O(|triples| × embedding_dim)` for the standard PyKEEN training loop. With 83k triples × 48 dims × 6 epochs the model fits on CPU in a few minutes. Evaluation is `O(|test_triples| × |entities|)` because it ranks all entities per test triple — the dominant term when entity count grows.
+Training is the most expensive step. Cost per epoch is `O(|triples| × embedding_dim)` for the standard PyKEEN training loop. With 83k triples × 48 dims × 6 epochs the model fits on CPU in a few minutes. Evaluation is `O(|test_triples| × |entities|)` because it ranks all entities per test triple - the dominant term when entity count grows.
 
 Candidate scoring (`score_candidates.py`) is `O(|candidates| × embedding_dim)` for the listing-establishment scoring, plus `O(|top_operators|² × embedding_dim)` for operator-operator cosine similarity (currently capped at 120 operators). That cap is the single most important scalability lever: lifting it to all 5k+ operators is `~40×` more pairs.
 

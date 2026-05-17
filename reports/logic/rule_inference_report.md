@@ -7,14 +7,14 @@
 - Operator-pair facts (new edges): 331
 - Network facts (recursive closure): 12
 
-Portfolio reference: this document supports **LO2 — understand and apply logical knowledge in KGs** and is also the place where the **5 example rules** required by the portfolio template are written out explicitly. The same rules are also implemented as runnable SPARQL queries in `src/queries.sparql` (queries 2, 4, 5, 6).
+Portfolio reference: this document supports **LO2 - understand and apply logical knowledge in KGs** and is also the place where the **5 example rules** required by the portfolio template are written out explicitly. The same rules are also implemented as runnable SPARQL queries in `src/queries.sparql` (queries 2, 4, 5, 6).
 
 ## Rules in formal form
 
 Each rule is listed with its first-order shape and the number of facts it produced on the current dataset. Two rules are marked specifically:
 
-- ★ **new edge** — R5 emits triples that did not exist in the asserted graph.
-- ★ **recursive / new node** — R6 takes a transitive closure over the relation produced by R5 and creates a new node class.
+- ★ **new edge** - R5 emits triples that did not exist in the asserted graph.
+- ★ **recursive / new node** - R6 takes a transitive closure over the relation produced by R5 and creates a new node class.
 
 ### R1. Professional operator
 

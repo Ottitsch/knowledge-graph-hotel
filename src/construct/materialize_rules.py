@@ -243,7 +243,7 @@ def build_rule_facts(df: pd.DataFrame, rules: dict[str, dict]) -> list[dict]:
 
     # ──────────────────────────────────────────────────────────────
     # New (recursive): connected components over corporateSibling edges.
-    # Implemented as union-find — the recursive closure of a symmetric relation.
+    # Implemented as union-find - the recursive closure of a symmetric relation.
     # Each component becomes an OperatorNetwork node with member operators.
     # ──────────────────────────────────────────────────────────────
     network_rule = rules["operator_corporate_network"]
@@ -386,8 +386,8 @@ def _formal_rule_block(rules: dict[str, dict], rule_counts: dict[str, int]) -> l
              "Each rule is listed with its first-order shape and the number of facts it produced "
              "on the current dataset. Two rules are marked specifically:",
              "",
-             "- ★ **new edge** — R5 emits triples that did not exist in the asserted graph.",
-             "- ★ **recursive / new node** — R6 takes a transitive closure over the relation produced by R5 and creates a new node class.",
+             "- ★ **new edge** - R5 emits triples that did not exist in the asserted graph.",
+             "- ★ **recursive / new node** - R6 takes a transitive closure over the relation produced by R5 and creates a new node class.",
              ""]
     order = [
         "professional_operator",
@@ -434,7 +434,7 @@ def build_markdown(summary: dict, rules: dict[str, dict] | None = None) -> str:
         f"- Operator-pair facts (new edges): {summary.get('operator_pair_fact_count', 0)}",
         f"- Network facts (recursive closure): {summary.get('network_fact_count', 0)}",
         "",
-        "Portfolio reference: this document supports **LO2 — understand and apply logical "
+        "Portfolio reference: this document supports **LO2 - understand and apply logical "
         "knowledge in KGs** and is also the place where the **5 example rules** required "
         "by the portfolio template are written out explicitly. The same rules are also "
         "implemented as runnable SPARQL queries in `src/queries.sparql` (queries 2, 4, 5, 6).",
