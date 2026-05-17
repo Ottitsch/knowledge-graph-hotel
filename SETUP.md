@@ -53,16 +53,21 @@ Useful flags:
 
 ## 4. Review outputs
 
-- RDF graph: `graph/vienna_accommodation_operator_kg.ttl`
+- RDF graph (asserted): `graph/vienna_accommodation_operator_kg.ttl`
+- RDF graph (rule-inferred): `graph/inferred_facts.ttl`
 - Ontology: `ontology/accommodation_operator.owl`
 - SHACL shapes: `ontology/accommodation_operator_shapes.ttl`
 - Quality report: `reports/data_quality_report.md`
 - SHACL report: `reports/shacl_validation_report.txt`
 - Rule report: `reports/rule_inference_report.md`
 - Embedding report: `reports/embedding_report.md`
+- Embedding worked examples: `reports/embedding_examples.md`
 - Candidate scores: `reports/candidate_scores.csv`
 - Evolution report: `reports/evolution_report.md`
-- Financial KG comparison: `reports/financial_kg_comparison.md`
+- Reflection notes (LO4 / LO6 / LO12): `reports/data_model_comparison.md`, `reports/scalable_reasoning.md`, `reports/ml_logic_interaction.md`
+- Financial KG comparison (LO10): `reports/financial_kg_comparison.md`
+- Example Cypher queries: `src/queries.cypher`
+- Example SPARQL queries: `src/queries.sparql`
 
 ## 5. Run the webapp
 

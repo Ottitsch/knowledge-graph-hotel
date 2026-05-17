@@ -13,10 +13,10 @@ build/
 .env
 *.env.local
 
-# Data files (large, raw downloads)
-data/*.csv
-data/*.json
-data/*.parquet
+# Note: data/, graph/, models/embeddings/, reports/ and data/snapshots/
+# are tracked on purpose so the repo is self-contained for the portfolio
+# submission and the dashboard runs without re-fetching. Re-fetching from
+# the original sources is still supported by the scripts in src/.
 
 # Jupyter
 .ipynb_checkpoints/
@@ -35,3 +35,6 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# Build outputs
+*.zip

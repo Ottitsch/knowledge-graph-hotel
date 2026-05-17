@@ -1,0 +1,101 @@
+# SPARQL Queries — Vienna Accommodation Operator KG
+#
+# These queries run over the asserted graph (graph/vienna_accommodation_operator_kg.ttl)
+# and, where indicated, the rule-inferred graph (graph/inferred_facts.ttl).
+#
+# They support LO2 by giving concrete logical examples — including a recursive
+# property-path query — alongside the rule definitions in src/rules.yml and the
+# SHACL shapes in ontology/accommodation_operator_shapes.ttl.
+#
+# Run with:
+#   from rdflib import Graph
+#   g = Graph(); g.parse("graph/vienna_accommodation_operator_kg.ttl"); g.parse("graph/inferred_facts.ttl")
+#   for row in g.query(open("src/queries.sparql").read().split("###")[N]): ...
+# Each query is separated by a "###" marker so they can be split easily.
+
+PREFIX vaok: <http://example.org/vienna-accommodation-operator-kg/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+### 1. Main one-pager question: which units does the same operator run?
+# Returns operator and all units in one row each, sorted by unit count.
+
+SELECT ?operatorName (COUNT(?unit) AS ?unitCount)
+WHERE {
+    ?unit a vaok:AccommodationUnit ;
+          vaok:operatedBy ?operator .
+    ?operator rdfs:label ?operatorName .
+}
+GROUP BY ?operator ?operatorName
+ORDER BY DESC(?unitCount)
+LIMIT 20
+
+### 2. Cross-district operators (operators present in at least two districts).
+# This is the SPARQL equivalent of the cross_district_operator rule.
+
+SELECT ?operatorName (COUNT(DISTINCT ?district) AS ?districtCount)
+WHERE {
+    ?unit vaok:operatedBy ?operator ;
+          vaok:locatedIn ?district .
+    ?operator rdfs:label ?operatorName .
+}
+GROUP BY ?operator ?operatorName
+HAVING (COUNT(DISTINCT ?district) >= 2)
+ORDER BY DESC(?districtCount)
+
+### 3. Listing-establishment links surfaced as a flat table.
+# Only evidence-backed links live in the asserted graph (LISTING_OF).
+
+SELECT ?listingName ?establishmentName ?confidence ?evidence
+WHERE {
+    ?listing vaok:listingOf ?establishment ;
+             rdfs:label ?listingName ;
+             vaok:listingMatchConfidence ?confidence ;
+             vaok:listingMatchEvidence ?evidence .
+    ?establishment rdfs:label ?establishmentName .
+}
+ORDER BY ?confidence ?listingName
+LIMIT 25
+
+### 4. RECURSIVE — operators reachable via corporate-sibling closure.
+# Uses SPARQL 1.1 property paths to traverse vaok:corporateSibling* transitively.
+# This query requires graph/inferred_facts.ttl to be loaded alongside the asserted graph.
+# Pick any seed operator (here: anyone affiliated with the Marriott chain) and
+# return every operator reachable from them through corporate-sibling edges of
+# any length.
+
+SELECT DISTINCT ?seedName ?reachedName
+WHERE {
+    ?seed vaok:affiliatedWith ?chain .
+    ?chain rdfs:label "Marriott International" .
+    ?seed rdfs:label ?seedName ;
+          vaok:corporateSibling* ?reached .
+    ?reached rdfs:label ?reachedName .
+    FILTER (?seed != ?reached)
+}
+
+### 5. Operator-network membership (derived by the recursive rule).
+# Lists each derived OperatorNetwork node and the operators that belong to it.
+
+SELECT ?networkLabel (GROUP_CONCAT(DISTINCT ?operatorName; SEPARATOR=", ") AS ?members)
+WHERE {
+    ?network a vaok:OperatorNetwork ;
+             rdfs:label ?networkLabel .
+    ?operator vaok:memberOf ?network ;
+              rdfs:label ?operatorName .
+}
+GROUP BY ?network ?networkLabel
+ORDER BY ?networkLabel
+
+### 6. Provenance audit — establishments confirmed by multiple public sources.
+
+SELECT ?unitName (COUNT(DISTINCT ?source) AS ?sourceCount)
+WHERE {
+    ?unit a vaok:AccommodationUnit ;
+          vaok:granularity "establishment" ;
+          vaok:observedIn ?source ;
+          rdfs:label ?unitName .
+}
+GROUP BY ?unit ?unitName
+HAVING (COUNT(DISTINCT ?source) >= 2)
+ORDER BY DESC(?sourceCount)
+LIMIT 25
