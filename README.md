@@ -1,7 +1,7 @@
 This Project is being hosted on an EC2 Instance and is running inside of a docker container  
 (the recommended path for reproducability)  
 
-http://16.171.68.59
+http://13.53.250.7
 
 In case I ran out of Money or Shut OFF the Instance here is a Video:
 
