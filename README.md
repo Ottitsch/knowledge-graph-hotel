@@ -257,37 +257,17 @@ The dashboard provides:
 
 ## Docker Deployment
 
-The Docker image builds the Vite/React frontend, starts Neo4j, loads the
-knowledge graph into Neo4j, and serves the Flask/Gunicorn dashboard from the
-same container.
+The repository ships a `Dockerfile` that builds the Vite/React frontend, starts Neo4j, loads the knowledge graph into Neo4j, and serves the Flask/Gunicorn dashboard from the same container.
 
 ```bash
 docker build -t vienna-kg-dashboard .
 docker run --rm -p 8000:8000 -p 7474:7474 -p 7687:7687 vienna-kg-dashboard
 ```
 
-Open the dashboard:
+- Dashboard: http://localhost:8000
+- Neo4j Browser: http://localhost:7474 (user `neo4j`, password `password`)
 
-```text
-http://localhost:8000
-```
-
-Neo4j Browser is also exposed:
-
-```text
-http://localhost:7474
-```
-
-Default credentials inside the image:
-
-```text
-user: neo4j
-password: password
-```
-
-On startup, the container starts Neo4j, waits for Bolt, and initializes the
-graph from `data/properties_unified.csv` if the database is empty. Set
-`FORCE_NEO4J_REBUILD=true` to clear and rebuild the graph on startup.
+On startup, the container starts Neo4j, waits for Bolt, and initializes the graph from `data/properties_unified.csv` if the database is empty. Set `FORCE_NEO4J_REBUILD=true` to clear and rebuild on startup. See `SETUP.md` section 6 for the full list of supported environment variables.
 
 ## Querying the inferred graph
 
@@ -309,15 +289,24 @@ g.parse("graph/inferred_facts.ttl", format="turtle")
 
 ## Stable links
 
-These are the public, citable endpoints and projects used by this knowledge graph. They are the same links that go into the portfolio report as data-source citations.
+### Endpoints actually hit by the collectors
 
-1. **Inside Airbnb - Vienna** (raw listings, primary backbone): https://insideairbnb.com/get-the-data/
-2. **OpenStreetMap project** (CC-BY-SA accommodation POIs): https://www.openstreetmap.org
-3. **OpenStreetMap Overpass API** (the actual endpoint we hit): https://overpass-api.de/
-4. **Wikidata** (notable hotels + operator / parent-org / brand links): https://www.wikidata.org
-5. **Wikidata Query Service** (the SPARQL endpoint we hit): https://query.wikidata.org/
-6. **Stadt Wien open data portal** (official Vienna accommodation registry layer `UNTERKUNFTOGD`): https://www.data.gv.at/
-7. **pySHACL** (SHACL validation engine used in `validate_graph.py`): https://github.com/RDFLib/pySHACL
-8. **PyKEEN** (TransE training in `train_embeddings.py`): https://pykeen.github.io/
+The four collectors in `src/collect/` each hit one concrete endpoint. The URLs below are the ones the code actually requests, copied verbatim from the collector source:
+
+1. **Inside Airbnb data download** (`collect/download_airbnb.py`): `http://data.insideairbnb.com/austria/vienna/vienna/{date}/data/listings.csv.gz` (the collector tries several recent snapshot dates).
+2. **OpenStreetMap Overpass API** (`collect/collect_osm.py`): https://overpass-api.de/api/interpreter (POST with the Overpass query for Vienna accommodation POIs).
+3. **Wikidata Query Service** (`collect/collect_wikidata.py`): https://query.wikidata.org/sparql (GET with the SPARQL query for Vienna hotels and their operator / parent-org / brand links).
+4. **Stadt Wien WFS** (`collect/collect_datagv.py`): `https://data.wien.gv.at/daten/geo?service=WFS&typeName=ogdwien:UNTERKUNFTOGD` (GeoJSON output of the official Vienna accommodation registry).
+
+### Attribution and library pages
+
+Project / attribution pages for the source datasets (cited for licence and provenance, **not** hit by the collectors), and the two Python libraries that do the reasoning and ML work:
+
+5. **Inside Airbnb project page**: https://insideairbnb.com/get-the-data/
+6. **OpenStreetMap project** (CC-BY-SA): https://www.openstreetmap.org
+7. **Wikidata project**: https://www.wikidata.org
+8. **data.gv.at portal**: https://www.data.gv.at/
+9. **pySHACL** (SHACL validation in `src/audit/validate_graph.py`): https://github.com/RDFLib/pySHACL
+10. **PyKEEN** (TransE training in `src/learn/train_embeddings.py`): https://pykeen.github.io/
 
 Architecture diagram source and renderer: see `docs/architecture.md`, `docs/architecture.dot`, `docs/architecture.png`.

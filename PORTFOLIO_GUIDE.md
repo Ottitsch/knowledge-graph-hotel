@@ -18,7 +18,7 @@ This guide maps the portfolio learning outcomes (LOs) declared in the project on
 | **LO2** | Understand and apply logical knowledge in KGs | `ontology/accommodation_operator.owl` (OWL class hierarchy) · `ontology/accommodation_operator_shapes.ttl` (SHACL) · `src/rules.yml` (6 rules incl. recursive `operator_corporate_network`) · `src/construct/materialize_rules.py` (forward chaining + union-find transitive closure) · `graph/inferred_facts.ttl` (newly derived edges) · `reports/logic/rule_inference_report.md` (5 rules in formal form) · `reports/logic/rule_eval_corporate_sibling.md` (30-edge precision spot-check: strict 0.367 / loose 0.967) |
 | **LO4** | Compare different KG data models | `reports/reflection/data_model_comparison.md` (property graph vs RDF vs vectors, on the same facts) |
 | **LO6** | Describe and apply scalable reasoning methods | `reports/reflection/scalable_reasoning.md` (complexity + scaling levers per component) |
-| **LO8** | Apply a system to evolve a Knowledge Graph | `src/evolve/version_snapshot.py` · `src/evolve/diff_snapshots.py` · `data/snapshots/` (3 snapshots) · `reports/evolution/evolution_report.md` (current diff shows `rule_fact_delta = +256` after the `professional_operator` threshold was lowered from 4 to 3) |
+| **LO8** | Apply a system to evolve a Knowledge Graph | `src/evolve/version_snapshot.py` · `src/evolve/diff_snapshots.py` · `data/snapshots/` (4 snapshots, latest is the curated `20260517_090000_lecture_demo`) · `reports/evolution/evolution_report.md` (current diff: 1 added unit, 1 removed unit, 1 listing link added, 1 operator label corrected, `rule_fact_delta = 0`, intentionally small for the lecture demo) |
 | **LO9** | Describe and design real-world applications of KGs | `README.md` Project Positioning and Data Sources sections · `reports/quality/data_quality_report.md` |
 | **LO10** | Describe financial KG applications | `reports/reflection/financial_kg_comparison.md` |
 | **LO12** | Describe the connections between KGs, ML, and AI | `reports/reflection/ml_logic_interaction.md` |
@@ -39,14 +39,23 @@ This guide maps the portfolio learning outcomes (LOs) declared in the project on
 
 ## Reproducibility
 
-A reviewer can reproduce every artifact in this repo by running:
+A reviewer can reproduce every artifact in this repo in two ways.
+
+Local Python:
 
 ```bash
 pip install -r requirements.txt
 python src/run_pipeline.py --skip-neo4j
 ```
 
-The full pipeline with Neo4j needs a running instance configured via `.env`. The artifacts shipped in `data/`, `graph/`, `models/embeddings/`, `reports/` and `data/snapshots/` are the outputs of the last successful pipeline run.
+Or via the bundled container (Neo4j + Flask + built frontend in one image, see `Dockerfile` and `docker/entrypoint.sh`):
+
+```bash
+docker build -t vienna-kg-dashboard .
+docker run --rm -p 8000:8000 -p 7474:7474 -p 7687:7687 vienna-kg-dashboard
+```
+
+The full pipeline with Neo4j needs a running instance configured via `.env` when run locally; the container provides one out of the box. The artifacts shipped in `data/`, `graph/`, `models/embeddings/`, `reports/` and `data/snapshots/` are the outputs of the last successful pipeline run.
 
 ## Submission ZIP layout
 

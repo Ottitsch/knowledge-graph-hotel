@@ -55,3 +55,9 @@ python src/run_pipeline.py --skip-neo4j   # everything else
 ```
 
 Every file shown in `architecture.png` is regenerated deterministically from the four raw inputs.
+
+## Container packaging
+
+The same architecture is also packaged as a single image (`Dockerfile`, `docker/entrypoint.sh`). One multi-stage build produces the Vite/React frontend, installs the Python pipeline dependencies into `/opt/app-venv`, and uses the official `neo4j:5.26-community` base for the runtime stage. The entrypoint starts Neo4j, waits for Bolt to come up, loads the graph from `data/properties_unified.csv` via `src/construct/build_graph.py` when the database is empty (or when `FORCE_NEO4J_REBUILD=true`), and finally serves the Flask app with Gunicorn on port 8000.
+
+This packaging preserves the four-layer separation: the image bundles the **representation** layer (Neo4j + the shipped Turtle and embedding artifacts) and the **services** layer (Flask + frontend). The **acquisition** and **resolution** layers run at image-build time only when their inputs change, so a deployed container does not re-fetch source data on every start.

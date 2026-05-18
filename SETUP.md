@@ -1,5 +1,7 @@
 # Setup - Vienna Accommodation Operator KG
 
+There are two supported setups: a local Python virtual environment (sections 1 to 5 below) or the bundled Docker image (section 6). The Docker path is fastest if you only want to view the dashboard against the shipped artifacts.
+
 ## 1. Install dependencies
 
 ```bash
@@ -91,3 +93,24 @@ Main dashboard areas:
 - `Reasoning Lab`
 - `Evolution`
 - `Query Assistant`
+
+## 6. Run via Docker (alternative)
+
+The repository ships a `Dockerfile` that builds the Vite/React frontend, installs the Python pipeline dependencies (`requirements-docker.txt`), starts Neo4j, loads the knowledge graph from `data/properties_unified.csv`, and serves the Flask/Gunicorn dashboard, all from one image.
+
+```bash
+docker build -t vienna-kg-dashboard .
+docker run --rm -p 8000:8000 -p 7474:7474 -p 7687:7687 vienna-kg-dashboard
+```
+
+Then open:
+
+- Dashboard: http://localhost:8000
+- Neo4j Browser: http://localhost:7474 (user `neo4j`, password `password`)
+
+Useful environment variables (see `docker/entrypoint.sh`):
+
+- `FORCE_NEO4J_REBUILD=true` clears and rebuilds the graph on startup
+- `NEO4J_INIT_ON_START=false` skips the graph load (useful when mounting a volume)
+- `NEO4J_PASSWORD`, `NEO4J_USER`, `NEO4J_URI` override the defaults
+- `PORT`, `WEB_CONCURRENCY`, `WEB_THREADS`, `WEB_TIMEOUT` tune the Gunicorn server
