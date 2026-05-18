@@ -8,16 +8,19 @@ import os
 import sys
 from pathlib import Path
 
-import numpy as np
-import pandas as pd
 from dotenv import load_dotenv
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, abort, jsonify, render_template, request, send_from_directory
 from flask_cors import CORS
 from neo4j import GraphDatabase
+from neo4j.exceptions import Neo4jError, ServiceUnavailable
+import numpy as np
+import pandas as pd
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SRC_DIR = BASE_DIR / "src"
 WEBAPP_DIR = Path(__file__).resolve().parent
+FRONTEND_DIST_DIR = WEBAPP_DIR / "frontend" / "dist"
+FRONTEND_INDEX = FRONTEND_DIST_DIR / "index.html"
 if str(WEBAPP_DIR) not in sys.path:
     sys.path.insert(0, str(WEBAPP_DIR))
 if str(SRC_DIR) not in sys.path:
@@ -40,7 +43,7 @@ from common_paths import (  # noqa: E402
     UNIFIED_DATA_FILE,
     read_json,
 )
-from diff_snapshots import build_diff  # noqa: E402
+from evolve.diff_snapshots import build_diff  # noqa: E402
 from kg_utils import operator_key_from_row  # noqa: E402
 from query_templates import list_templates, match_query  # noqa: E402
 
@@ -49,9 +52,29 @@ load_dotenv(BASE_DIR / ".env")
 NEO4J_URI = os.getenv("NEO4J_URI", "bolt://localhost:7687")
 NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")
 NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "password")
+NEO4J_REQUIRED = os.getenv("NEO4J_REQUIRED", "false").lower() in {"1", "true", "yes"}
+PORT = int(os.getenv("PORT", "5000"))
+_neo4j_warning_logged = False
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder=str(FRONTEND_DIST_DIR / "assets"),
+    static_url_path="/assets",
+    template_folder=str(WEBAPP_DIR / "templates"),
+)
 CORS(app)
+
+
+def serve_dashboard(path: str = ""):
+    if FRONTEND_INDEX.exists():
+        requested_path = FRONTEND_DIST_DIR / path
+        if path and requested_path.is_file():
+            return send_from_directory(FRONTEND_DIST_DIR, path)
+        return send_from_directory(FRONTEND_DIST_DIR, "index.html")
+
+    if path:
+        abort(404)
+    return render_template("index.html")
 
 
 def get_driver():
@@ -59,12 +82,27 @@ def get_driver():
 
 
 def run_query(cypher, **params):
+    global _neo4j_warning_logged
     driver = get_driver()
-    with driver.session() as session:
-        result = session.run(cypher, **params)
-        records = [dict(record) for record in result]
-    driver.close()
-    return records
+    try:
+        with driver.session() as session:
+            result = session.run(cypher, **params)
+            return [dict(record) for record in result]
+    except (Neo4jError, ServiceUnavailable) as exc:
+        if NEO4J_REQUIRED:
+            raise
+        if not _neo4j_warning_logged:
+            app.logger.warning(
+                "Neo4j is unavailable at %s. Cypher-backed endpoints will return empty data. "
+                "Set NEO4J_URI to a reachable database, for example bolt://host.docker.internal:7687 "
+                "when connecting from Docker to Neo4j running on the Windows host. Error: %s",
+                NEO4J_URI,
+                exc,
+            )
+            _neo4j_warning_logged = True
+        return []
+    finally:
+        driver.close()
 
 
 def load_unified_df() -> pd.DataFrame:
@@ -246,7 +284,12 @@ def compute_similar_operators(operator_id: str | None = None, limit: int = 5):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return serve_dashboard()
+
+
+@app.route("/healthz")
+def healthz():
+    return jsonify({"status": "ok"})
 
 
 @app.route("/api/top-operators")
@@ -862,5 +905,12 @@ def legacy():
     return render_template("index.html")
 
 
+@app.route("/<path:path>")
+def frontend_fallback(path):
+    if path.startswith("api/"):
+        abort(404)
+    return serve_dashboard(path)
+
+
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, host="0.0.0.0", port=PORT)

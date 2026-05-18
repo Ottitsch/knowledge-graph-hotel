@@ -255,6 +255,40 @@ The dashboard provides:
 - natural-language query assistant
 - evidence panels for operators and weak candidate links
 
+## Docker Deployment
+
+The Docker image builds the Vite/React frontend, starts Neo4j, loads the
+knowledge graph into Neo4j, and serves the Flask/Gunicorn dashboard from the
+same container.
+
+```bash
+docker build -t vienna-kg-dashboard .
+docker run --rm -p 8000:8000 -p 7474:7474 -p 7687:7687 vienna-kg-dashboard
+```
+
+Open the dashboard:
+
+```text
+http://localhost:8000
+```
+
+Neo4j Browser is also exposed:
+
+```text
+http://localhost:7474
+```
+
+Default credentials inside the image:
+
+```text
+user: neo4j
+password: password
+```
+
+On startup, the container starts Neo4j, waits for Bolt, and initializes the
+graph from `data/properties_unified.csv` if the database is empty. Set
+`FORCE_NEO4J_REBUILD=true` to clear and rebuild the graph on startup.
+
 ## Querying the inferred graph
 
 The inferred RDF is shipped as a separate file so asserted and inferred triples stay distinguishable. To run a SPARQL query that exploits the recursive `corporateSibling` closure (see `src/queries.sparql`), load both graphs:
