@@ -2,6 +2,8 @@ This Project is being hosted on an EC2 Instance and is running inside of a docke
 (the recommended path for reproducability)  
 In case I ran out of Money or Shut OFF the Instance here is a Video:
 
+https://www.youtube.com/watch?v=IErfiRM_OyE
+
 # Vienna Accommodation Operator Knowledge Graph
 
 **Main question:** Which accommodation units in Vienna are operated by the same person or organization, and what other units do they operate?
