@@ -23,12 +23,16 @@ export default function ChangeTable({ previousSnapshot, currentSnapshot }) {
   }
 
   const changes = data.operator_labels_changed || []
+  const addedUnits = data.added_units || []
+  const removedUnits = data.removed_units || []
+  const addedLinks = data.listing_links_added || []
+  const removedLinks = data.listing_links_removed || []
   const noVisibleChanges = (
     changes.length === 0 &&
-    (data.added_units || []).length === 0 &&
-    (data.removed_units || []).length === 0 &&
-    (data.listing_links_added || []).length === 0 &&
-    (data.listing_links_removed || []).length === 0
+    addedUnits.length === 0 &&
+    removedUnits.length === 0 &&
+    addedLinks.length === 0 &&
+    removedLinks.length === 0
   )
 
   return (
@@ -46,10 +50,55 @@ export default function ChangeTable({ previousSnapshot, currentSnapshot }) {
           </div>
         ))
       )}
+      <div className="mt-2 grid grid-cols-1 gap-3 xl:grid-cols-2">
+        <ChangeList title="Added units" items={addedUnits} emptyText="No added units." />
+        <ChangeList title="Removed units" items={removedUnits} emptyText="No removed units." />
+        <LinkChangeList title="Listing links added" items={addedLinks} emptyText="No listing links added." />
+        <LinkChangeList title="Listing links removed" items={removedLinks} emptyText="No listing links removed." />
+      </div>
       {noVisibleChanges && (
         <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-xs leading-relaxed text-white/45">
           There are currently no added units, removed units, added listing links, removed listing links, or operator-label changes between the selected snapshots.
           Choose a different snapshot pair if you want to inspect a larger change window.
+        </div>
+      )}
+    </div>
+  )
+}
+
+function ChangeList({ title, items, emptyText }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
+      <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/45">{title}</div>
+      {items.length === 0 ? (
+        <div className="mt-2 text-xs text-white/35">{emptyText}</div>
+      ) : (
+        <div className="mt-2 flex flex-col gap-2">
+          {items.slice(0, 6).map((item) => (
+            <div key={item} className="break-all rounded-xl bg-black/15 px-3 py-2 text-xs text-white/65">
+              {item}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function LinkChangeList({ title, items, emptyText }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
+      <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/45">{title}</div>
+      {items.length === 0 ? (
+        <div className="mt-2 text-xs text-white/35">{emptyText}</div>
+      ) : (
+        <div className="mt-2 flex flex-col gap-2">
+          {items.slice(0, 6).map((item) => (
+            <div key={`${item.snapshot_key}-${item.linked_establishment_key}`} className="rounded-xl bg-black/15 px-3 py-2 text-xs text-white/65">
+              <div className="break-all">{item.snapshot_key}</div>
+              <div className="mt-1 break-all text-white/35">{'->'} {item.linked_establishment_key}</div>
+            </div>
+          ))}
         </div>
       )}
     </div>
